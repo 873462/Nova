@@ -2,46 +2,57 @@
     box-sizing: border-box;
 }
 
+
 body {
-    background: linear-gradient(135deg, #061a40, #0038a8);
     color: white;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
     min-height: 100vh;
+
+    /* Argentina daytime theme */
+    background: repeating-linear-gradient(
+        90deg,
+        #74acdf 0px,
+        #74acdf 100px,
+        white 100px,
+        white 200px
+    );
 }
 
 
-/* Top section */
+/* Top */
 
 .top {
     text-align: center;
     margin-bottom: 25px;
 }
 
+
 .top h1 {
     font-size: 40px;
     margin-bottom: 10px;
-    color: #ffffff;
-    text-shadow: 0 0 10px #ffd700;
+    color: white;
+    text-shadow: 0 0 12px #ffd700;
 }
+
 
 #clock {
     font-size: 28px;
     color: #ffd700;
 }
 
+
 #date {
     font-size: 18px;
-    color: #ffffff;
 }
 
 
-/* Dashboard layout */
+/* Dashboard */
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
     gap: 18px;
 }
 
@@ -49,28 +60,27 @@ body {
 /* Cards */
 
 .card {
-    background: rgba(0, 30, 90, 0.85);
-    border: 2px solid #74acdf;
+    background: rgba(0, 20, 70, 0.88);
+    border: 2px solid #ffd700;
     border-radius: 18px;
     padding: 20px;
-    box-shadow: 0 0 15px rgba(255,255,255,0.15);
-    transition: 0.3s;
+    box-shadow: 0 0 15px rgba(0,0,0,0.35);
 }
 
 
 .card:hover {
-    transform: translateY(-5px);
-    border-color: #ffd700;
+    transform: translateY(-3px);
 }
 
 
-/* Headings */
+/* Titles */
 
 h2 {
     color: #ffd700;
     border-bottom: 2px solid #c60b1e;
     padding-bottom: 8px;
 }
+
 
 h3 {
     color: #74acdf;
@@ -86,64 +96,93 @@ ul {
 
 
 li {
-    background: rgba(255,255,255,0.08);
-    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    background: rgba(255,255,255,0.12);
+
+    margin: 10px 0;
     padding: 10px;
+
     border-radius: 10px;
 }
 
 
-/* Checkboxes */
+/* Fix checkbox spacing */
 
-input[type="checkbox"] {
-    transform: scale(1.3);
-    margin-right: 10px;
+li input[type="checkbox"] {
+
+    margin: 0;
+    width: 18px;
+    height: 18px;
+
+    flex-shrink: 0;
 }
 
 
 /* Buttons */
 
 button {
+
     background: #c60b1e;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
 }
 
 
 button:hover {
-    background: #ffd700;
-    color: black;
+
+    background:#ffd700;
+
+    color:black;
+
 }
 
 
 /* Search */
 
 input {
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    width: 70%;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    border:none;
+
 }
 
 
-/* Night theme support */
+/* Night = Barcelona */
 
 .night {
-    background: linear-gradient(135deg, #020024, #001489, #a50044);
+
+    background: repeating-linear-gradient(
+        90deg,
+        #001489 0px,
+        #001489 100px,
+        #a50044 100px,
+        #a50044 200px
+    );
+
 }
 
 
 .night .card {
-    border-color: #a50044;
-}
 
+    background: rgba(0,15,60,0.92);
 
-.night h2 {
-    color: #ffd700;
 }
 
 
@@ -152,15 +191,11 @@ input {
 @media(max-width:600px){
 
     body {
-        padding: 10px;
+        padding:10px;
     }
 
     .top h1 {
-        font-size: 30px;
-    }
-
-    .grid {
-        grid-template-columns: 1fr;
+        font-size:30px;
     }
 
 }
