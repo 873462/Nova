@@ -7,15 +7,15 @@
 
 const morningRoutine = [
     "6:00 - Wake up",
-    "6:00 - Pray",
-    "6:00 - Drink water",
-    "6:00 - Number 1 and 2",
-    "6:00 - Brush teeth",
-    "6:00 - Check calendar",
-    "6:10 - Read Bible (15 mins)",
-    "6:25 - Run (30 mins)",
-    "6:55 - Bath + Change + Make bed",
-    "7:05 - Eat breakfast"
+    "6:01 - Pray",
+    "6:02 - Drink water",
+    "6:07 - Number 1 and 2",
+    "6:09 - Brush teeth",
+    "6:10 - Check calendar",
+    "6:25 - Read Bible (15 mins)",
+    "6:55 - Run (30 mins)",
+    "7:05 - Bath + Change + Make bed",
+    "7:15 - Eat breakfast"
 ];
 
 
@@ -34,7 +34,7 @@ const bedRoutine = [
 
 
 const todos = [
-    {name:"Make JD Robot work", priority:"Medium-High", done:false},
+    {name:"JD Robot", priority:"Medium-High", done:false},
     {name:"Make list of things to do for items project", priority:"Low", done:false},
     {name:"Fix shed", priority:"Medium", done:false},
     {name:"Clean fish tank", priority:"Medium", done:false},
@@ -119,16 +119,58 @@ const inventory = {
 "Rubiks cubes":"Drawer 1",
 "Spare bed parts":"Drawer 2",
 "Wood puzzles":"Drawer 3"
+
 };
 
 
-// Mandatory Today's Focus
 
-const mandatory = [
-    "PLASP IT 8:30 AM - 3:30 PM",
-    "Practice violin scales (1 hour)",
-    "Dishwasher"
-];
+// ---------- TODAY'S FOCUS ----------
+
+
+function getMandatoryTasks(){
+
+    let today = new Date();
+
+    let day = today.getDay();
+    // Sunday = 0
+    // Tuesday = 2
+    // Friday = 5
+
+
+    let tasks = [];
+
+
+    // PLASP until August 6
+    if(today <= new Date("2026-08-06")){
+
+        tasks.push(
+            "PLASP IT 8:30 AM - 3:30 PM"
+        );
+
+    }
+
+
+    // Violin scales every day
+    tasks.push(
+        "Practice violin scales (1 hour)"
+    );
+
+
+    // Dishwasher Tuesday and Friday only
+
+    if(day === 2 || day === 5){
+
+        tasks.push(
+            "Dishwasher"
+        );
+
+    }
+
+
+    return tasks;
+
+}
+
 
 
 // ---------- SAVE SYSTEM ----------
@@ -141,15 +183,12 @@ function saveData(){
         JSON.stringify(todos)
     );
 
+
     localStorage.setItem(
         "novaWants",
         JSON.stringify(wants)
     );
 
-    localStorage.setItem(
-        "novaDate",
-        new Date().toDateString()
-    );
 }
 
 
@@ -159,20 +198,31 @@ function loadData(){
     let savedTodos =
     JSON.parse(localStorage.getItem("novaTodos"));
 
+
     if(savedTodos){
+
         savedTodos.forEach((item,index)=>{
+
             todos[index]=item;
+
         });
+
     }
+
 
 
     let savedWants =
     JSON.parse(localStorage.getItem("novaWants"));
 
+
     if(savedWants){
+
         savedWants.forEach((item,index)=>{
+
             wants[index]=item;
+
         });
+
     }
 
 }
@@ -188,26 +238,25 @@ function createList(id,array){
 
     list.innerHTML="";
 
+
     array.forEach(item=>{
 
         let li=document.createElement("li");
 
-        li.innerHTML=
-        `<input type="checkbox">
-        ${item}`;
 
-        li.querySelector("input").onchange=()=>{
-            li.style.textDecoration =
-            li.querySelector("input").checked
-            ? "line-through"
-            : "none";
-        };
+        li.innerHTML =
+        `
+        <input type="checkbox">
+        <span>${item}</span>
+        `;
+
 
         list.appendChild(li);
 
     });
 
 }
+
 
 
 
@@ -218,16 +267,21 @@ function renderTodos(){
     list.innerHTML="";
 
 
-    todos.forEach((task,index)=>{
+    todos.forEach(task=>{
 
         let li=document.createElement("li");
 
 
-        li.innerHTML=
-        `<input type="checkbox"
+        li.innerHTML =
+        `
+        <input type="checkbox"
         ${task.done?"checked":""}>
+
+        <span>
         ${task.name}
-        (${task.priority})`;
+        (${task.priority})
+        </span>
+        `;
 
 
         li.querySelector("input").onchange=e=>{
@@ -256,14 +310,16 @@ function renderWants(){
     list.innerHTML="";
 
 
-    wants.forEach((item,index)=>{
+    wants.forEach(item=>{
 
         let li=document.createElement("li");
 
 
         li.innerHTML =
         `
-        <input type="checkbox" ${item.done ? "checked" : ""}>
+        <input type="checkbox"
+        ${item.done ? "checked" : ""}>
+
         <span>
         ${item.item}
         <br>
@@ -274,12 +330,9 @@ function renderWants(){
         `;
 
 
-        let checkbox = li.querySelector("input");
+        li.querySelector("input").onchange=e=>{
 
-
-        checkbox.onchange = ()=>{
-
-            item.done = checkbox.checked;
+            item.done=e.target.checked;
 
             saveData();
 
@@ -294,7 +347,6 @@ function renderWants(){
 
 
 
-
 function renderFocus(){
 
     let m=document.getElementById("mandatoryTasks");
@@ -302,13 +354,17 @@ function renderFocus(){
     m.innerHTML="";
 
 
-    mandatory.forEach(item=>{
+    getMandatoryTasks().forEach(item=>{
+
 
         m.innerHTML +=
-        `<li>
+        `
+        <li>
         <input type="checkbox">
-        ${item}
-        </li>`;
+        <span>${item}</span>
+        </li>
+        `;
+
 
     });
 
@@ -321,32 +377,46 @@ function renderFocus(){
     .slice(0,3);
 
 
+
     let box=document.getElementById("focusOptions");
 
     box.innerHTML="";
 
 
+
     options.forEach(task=>{
+
 
         let li=document.createElement("li");
 
-        li.innerHTML=
-        `<input type="checkbox">
-        ${task.name}`;
+
+        li.innerHTML =
+        `
+        <input type="checkbox">
+        <span>${task.name}</span>
+        `;
+
+
 
         li.querySelector("input").onchange=()=>{
 
+
             task.done=true;
 
+
             saveData();
+
 
             renderFocus();
 
             renderTodos();
 
+
         };
 
+
         box.appendChild(li);
+
 
     });
 
@@ -365,7 +435,6 @@ function updateStats(){
     `${done}/${todos.length} tasks completed`;
 
 }
-
 
 
 
@@ -393,13 +462,11 @@ function clock(){
     let now=new Date();
 
 
-    document.getElementById("clock")
-    .innerHTML =
+    document.getElementById("clock").innerHTML =
     now.toLocaleTimeString();
 
 
-    document.getElementById("date")
-    .innerHTML =
+    document.getElementById("date").innerHTML =
     now.toDateString();
 
 
@@ -407,8 +474,7 @@ function clock(){
     let hour=now.getHours();
 
 
-    document.getElementById("greeting")
-    .innerHTML =
+    document.getElementById("greeting").innerHTML =
     hour<12
     ?"Good Morning"
     :hour<18
@@ -416,11 +482,14 @@ function clock(){
     :"Good Evening";
 
 
+
     if(hour>=18 || hour<6){
 
         document.body.classList.add("night");
 
-    }else{
+    }
+
+    else{
 
         document.body.classList.remove("night");
 
@@ -454,6 +523,7 @@ renderWants();
 
 renderFocus();
 
+
 createList(
 "calendar",
 calendar
@@ -464,5 +534,6 @@ updateStats();
 
 
 clock();
+
 
 setInterval(clock,1000);
