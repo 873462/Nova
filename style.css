@@ -1,11 +1,12 @@
 * {
-    box-sizing: border-box;
+    box-sizing:border-box;
 }
 
 
 /* =================================
-   BASE - ARGENTINA DAY MODE
+   BASE
 ================================= */
+
 
 body {
 
@@ -21,56 +22,24 @@ body {
 
     position:relative;
 
-    overflow-x:hidden;
 
-
-    /* Smooth Argentina colours */
+    /* Argentina daytime */
 
     background:
 
     linear-gradient(
         90deg,
-        #74acdf 0%,
-        #74acdf 25%,
-        white 50%,
-        #74acdf 75%,
-        #74acdf 100%
+        #74acdf,
+        white,
+        #74acdf
     );
-
-
-    background-size:200% 100%;
-
-
-    animation:
-
-    argentinaMove 8s ease-in-out infinite;
-
-}
-
-
-
-@keyframes argentinaMove {
-
-
-    0%,100% {
-
-        background-position:0% 50%;
-
-    }
-
-
-    50% {
-
-        background-position:100% 50%;
-
-    }
 
 }
 
 
 
 /* =================================
-   BACKGROUND GLOW
+   BACKGROUND FADE EFFECT
 ================================= */
 
 
@@ -88,31 +57,27 @@ body::before {
     background:
 
     radial-gradient(
-        circle,
-        rgba(116,172,223,0.6),
-        transparent 65%
+        circle at center,
+        rgba(255,255,255,0.45),
+        transparent 60%
     );
-
-
-    filter:blur(25px);
 
 
     animation:
 
-    backgroundPulse 6s ease-in-out infinite;
+    backgroundFade 6s ease-in-out infinite;
 
 }
 
 
 
-@keyframes backgroundPulse {
+
+@keyframes backgroundFade {
 
 
     0%,100% {
 
-        opacity:0.4;
-
-        transform:scale(1);
+        opacity:0.25;
 
     }
 
@@ -120,8 +85,6 @@ body::before {
     50% {
 
         opacity:0.9;
-
-        transform:scale(1.08);
 
     }
 
@@ -211,7 +174,6 @@ body::before {
 
 .card {
 
-
     background:
 
     rgba(0,20,70,0.45);
@@ -235,11 +197,14 @@ body::before {
 
     argentinaBorder 4s ease-in-out infinite alternate;
 
-
-    transition:0.3s;
-
 }
 
+
+
+
+/* =================================
+   ARGENTINA BORDER GLOW
+================================= */
 
 
 @keyframes argentinaBorder {
@@ -252,7 +217,6 @@ body::before {
 
 
         box-shadow:
-
 
         0 0 15px #74acdf,
 
@@ -272,31 +236,15 @@ body::before {
         box-shadow:
 
 
-        0 0 30px white,
+        0 0 35px white,
 
-
-        0 0 45px #74acdf,
-
-
-        inset 0 0 25px rgba(255,255,255,0.4);
+        0 0 50px #74acdf;
 
 
     }
 
 }
 
-
-
-.card:hover {
-
-    transform:translateY(-5px);
-
-
-    box-shadow:
-
-    0 0 35px #ffd700;
-
-}
 
 
 
@@ -306,6 +254,7 @@ body::before {
 
 
 h2 {
+
 
     color:#ffd700;
 
@@ -377,8 +326,6 @@ li input[type="checkbox"] {
     height:18px;
 
 
-    flex-shrink:0;
-
 }
 
 
@@ -412,10 +359,6 @@ button {
     font-weight:bold;
 
 
-    box-shadow:
-
-    0 0 15px #c60b1e;
-
 }
 
 
@@ -427,7 +370,6 @@ button:hover {
 
 
     color:black;
-
 
 }
 
@@ -444,8 +386,6 @@ input {
 
     border-radius:8px;
 
-    border:none;
-
 }
 
 
@@ -460,61 +400,20 @@ body.night {
 
     background:
 
-
     linear-gradient(
 
         90deg,
 
-        #001489 0%,
+        #001489,
 
-        #001489 25%,
+        #3b075f,
 
-        #3b075f 40%,
-
-        #a50044 50%,
-
-        #3b075f 60%,
-
-        #001489 75%,
-
-        #001489 100%
+        #a50044
 
     );
 
-
-    background-size:200% 100%;
-
-
-    animation:
-
-    barcaMove 8s ease-in-out infinite;
-
 }
 
-
-
-@keyframes barcaMove {
-
-
-    0%,100% {
-
-
-        background-position:0% 50%;
-
-
-    }
-
-
-
-    50% {
-
-
-        background-position:100% 50%;
-
-
-    }
-
-}
 
 
 
@@ -523,14 +422,13 @@ body.night::before {
 
     background:
 
-
     radial-gradient(
 
-        circle,
+        circle at center,
 
-        rgba(165,0,68,0.65),
+        rgba(165,0,68,0.45),
 
-        transparent 65%
+        transparent 60%
 
     );
 
@@ -539,7 +437,9 @@ body.night::before {
 
 
 
-/* Barça glass cards */
+/* =================================
+   BARÇA BORDER GLOW
+================================= */
 
 
 body.night .card {
@@ -576,10 +476,7 @@ body.night .card {
         box-shadow:
 
 
-        0 0 20px #001489,
-
-        inset 0 0 20px rgba(0,20,137,0.4);
-
+        0 0 20px #001489;
 
     }
 
@@ -596,10 +493,7 @@ body.night .card {
 
         0 0 35px #a50044,
 
-        0 0 50px #001489,
-
-        inset 0 0 25px rgba(165,0,68,0.4);
-
+        0 0 50px #001489;
 
     }
 
