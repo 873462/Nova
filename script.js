@@ -256,18 +256,35 @@ function renderWants(){
     list.innerHTML="";
 
 
-    wants.forEach(item=>{
+    wants.forEach((item,index)=>{
 
         let li=document.createElement("li");
 
-        li.innerHTML=
-        `${item.item}
+
+        li.innerHTML =
+        `
+        <input type="checkbox" ${item.done ? "checked" : ""}>
+        <span>
+        ${item.item}
         <br>
         Reason: ${item.reason}
         <br>
         Priority: ${item.priority}
-        <br>
-        ${item.done?"✅":"☐"}`;
+        </span>
+        `;
+
+
+        let checkbox = li.querySelector("input");
+
+
+        checkbox.onchange = ()=>{
+
+            item.done = checkbox.checked;
+
+            saveData();
+
+        };
+
 
         list.appendChild(li);
 
