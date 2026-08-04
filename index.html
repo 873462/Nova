@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nova Dashboard</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<div class="top"><h1 id="greeting"></h1><div id="clock"></div><div id="date"></div></div>
+<div class="grid">
+<div class="card main"><h2>Today's Focus</h2><ul id="tasks"></ul><button onclick="suggestTask()">What Should I Do?</button><p id="suggestion"></p></div>
+<div class="card"><h2>Quick Stats</h2><p id="stats"></p></div>
+<div class="card"><h2>Projects</h2><ul><li>☐ Nova Dashboard</li><li>☐ JD Robot</li><li>☑ Room Organization</li></ul></div>
+<div class="card"><h2>Inventory</h2><input id="searchBox"><button onclick="searchItem()">Search</button><p id="result"></p></div>
+<div class="card"><h2>Calendar</h2><p>Today: Kumon<br>Violin Practice</p></div>
+</div>
+<script src="script.js"></script></body></html>
