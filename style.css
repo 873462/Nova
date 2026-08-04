@@ -20,8 +20,6 @@ body {
     min-height: 100vh;
 
 
-    /* Argentina colours */
-
     background:
 
     repeating-linear-gradient(
@@ -63,7 +61,6 @@ body {
 /* =================================
    HEADER
 ================================= */
-
 
 .top {
 
@@ -119,14 +116,13 @@ body {
    GRID
 ================================= */
 
-
 .grid {
 
     display: grid;
 
     grid-template-columns:
 
-    repeat(auto-fit,minmax(300px,1fr));
+    repeat(auto-fit, minmax(300px,1fr));
 
 
     gap: 18px;
@@ -136,17 +132,15 @@ body {
 
 
 /* =================================
-   GLASS CARDS
+   GLASS CARDS - ARGENTINA
 ================================= */
 
 
 .card {
 
-
     background:
 
     rgba(0,20,70,0.45);
-
 
 
     border:
@@ -154,17 +148,13 @@ body {
     3px solid #74acdf;
 
 
-
     border-radius: 18px;
-
 
 
     padding: 20px;
 
 
-
     backdrop-filter: blur(12px);
-
 
 
     animation:
@@ -178,15 +168,12 @@ body {
 
 
 
-
 @keyframes argentinaBorder {
 
 
     from {
 
-
         border-color:#74acdf;
-
 
         box-shadow:
 
@@ -194,13 +181,11 @@ body {
 
         inset 0 0 20px rgba(116,172,223,0.3);
 
-
     }
 
 
 
     to {
-
 
         border-color:white;
 
@@ -213,18 +198,13 @@ body {
 
         inset 0 0 25px rgba(255,255,255,0.4);
 
-
     }
-
 
 }
 
 
 
-
-
 .card:hover {
-
 
     transform:translateY(-5px);
 
@@ -232,7 +212,6 @@ body {
     box-shadow:
 
     0 0 35px #ffd700;
-
 
 }
 
@@ -242,9 +221,7 @@ body {
    TEXT
 ================================= */
 
-
 h2 {
-
 
     color:#ffd700;
 
@@ -277,7 +254,6 @@ h3 {
    LISTS
 ================================= */
 
-
 ul {
 
     list-style:none;
@@ -290,9 +266,7 @@ ul {
 
 li {
 
-
     display:flex;
-
 
     align-items:center;
 
@@ -300,23 +274,18 @@ li {
     gap:8px;
 
 
-
     background:
 
     rgba(255,255,255,0.12);
 
 
-
     margin:10px 0;
-
 
 
     padding:10px;
 
 
-
     border-radius:10px;
-
 
 }
 
@@ -326,18 +295,13 @@ li {
 
 li input[type="checkbox"] {
 
-
     margin:0;
-
 
     width:18px;
 
-
     height:18px;
 
-
     flex-shrink:0;
-
 
 }
 
@@ -347,9 +311,7 @@ li input[type="checkbox"] {
    BUTTONS
 ================================= */
 
-
 button {
-
 
     background:#c60b1e;
 
@@ -372,18 +334,15 @@ button {
     font-weight:bold;
 
 
-
     box-shadow:
 
     0 0 15px #c60b1e;
-
 
 }
 
 
 
 button:hover {
-
 
     background:#ffd700;
 
@@ -395,27 +354,21 @@ button:hover {
 
     0 0 25px #ffd700;
 
-
 }
 
 
 
 /* =================================
-   SEARCH
+   INPUT
 ================================= */
-
 
 input {
 
-
     padding:10px;
-
 
     border-radius:8px;
 
-
     border:none;
-
 
 }
 
@@ -426,24 +379,17 @@ input {
 ================================= */
 
 
-.night {
+body.night {
 
 
     background:
 
-
     repeating-linear-gradient(
-
         90deg,
-
         #001489 0px,
-
         #001489 120px,
-
         #a50044 120px,
-
         #a50044 240px
-
     );
 
 
@@ -461,30 +407,23 @@ input {
 
     0%,100% {
 
-
         filter:brightness(1);
 
-
     }
-
 
 
     50% {
 
-
         filter:brightness(1.35);
 
-
     }
-
 
 }
 
 
 
 
-
-.night .card {
+body.night .card {
 
 
     background:
@@ -492,19 +431,17 @@ input {
     rgba(0,10,50,0.45);
 
 
-
     border:
 
     3px solid #001489;
-
 
 
     animation:
 
     barcaBorder 4s ease-in-out infinite alternate;
 
-
 }
+
 
 
 
@@ -520,10 +457,11 @@ input {
 
         box-shadow:
 
+
         0 0 20px #001489,
 
-        inset 0 0 20px rgba(0,20,137,0.4);
 
+        inset 0 0 20px rgba(0,20,137,0.4);
 
     }
 
@@ -537,28 +475,28 @@ input {
 
         box-shadow:
 
+
         0 0 35px #a50044,
+
 
         0 0 50px #001489,
 
+
         inset 0 0 25px rgba(165,0,68,0.4);
 
-
     }
-
 
 }
 
 
 
 
-.night li {
+body.night li {
 
 
     background:
 
     rgba(165,0,68,0.15);
-
 
 }
 
@@ -579,12 +517,10 @@ input {
     }
 
 
-
     .top h1 {
 
         font-size:30px;
 
     }
-
 
 }
