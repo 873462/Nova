@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nova</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>🌌 NOVA</h1>
+
+    <p>Home Organization System</p>
+
+
+    <div class="datetime">
+
+        <div>
+            🕘
+            <span id="clock"></span>
+        </div>
+
+
+        <div>
+            📅
+            <span id="date"></span>
+        </div>
+
+    </div>
+
+
+</header>
+
+
+
+<section class="search">
+
+    <h2>🔍 Search Nova</h2>
+
+
+    <input 
+    type="text"
+    id="searchInput"
+    placeholder="Search modules, notes, tasks..."
+    >
+
+
+    <button onclick="searchNova()">
+        Search
+    </button>
+
+
+    <p id="searchResult"></p>
+
+</section>
+
+
+
+
+
+<section>
+
+<h2>📦 Modules</h2>
+
+
+<div class="modules">
+
+
+<a href="room/index.html" class="card">
+
+<h1>🛏</h1>
+
+<h3>Room</h3>
+
+<p>Inventory & Tasks</p>
+
+</a>
+
+
+
+<a href="kitchen/index.html" class="card">
+
+<h1>🍳</h1>
+
+<h3>Kitchen</h3>
+
+<p>Inventory & Shopping</p>
+
+</a>
+
+
+
+<a href="garage/index.html" class="card">
+
+<h1>🚗</h1>
+
+<h3>Garage</h3>
+
+<p>Tools & Storage</p>
+
+</a>
+
+
+
+
+<a href="shed/index.html" class="card">
+
+<h1>🛠</h1>
+
+<h3>Shed</h3>
+
+<p>Projects & Storage</p>
+
+</a>
+
+
+
+
+<a href="basement/index.html" class="card">
+
+<h1>📦</h1>
+
+<h3>Basement</h3>
+
+<p>Storage Management</p>
+
+</a>
+
+
+
+
+<a href="office/index.html" class="card">
+
+<h1>🏢</h1>
+
+<h3>Office</h3>
+
+<p>Documents & Work</p>
+
+</a>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section>
+
+
+<h2>⚡ Quick Access</h2>
+
+
+<div class="quick">
+
+
+<a href="notes/index.html">
+📝 Notes
+</a>
+
+
+<a href="shopping/index.html">
+🛒 Shopping List
+</a>
+
+
+<button onclick="addTask()">
+➕ Add Task
+</button>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+<section class="two-column">
+
+
+<div>
+
+
+<h2>📝 Recent Notes</h2>
+
+
+<ul id="notes">
+
+
+<li>
+☐ Ask Mom where paprika is
+</li>
+
+
+<li>
+☐ Finish Nova Kitchen
+</li>
+
+
+<li>
+☐ Organize Shed
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+<div>
+
+
+<h2>📊 Recent Activity</h2>
+
+
+<ul>
+
+
+<li>
+✓ Room inventory updated
+</li>
+
+
+<li>
+✓ Added shopping item
+</li>
+
+
+<li>
+✓ Completed task
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
