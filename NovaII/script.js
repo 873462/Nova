@@ -915,81 +915,38 @@ function searchItem(){
 
 // ---------- CLOCK + THEME ----------
 
+function clock() {
 
+    const now = new Date();
+    const hour = now.getHours();
 
-function clock(){
+    const greeting = document.getElementById("greeting");
+    const clock = document.getElementById("clock");
+    const date = document.getElementById("date");
 
+    if (greeting) {
 
-    let now=new Date();
-
-
-
-    document.getElementById("clock").innerHTML =
-
-    now.toLocaleTimeString();
-
-
-
-    document.getElementById("date").innerHTML =
-
-    now.toDateString();
-
-
-
-
-
-    let hour=now.getHours();
-
-
-
-
-    document.getElementById("greeting").innerHTML =
-
-
-    hour<12
-
-    ?
-
-    "Good Morning"
-
-    :
-
-    hour<18
-
-    ?
-
-    "Good Afternoon"
-
-    :
-
-    "Good Evening";
-
-
-
-
-
-
-
-    if(hour>=18 || hour<6){
-
-
-        document.body.classList.add("night");
-
+        if (hour < 12) {
+            greeting.textContent = "☀️ Good Morning";
+        } else if (hour < 18) {
+            greeting.textContent = "🌤️ Good Afternoon";
+        } else {
+            greeting.textContent = "🌙 Good Evening";
+        }
 
     }
 
-    else{
-
-
-        document.body.classList.remove("night");
-
-
+    if (clock) {
+        clock.textContent = now.toLocaleTimeString();
     }
 
+    if (date) {
+        date.textContent = now.toDateString();
+    }
 
+    document.body.classList.toggle("night", hour >= 18 || hour < 6);
 
 }
-
 
 
 
