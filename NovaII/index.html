@@ -1,29 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>NovaII</title>
-
-<link rel="stylesheet" href="style.css">
-
-</head>
-
-
-<body>
-
-
-<div class="top">
-
-<h1>🛏 NovaII</h1>
-
-<p>Room Organization System</p>
-
-
 <div class="top">
 
     <h1>🛏 NovaII</h1>
@@ -59,191 +33,115 @@
 </div>
 
 
-
-
-
 <div class="grid">
 
+    <!-- Today's Focus -->
+    <div class="card">
 
+        <h2>🎯 Today's Focus</h2>
 
-<div class="card">
+        <h3>Mandatory</h3>
 
-<h2>🎯 Today's Focus</h2>
+        <ul id="mandatoryTasks"></ul>
 
+        <h3>Choose One High Priority Task</h3>
 
-<h3>Mandatory</h3>
+        <ul id="focusOptions"></ul>
 
-<ul id="mandatoryTasks"></ul>
+    </div>
 
+    <!-- Quick Stats -->
+    <div class="card">
 
+        <h2>📊 Quick Stats</h2>
 
-<h3>Choose One High Priority Task</h3>
+        <p id="stats"></p>
 
-<ul id="focusOptions"></ul>
+    </div>
 
+    <!-- Morning Routine -->
+    <div class="card">
+
+        <h2>☀️ Morning Routine</h2>
+
+        <ul id="morningRoutine"></ul>
+
+    </div>
+
+    <!-- Before Bed -->
+    <div class="card">
+
+        <h2>🌙 Before Bed Routine</h2>
+
+        <ul id="bedRoutine"></ul>
+
+    </div>
+
+    <!-- Things To Do -->
+    <div class="card">
+
+        <h2>✅ Things To Do</h2>
+
+        <p>
+            🔴 High<br>
+            🟠 Medium-High<br>
+            🟡 Medium<br>
+            🟢 Low
+        </p>
+
+        <ul id="todoList"></ul>
+
+    </div>
+
+    <!-- Things I Want -->
+    <div class="card">
+
+        <h2>⭐ Things I Want</h2>
+
+        <ul id="wantList"></ul>
+
+    </div>
+
+    <!-- Calendar -->
+    <div class="card">
+
+        <h2>📅 Calendar</h2>
+
+        <ul id="calendar"></ul>
+
+    </div>
+
+    <!-- Inventory -->
+    <div class="card">
+
+        <h2>📦 Room Inventory</h2>
+
+        <input
+            id="searchBox"
+            placeholder="Search room items"
+        >
+
+        <button onclick="searchItem()">
+            Search
+        </button>
+
+        <p id="result"></p>
+
+    </div>
+
+    <!-- Notes -->
+    <div class="card">
+
+        <h2>📝 Room Notes</h2>
+
+        <p>
+            Room notes are now saved in <strong>NovaNotes</strong>.
+        </p>
+
+        <a href="../notes/index.html">
+            Open NovaNotes →
+        </a>
+
+    </div>
 
 </div>
-
-
-
-
-
-<div class="card">
-
-<h2>📊 Quick Stats</h2>
-
-<p id="stats"></p>
-
-</div>
-
-
-
-
-
-<div class="card">
-
-<h2>☀️ Morning Routine</h2>
-
-<ul id="morningRoutine"></ul>
-
-</div>
-
-
-
-
-
-<div class="card">
-
-<h2>🌙 Before Bed Routine</h2>
-
-<ul id="bedRoutine"></ul>
-
-</div>
-
-
-
-
-
-<div class="card">
-
-<h2>✅ Things To Do</h2>
-
-
-<p>
-
-🔴 High<br>
-
-🟠 Medium-High<br>
-
-🟡 Medium<br>
-
-🟢 Low
-
-</p>
-
-
-<ul id="todoList"></ul>
-
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-<h2>⭐ Things I Want</h2>
-
-<ul id="wantList"></ul>
-
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-<h2>📅 Calendar</h2>
-
-<ul id="calendar"></ul>
-
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-<h2>📦 Room Inventory</h2>
-
-
-<input 
-id="searchBox"
-placeholder="Search room items"
->
-
-
-<button onclick="searchItem()">
-
-Search
-
-</button>
-
-
-<p id="result"></p>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>📝 NovaNotes</h2>
-
-
-<p>
-
-Room notes are saved in NovaNotes.
-
-</p>
-
-
-<a href="../notes/index.html">
-
-Open NovaNotes →
-
-</a>
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-
-
-<script src="script.js"></script>
-
-
-</body>
-
-</html>
