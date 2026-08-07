@@ -1,108 +1,312 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
 
-<title>Nova Dashboard</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NovaII - Room</title>
 
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-<div class="top">
-    <h1 id="greeting"></h1>
-    <div id="clock"></div>
-    <div id="date"></div>
-</div>
+
+<header class="module-header">
+
+    <h1>🛏 NovaII</h1>
+
+    <p>Room Organization System</p>
 
 
-<div class="grid">
+    <nav>
 
-    <!-- Today's Focus -->
-    <div class="card main">
-        <h2>🎯 Today's Focus</h2>
+        <a href="../index.html">
+            🏠 Nova Home
+        </a>
 
-        <h3>Mandatory</h3>
-        <ul id="mandatoryTasks"></ul>
+        <a href="../notes/index.html">
+            📝 Notes
+        </a>
 
-        <h3>Choose One High Priority Task</h3>
-        <ul id="focusOptions"></ul>
+        <a href="../shopping/index.html">
+            🛒 Shopping
+        </a>
 
-    </div>
+        <a href="../tasks/index.html">
+            ✅ Tasks
+        </a>
 
-
-    <!-- Quick Stats -->
-    <div class="card">
-        <h2>📊 Quick Stats</h2>
-        <p id="stats"></p>
-    </div>
-
-
-    <!-- Morning Routine -->
-    <div class="card">
-        <h2>☀️ Morning Routine</h2>
-        <ul id="morningRoutine"></ul>
-    </div>
+    </nav>
 
 
-    <!-- Before Bed -->
-    <div class="card">
-        <h2>🌙 Before Bed Routine</h2>
-        <ul id="bedRoutine"></ul>
-    </div>
+</header>
 
 
-    <!-- Things To Do -->
-    <div class="card">
-        <h2>✅ Things To Do</h2>
-
-        <p>
-            🔴 High<br>
-            🟠 Medium-High<br>
-            🟡 Medium<br>
-            🟢 Low
-        </p>
-
-        <ul id="todoList"></ul>
-
-    </div>
 
 
-    <!-- Things I Want -->
-    <div class="card">
-        <h2>⭐ Things I Want</h2>
-        <ul id="wantList"></ul>
-    </div>
+
+<main class="dashboard">
 
 
-    <!-- Calendar -->
-    <div class="card">
-        <h2>📅 Calendar</h2>
-        <ul id="calendar"></ul>
-    </div>
+
+<!-- Today's Focus -->
+
+<div class="card main">
+
+    <h2>🎯 Today's Focus</h2>
 
 
-    <!-- Inventory -->
-    <div class="card">
-        <h2>📦 Inventory</h2>
+    <h3>Mandatory</h3>
 
-        <input id="searchBox" placeholder="Search item">
+    <ul id="mandatoryTasks">
 
-        <button onclick="searchItem()">
-            Search
-        </button>
+    </ul>
 
-        <p id="result"></p>
 
-    </div>
+
+    <h3>Choose One High Priority Task</h3>
+
+    <ul id="focusOptions">
+
+    </ul>
 
 
 </div>
+
+
+
+
+
+
+
+<!-- Quick Stats -->
+
+<div class="card">
+
+    <h2>📊 Quick Stats</h2>
+
+
+    <p id="stats">
+
+    </p>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Morning Routine -->
+
+<div class="card">
+
+
+    <h2>☀️ Morning Routine</h2>
+
+
+    <ul id="morningRoutine">
+
+    </ul>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Before Bed -->
+
+<div class="card">
+
+
+    <h2>🌙 Before Bed Routine</h2>
+
+
+    <ul id="bedRoutine">
+
+    </ul>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Things To Do -->
+
+<div class="card">
+
+
+    <h2>✅ Things To Do</h2>
+
+
+    <p>
+
+        🔴 High<br>
+
+        🟠 Medium-High<br>
+
+        🟡 Medium<br>
+
+        🟢 Low
+
+    </p>
+
+
+
+    <ul id="todoList">
+
+    </ul>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Things I Want -->
+
+<div class="card">
+
+
+    <h2>⭐ Things I Want</h2>
+
+
+    <ul id="wantList">
+
+    </ul>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Calendar -->
+
+<div class="card">
+
+
+    <h2>📅 Calendar</h2>
+
+
+    <ul id="calendar">
+
+    </ul>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Inventory -->
+
+<div class="card">
+
+
+    <h2>📦 Room Inventory</h2>
+
+
+
+    <input 
+    id="searchBox"
+    placeholder="Search room items"
+    >
+
+
+
+    <button onclick="searchItem()">
+
+        Search
+
+    </button>
+
+
+
+    <p id="result"></p>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Room Notes -->
+
+<div class="card">
+
+
+    <h2>📝 Room Notes</h2>
+
+
+
+    <textarea 
+    id="noteInput"
+    placeholder="Add room note..."
+    ></textarea>
+
+
+
+    <button onclick="addNote()">
+
+        Save Note
+
+    </button>
+
+
+
+    <ul id="notes">
+
+    </ul>
+
+
+
+</div>
+
+
+
+
+
+</main>
+
+
+
 
 
 <script src="script.js"></script>
 
+
 </body>
+
+
 </html>
