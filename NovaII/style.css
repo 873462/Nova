@@ -124,24 +124,43 @@ body::before {
 
 
 
-#clock {
+#greeting{
 
-    font-size:28px;
+    font-size:22px;
+
+    font-weight:bold;
+
+    margin-top:15px;
 
     color:#ffd700;
 
-
-    text-shadow:
-
-    0 0 12px #ffd700;
+    text-shadow:0 0 10px #ffd700;
 
 }
 
+#clock{
 
+    font-size:38px;
 
-#date {
+    font-weight:bold;
+
+    color:#ffffff;
+
+    margin-top:10px;
+
+    text-shadow:0 0 15px #ffffff;
+
+}
+
+#date{
 
     font-size:18px;
+
+    color:white;
+
+    margin-top:8px;
+
+    margin-bottom:20px;
 
 }
 
