@@ -1,24 +1,27 @@
-// =====================
-// NOVA HOME DASHBOARD
-// =====================
+// =============================
+// NOVA HOMEPAGE SYSTEM
+// =============================
 
 
 
-function updateTime(){
+// CLOCK
 
 
-let now = new Date();
+function updateClock(){
+
+
+let now=new Date();
 
 
 
-document.getElementById("clock").innerHTML =
-
+document.getElementById("clock")
+.innerHTML =
 now.toLocaleTimeString();
 
 
 
-document.getElementById("date").innerHTML =
-
+document.getElementById("date")
+.innerHTML =
 now.toDateString();
 
 
@@ -26,55 +29,31 @@ now.toDateString();
 }
 
 
+setInterval(updateClock,1000);
 
-setInterval(updateTime,1000);
-
-
-updateTime();
+updateClock();
 
 
 
 
 
-// SEARCH
 
 
-function searchNova(){
+// DATABASE
 
 
-let input =
+let database =
+JSON.parse(
+localStorage.getItem("novaDatabase")
+)
+||
+{
 
-document.getElementById("searchInput")
-.value
-.toLowerCase();
+items:{},
 
+notes:{},
 
-
-let result =
-
-document.getElementById("searchResult");
-
-
-
-let modules = {
-
-
-"room":"room/index.html",
-
-"kitchen":"kitchen/index.html",
-
-"garage":"garage/index.html",
-
-"shed":"shed/index.html",
-
-"basement":"basement/index.html",
-
-"office":"office/index.html",
-
-"notes":"notes/index.html",
-
-"shopping":"shopping/index.html"
-
+activity:[]
 
 };
 
@@ -82,41 +61,39 @@ let modules = {
 
 
 
-if(modules[input]){
 
 
-result.innerHTML =
 
-"Opening " + input + "...";
-
-
-window.location.href =
-modules[input];
+// UNIVERSAL SEARCH
 
 
-}
+function searchNova(){
 
 
-else if(input==""){
+let query =
+document
+.getElementById("searchInput")
+.value
+.toLowerCase();
 
 
-result.innerHTML =
-"Type something to search";
+
+let results =
+document.getElementById("searchResults");
 
 
-}
+
+results.innerHTML="";
 
 
-else{
 
+if(query=="")
+{
 
-result.innerHTML =
-"No Nova item found";
+results.innerHTML=
+"Type something to search Nova";
 
-
-}
-
-
+return;
 
 }
 
@@ -124,27 +101,274 @@ result.innerHTML =
 
 
 
-// ADD TASK PLACEHOLDER
+let found=false;
+
+
+
+Object.keys(database.items)
+.forEach(module=>{
+
+
+database.items[module]
+.forEach(item=>{
+
+
+if(item.toLowerCase()
+.includes(query))
+{
+
+
+let p=document.createElement("p");
+
+
+p.innerHTML=
+"📦 "
++
+module
++
+": "
++
+item;
+
+
+results.appendChild(p);
+
+
+found=true;
+
+
+}
+
+
+
+});
+
+
+});
+
+
+
+
+
+
+Object.keys(database.notes)
+.forEach(module=>{
+
+
+database.notes[module]
+.forEach(note=>{
+
+
+if(note.toLowerCase()
+.includes(query))
+{
+
+
+let p=document.createElement("p");
+
+
+p.innerHTML=
+"📝 "
++
+module
++
+": "
++
+note;
+
+
+results.appendChild(p);
+
+
+found=true;
+
+
+}
+
+
+
+});
+
+
+});
+
+
+
+
+
+if(!found)
+
+{
+
+results.innerHTML=
+"No results found";
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+// RECENT NOTES
+
+
+function loadNotes(){
+
+
+let list =
+document.getElementById("recentNotes");
+
+
+list.innerHTML="";
+
+
+
+Object.keys(database.notes)
+.forEach(module=>{
+
+
+database.notes[module]
+.slice(-3)
+.forEach(note=>{
+
+
+let li=document.createElement("li");
+
+
+li.innerHTML=
+"☐ "
++
+note;
+
+
+list.appendChild(li);
+
+
+});
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+
+// ACTIVITY
+
+
+function loadActivity(){
+
+
+let list =
+document.getElementById("activity");
+
+
+list.innerHTML="";
+
+
+
+database.activity
+.slice(-5)
+.reverse()
+.forEach(item=>{
+
+
+let li=document.createElement("li");
+
+
+li.innerHTML=
+"✓ "
++
+item;
+
+
+list.appendChild(li);
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+// ADD TASK
 
 
 function addTask(){
 
 
-let task = prompt(
-"Enter new task:"
+let task =
+prompt(
+"New Nova task:"
 );
 
 
 
-if(task){
+if(task)
+
+{
 
 
-alert(
-"Added task: " + task
+if(!database.activity)
+database.activity=[];
+
+
+
+database.activity.push(
+"Added task: "
++
+task
 );
+
+
+
+localStorage.setItem(
+
+"novaDatabase",
+
+JSON.stringify(database)
+
+);
+
+
+
+loadActivity();
 
 
 }
 
 
+
 }
+
+
+
+
+
+
+loadNotes();
+
+loadActivity();
