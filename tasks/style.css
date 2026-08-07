@@ -1,0 +1,102 @@
+body {
+
+background:#0b1320;
+
+color:white;
+
+font-family:Arial;
+
+padding:30px;
+
+}
+
+
+header {
+
+text-align:center;
+
+}
+
+
+
+h1,h2 {
+
+color:#00d9ff;
+
+}
+
+
+
+a {
+
+color:#00d9ff;
+
+text-decoration:none;
+
+}
+
+
+
+.task-box {
+
+background:#162235;
+
+padding:20px;
+
+border-radius:15px;
+
+}
+
+
+
+input {
+
+padding:12px;
+
+width:70%;
+
+border-radius:10px;
+
+border:none;
+
+}
+
+
+
+button {
+
+padding:12px;
+
+border-radius:10px;
+
+border:none;
+
+cursor:pointer;
+
+}
+
+
+
+li {
+
+background:#162235;
+
+padding:15px;
+
+margin:10px 0;
+
+border-radius:10px;
+
+list-style:none;
+
+}
+
+
+
+.complete {
+
+text-decoration:line-through;
+
+opacity:0.6;
+
+}
