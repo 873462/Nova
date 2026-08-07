@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NovaII - Room</title>
+<title>NovaII</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -17,64 +17,35 @@
 <body>
 
 
-<header class="module-header">
+<div class="top">
 
-    <h1>🛏 NovaII</h1>
+<h1>🛏 NovaII</h1>
 
-    <p>Room Organization System</p>
-
-
-    <nav>
-
-        <a href="../index.html">
-            🏠 Nova Home
-        </a>
-
-        <a href="../notes/index.html">
-            📝 Notes
-        </a>
-
-        <a href="../shopping/index.html">
-            🛒 Shopping
-        </a>
-
-        <a href="../tasks/index.html">
-            ✅ Tasks
-        </a>
-
-    </nav>
+<p>Room Organization System</p>
 
 
-</header>
+<nav>
+
+<a href="../index.html">
+🏠 Nova Home
+</a>
 
 
+<a href="../notes/index.html">
+📝 NovaNotes
+</a>
 
 
-
-<main class="dashboard">
-
-
-
-<!-- Today's Focus -->
-
-<div class="card main">
-
-    <h2>🎯 Today's Focus</h2>
+<a href="../shopping/index.html">
+🛒 NovaShopping
+</a>
 
 
-    <h3>Mandatory</h3>
+<a href="../tasks/index.html">
+✅ Tasks
+</a>
 
-    <ul id="mandatoryTasks">
-
-    </ul>
-
-
-
-    <h3>Choose One High Priority Task</h3>
-
-    <ul id="focusOptions">
-
-    </ul>
+</nav>
 
 
 </div>
@@ -83,18 +54,24 @@
 
 
 
+<div class="grid">
 
 
-<!-- Quick Stats -->
 
 <div class="card">
 
-    <h2>📊 Quick Stats</h2>
+<h2>🎯 Today's Focus</h2>
 
 
-    <p id="stats">
+<h3>Mandatory</h3>
 
-    </p>
+<ul id="mandatoryTasks"></ul>
+
+
+
+<h3>Choose One High Priority Task</h3>
+
+<ul id="focusOptions"></ul>
 
 
 </div>
@@ -102,98 +79,62 @@
 
 
 
-
-
-
-<!-- Morning Routine -->
 
 <div class="card">
 
+<h2>📊 Quick Stats</h2>
 
-    <h2>☀️ Morning Routine</h2>
-
-
-    <ul id="morningRoutine">
-
-    </ul>
-
+<p id="stats"></p>
 
 </div>
 
 
 
 
-
-
-
-<!-- Before Bed -->
 
 <div class="card">
 
+<h2>☀️ Morning Routine</h2>
 
-    <h2>🌙 Before Bed Routine</h2>
-
-
-    <ul id="bedRoutine">
-
-    </ul>
-
+<ul id="morningRoutine"></ul>
 
 </div>
 
 
 
 
-
-
-
-<!-- Things To Do -->
 
 <div class="card">
 
+<h2>🌙 Before Bed Routine</h2>
 
-    <h2>✅ Things To Do</h2>
-
-
-    <p>
-
-        🔴 High<br>
-
-        🟠 Medium-High<br>
-
-        🟡 Medium<br>
-
-        🟢 Low
-
-    </p>
-
-
-
-    <ul id="todoList">
-
-    </ul>
-
-
+<ul id="bedRoutine"></ul>
 
 </div>
 
 
 
 
-
-
-
-<!-- Things I Want -->
 
 <div class="card">
 
+<h2>✅ Things To Do</h2>
 
-    <h2>⭐ Things I Want</h2>
+
+<p>
+
+🔴 High<br>
+
+🟠 Medium-High<br>
+
+🟡 Medium<br>
+
+🟢 Low
+
+</p>
 
 
-    <ul id="wantList">
-
-    </ul>
+<ul id="todoList"></ul>
 
 
 </div>
@@ -203,54 +144,81 @@
 
 
 
+<div class="card">
 
-<!-- Calendar -->
+<h2>⭐ Things I Want</h2>
+
+<ul id="wantList"></ul>
+
+
+</div>
+
+
+
+
+
+
+<div class="card">
+
+<h2>📅 Calendar</h2>
+
+<ul id="calendar"></ul>
+
+
+</div>
+
+
+
+
+
+
+<div class="card">
+
+<h2>📦 Room Inventory</h2>
+
+
+<input 
+id="searchBox"
+placeholder="Search room items"
+>
+
+
+<button onclick="searchItem()">
+
+Search
+
+</button>
+
+
+<p id="result"></p>
+
+
+</div>
+
+
+
+
+
+
 
 <div class="card">
 
 
-    <h2>📅 Calendar</h2>
+<h2>📝 NovaNotes</h2>
 
 
-    <ul id="calendar">
+<p>
 
-    </ul>
+Room notes are saved in NovaNotes.
 
-
-</div>
-
+</p>
 
 
+<a href="../notes/index.html">
 
+Open NovaNotes →
 
-
-
-<!-- Inventory -->
-
-<div class="card">
-
-
-    <h2>📦 Room Inventory</h2>
-
-
-
-    <input 
-    id="searchBox"
-    placeholder="Search room items"
-    >
-
-
-
-    <button onclick="searchItem()">
-
-        Search
-
-    </button>
-
-
-
-    <p id="result"></p>
-
+</a>
 
 
 </div>
@@ -259,45 +227,7 @@
 
 
 
-
-
-<!-- Room Notes -->
-
-<div class="card">
-
-
-    <h2>📝 Room Notes</h2>
-
-
-
-    <textarea 
-    id="noteInput"
-    placeholder="Add room note..."
-    ></textarea>
-
-
-
-    <button onclick="addNote()">
-
-        Save Note
-
-    </button>
-
-
-
-    <ul id="notes">
-
-    </ul>
-
-
-
 </div>
-
-
-
-
-
-</main>
 
 
 
@@ -307,6 +237,5 @@
 
 
 </body>
-
 
 </html>
