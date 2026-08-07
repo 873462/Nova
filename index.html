@@ -2,12 +2,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nova</title>
+<meta charset="UTF-8">
 
-    <link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nova</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 
@@ -16,49 +19,54 @@
 
 <header>
 
-    <h1>🌌 NOVA</h1>
+<h1>NOVA</h1>
 
-    <p>Home Organization System</p>
-
-
-    <div class="datetime">
-
-        <div>
-            🕘
-            <span id="clock"></span>
-        </div>
+<p>Home Organization System</p>
 
 
-        <div>
-            📅
-            <span id="date"></span>
-        </div>
+<div class="datetime">
 
-    </div>
+<div>
+🕘
+<span id="clock"></span>
+</div>
+
+
+<div>
+📅
+<span id="date"></span>
+</div>
+
+
+</div>
 
 
 </header>
 
 
 
+
+
 <section class="search">
 
-    <h2>🔍 Search Nova</h2>
+
+<h2>🔍 Search Nova</h2>
 
 
-    <input 
-    type="text"
-    id="searchInput"
-    placeholder="Search modules, notes, tasks..."
-    >
+<input 
+id="searchInput"
+placeholder="Search everything in Nova..."
+>
 
 
-    <button onclick="searchNova()">
-        Search
-    </button>
+<button onclick="searchNova()">
+Search
+</button>
 
 
-    <p id="searchResult"></p>
+
+<div id="searchResults"></div>
+
 
 </section>
 
@@ -66,15 +74,20 @@
 
 
 
+
+
 <section>
 
+
 <h2>📦 Modules</h2>
+
 
 
 <div class="modules">
 
 
-<a href="room/index.html" class="card">
+
+<a class="card" href="NovaII/index.html">
 
 <h1>🛏</h1>
 
@@ -86,7 +99,8 @@
 
 
 
-<a href="kitchen/index.html" class="card">
+
+<a class="card" href="NovaK/index.html">
 
 <h1>🍳</h1>
 
@@ -98,7 +112,9 @@
 
 
 
-<a href="garage/index.html" class="card">
+
+
+<a class="card" href="NovaG/index.html">
 
 <h1>🚗</h1>
 
@@ -111,7 +127,8 @@
 
 
 
-<a href="shed/index.html" class="card">
+
+<a class="card" href="NovaS/index.html">
 
 <h1>🛠</h1>
 
@@ -124,20 +141,22 @@
 
 
 
-<a href="basement/index.html" class="card">
+
+<a class="card" href="NovaB/index.html">
 
 <h1>📦</h1>
 
 <h3>Basement</h3>
 
-<p>Storage Management</p>
+<p>Storage</p>
 
 </a>
 
 
 
 
-<a href="office/index.html" class="card">
+
+<a class="card" href="NovaO/index.html">
 
 <h1>🏢</h1>
 
@@ -148,10 +167,14 @@
 </a>
 
 
+
 </div>
 
 
 </section>
+
+
+
 
 
 
@@ -166,12 +189,12 @@
 <div class="quick">
 
 
-<a href="notes/index.html">
+<a href="NovaNotes/index.html">
 📝 Notes
 </a>
 
 
-<a href="shopping/index.html">
+<a href="NovaShopping/index.html">
 🛒 Shopping List
 </a>
 
@@ -184,7 +207,6 @@
 </div>
 
 
-
 </section>
 
 
@@ -193,7 +215,8 @@
 
 
 
-<section class="two-column">
+
+<section class="dashboard">
 
 
 <div>
@@ -202,28 +225,13 @@
 <h2>📝 Recent Notes</h2>
 
 
-<ul id="notes">
-
-
-<li>
-☐ Ask Mom where paprika is
-</li>
-
-
-<li>
-☐ Finish Nova Kitchen
-</li>
-
-
-<li>
-☐ Organize Shed
-</li>
-
+<ul id="recentNotes">
 
 </ul>
 
 
 </div>
+
 
 
 
@@ -235,23 +243,7 @@
 <h2>📊 Recent Activity</h2>
 
 
-<ul>
-
-
-<li>
-✓ Room inventory updated
-</li>
-
-
-<li>
-✓ Added shopping item
-</li>
-
-
-<li>
-✓ Completed task
-</li>
-
+<ul id="activity">
 
 </ul>
 
@@ -259,7 +251,10 @@
 </div>
 
 
+
 </section>
+
+
 
 
 
@@ -270,5 +265,6 @@
 
 
 </body>
+
 
 </html>
