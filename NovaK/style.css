@@ -1,0 +1,777 @@
+/* =====================================
+   NOVA K - KITCHEN MANAGEMENT SYSTEM
+   STYLE SHEET
+===================================== */
+
+
+
+/* ===============================
+   GLOBAL
+=============================== */
+
+
+* {
+
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+
+}
+
+
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    background:
+    linear-gradient(
+        135deg,
+        #071a33,
+        #102f52,
+        #020b18
+    );
+
+    color: white;
+
+    padding: 20px;
+
+}
+
+
+
+
+h1 {
+
+    font-size: 42px;
+
+    margin-bottom: 5px;
+
+}
+
+
+
+h2 {
+
+    color: #ff7ac8;
+
+}
+
+
+
+p {
+
+    color: #d7e7ff;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   HEADER
+=============================== */
+
+
+header {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+
+}
+
+
+
+header p {
+
+    font-size: 18px;
+
+}
+
+
+
+#clock,
+#date {
+
+    color: #cbd9ff;
+
+    font-size: 16px;
+
+    margin-top: 5px;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   NAVIGATION
+=============================== */
+
+
+nav {
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+
+
+nav a,
+nav button {
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #9ca7b8,
+        #ffffff
+    );
+
+
+    color:#071a33;
+
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:25px;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    text-decoration:none;
+
+
+    transition:0.3s;
+
+}
+
+
+
+nav a:hover,
+nav button:hover {
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 0 15px #ff7ac8;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   CARDS
+=============================== */
+
+
+.card {
+
+    background:
+
+    rgba(
+        255,
+        255,
+        255,
+        0.10
+    );
+
+
+    border:
+
+    1px solid
+    rgba(
+        255,
+        255,
+        255,
+        0.25
+    );
+
+
+    backdrop-filter:blur(12px);
+
+
+    border-radius:20px;
+
+
+    padding:20px;
+
+
+    margin-bottom:20px;
+
+
+    box-shadow:
+
+    0 10px 30px
+    rgba(
+        0,
+        0,
+        0,
+        0.25
+    );
+
+}
+
+
+
+
+
+/* ===============================
+   SEARCH
+=============================== */
+
+
+.search input {
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    border:none;
+
+    font-size:17px;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   STATISTICS
+=============================== */
+
+
+.stats {
+
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        3,
+        1fr
+    );
+
+
+    gap:20px;
+
+
+}
+
+
+
+.stat {
+
+    text-align:center;
+
+}
+
+
+
+.stat h3 {
+
+    color:#ffffff;
+
+}
+
+
+
+.stat p {
+
+
+    font-size:35px;
+
+
+    color:#ff7ac8;
+
+
+    font-weight:bold;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   INVENTORY
+=============================== */
+
+
+#inventoryContainer {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(
+        auto-fit,
+        minmax(
+            260px,
+            1fr
+        )
+    );
+
+
+    gap:20px;
+
+
+}
+
+
+
+.inventory-card {
+
+
+    transition:0.3s;
+
+
+}
+
+
+
+.inventory-card:hover {
+
+
+    transform:translateY(-5px);
+
+
+    box-shadow:
+
+    0 0 20px
+    rgba(
+        255,
+        122,
+        200,
+        0.5
+    );
+
+
+}
+
+
+
+.inventory-card h3 {
+
+
+    color:#ff7ac8;
+
+
+    font-size:24px;
+
+
+}
+
+
+
+
+
+
+/* ===============================
+   PROGRESS BAR
+=============================== */
+
+
+.progress {
+
+
+    height:18px;
+
+
+    background:#1b2b45;
+
+
+    border-radius:20px;
+
+
+    overflow:hidden;
+
+
+    margin:15px 0;
+
+
+}
+
+
+
+.progress-fill {
+
+
+    height:100%;
+
+
+    background:
+
+    linear-gradient(
+        90deg,
+        #00bfff,
+        #ff7ac8
+    );
+
+
+    border-radius:20px;
+
+
+    transition:0.5s;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   BUTTONS
+=============================== */
+
+
+button {
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+.inventory-card button,
+.add-item button,
+#shopping button {
+
+
+    background:#ff7ac8;
+
+
+    color:white;
+
+
+    border:none;
+
+
+    padding:10px 18px;
+
+
+    margin:5px;
+
+
+    border-radius:20px;
+
+
+    font-size:15px;
+
+
+}
+
+
+
+.inventory-card button:hover,
+.add-item button:hover {
+
+
+    background:#ff4fae;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   SHOPPING LIST
+=============================== */
+
+
+#shoppingList {
+
+
+    list-style:none;
+
+
+    padding:0;
+
+
+}
+
+
+
+#shoppingList li {
+
+
+    background:
+
+    rgba(
+        255,
+        255,
+        255,
+        0.12
+    );
+
+
+    padding:15px;
+
+
+    margin:10px 0;
+
+
+    border-radius:15px;
+
+
+    border-left:
+
+    5px solid
+    #ff7ac8;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   KITCHEN MAP
+=============================== */
+
+
+.kitchen-map {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(
+        3,
+        1fr
+    );
+
+
+    gap:20px;
+
+
+}
+
+
+
+.location {
+
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #566273,
+
+        #d8dee8
+
+    );
+
+
+    color:#071a33;
+
+
+    padding:30px;
+
+
+    text-align:center;
+
+
+    border-radius:20px;
+
+
+    font-weight:bold;
+
+
+    cursor:pointer;
+
+
+    transition:0.3s;
+
+
+}
+
+
+
+.location:hover {
+
+
+    transform:scale(1.05);
+
+
+    box-shadow:
+
+    0 0 20px
+    #ff7ac8;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   ADD ITEM
+=============================== */
+
+
+.add-item input,
+.add-item select {
+
+
+    width:100%;
+
+
+    padding:12px;
+
+
+    margin:8px 0;
+
+
+    border-radius:15px;
+
+
+    border:none;
+
+
+    font-size:16px;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   HIDDEN SECTIONS
+=============================== */
+
+
+.hidden {
+
+
+    display:none;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   FOOTER
+=============================== */
+
+
+footer {
+
+
+    text-align:center;
+
+
+    margin-top:30px;
+
+
+    opacity:0.7;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   MOBILE
+=============================== */
+
+
+@media(max-width:700px){
+
+
+    h1 {
+
+        font-size:32px;
+
+    }
+
+
+    .stats {
+
+        grid-template-columns:
+        1fr;
+
+    }
+
+
+
+    .kitchen-map {
+
+        grid-template-columns:
+        1fr;
+
+    }
+
+
+    nav {
+
+        flex-direction:column;
+
+    }
+
+
+}
