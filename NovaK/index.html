@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nova K - Kitchen</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>🍳 Nova K</h1>
+    <p>Kitchen Management System</p>
+
+    <div id="clock"></div>
+    <div id="date"></div>
+</header>
+
+
+<nav>
+
+    <a href="../index.html">
+        🏠 Nova Dashboard
+    </a>
+
+    <button onclick="showSection('inventory')">
+        📦 Inventory
+    </button>
+
+    <button onclick="showSection('shopping')">
+        🛒 Shopping List
+    </button>
+
+    <button onclick="showSection('map')">
+        🗺 Kitchen Map
+    </button>
+
+</nav>
+
+
+
+<!-- SEARCH -->
+
+<section class="card search">
+
+    <h2>🔍 Search Kitchen</h2>
+
+    <input 
+        id="searchBox"
+        type="text"
+        placeholder="Search item, category, or location..."
+        oninput="searchInventory()"
+    >
+
+</section>
+
+
+
+<!-- STATISTICS -->
+
+<section class="stats">
+
+
+    <div class="card stat">
+
+        <h3>Total Items</h3>
+
+        <p id="totalItems">
+            0
+        </p>
+
+    </div>
+
+
+
+    <div class="card stat">
+
+        <h3>Low Stock</h3>
+
+        <p id="lowStock">
+            0
+        </p>
+
+    </div>
+
+
+
+    <div class="card stat">
+
+        <h3>Shopping Items</h3>
+
+        <p id="shoppingCount">
+            0
+        </p>
+
+    </div>
+
+
+</section>
+
+
+
+
+
+<!-- INVENTORY SECTION -->
+
+<section id="inventory" class="section">
+
+
+<h2>📦 Kitchen Inventory</h2>
+
+
+<div id="inventoryContainer">
+
+
+<!-- JavaScript creates items here -->
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<!-- SHOPPING LIST SECTION -->
+
+<section id="shopping" class="section hidden">
+
+
+<h2>🛒 Kitchen Shopping List</h2>
+
+
+<div class="card">
+
+<ul id="shoppingList">
+
+<!-- Shopping items appear here -->
+
+</ul>
+
+
+</div>
+
+
+<button onclick="clearShoppingList()">
+
+Clear Purchased Items
+
+</button>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- KITCHEN MAP -->
+
+<section id="map" class="section hidden">
+
+
+<h2>🗺 Kitchen Map</h2>
+
+
+<div class="kitchen-map">
+
+
+<div class="location">
+
+Upper Cupboard
+
+</div>
+
+
+<div class="location">
+
+Microwave / Oven
+
+</div>
+
+
+<div class="location">
+
+Counter Drawers
+
+</div>
+
+
+<div class="location">
+
+Kitchen Island
+
+</div>
+
+
+<div class="location">
+
+Refrigerator
+
+</div>
+
+
+<div class="location">
+
+Freezer
+
+</div>
+
+
+<div class="location">
+
+Coffee Area
+
+</div>
+
+
+<div class="location">
+
+Display Storage
+
+</div>
+
+
+<div class="location">
+
+Curio Cabinet
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- ADD ITEM -->
+
+<section class="card add-item">
+
+
+<h2>➕ Add Item</h2>
+
+
+<input 
+id="itemName"
+placeholder="Item name"
+>
+
+
+<input 
+id="itemLocation"
+placeholder="Location"
+>
+
+
+<select id="trackingType">
+
+<option value="percentage">
+Percentage
+</option>
+
+<option value="quantity">
+Quantity
+</option>
+
+
+</select>
+
+
+
+<button onclick="addItem()">
+
+Add Item
+
+</button>
+
+
+
+</section>
+
+
+
+
+
+
+
+<footer>
+
+<p>
+Nova K • Part of the Nova Home System
+</p>
+
+</footer>
+
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
