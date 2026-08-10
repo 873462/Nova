@@ -6,8 +6,7 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Nova K - Kitchen</title>
 
@@ -19,9 +18,9 @@
 <body>
 
 
-<!-- =====================================
+<!-- ================================
      HEADER
-===================================== -->
+================================ -->
 
 <header>
 
@@ -37,9 +36,9 @@
 
 
 
-<!-- =====================================
+<!-- ================================
      NAVIGATION
-===================================== -->
+================================ -->
 
 <nav>
 
@@ -47,19 +46,19 @@
         🏠 Nova Dashboard
     </a>
 
-    <button onclick="showSection('inventory')">
+    <button type="button" onclick="showSection('inventory')">
         📦 Inventory
     </button>
 
-    <button onclick="showSection('shopping')">
+    <button type="button" onclick="showSection('shopping')">
         🛒 Shopping List
     </button>
 
-    <button onclick="showSection('map')">
+    <button type="button" onclick="showSection('map')">
         🗺 Kitchen Map
     </button>
 
-    <button onclick="showSection('add-item')">
+    <button type="button" onclick="showSection('add-item')">
         ➕ Add Item
     </button>
 
@@ -67,18 +66,18 @@
 
 
 
-<!-- =====================================
+<!-- ================================
      SEARCH
-===================================== -->
+================================ -->
 
-<div class="card search">
+<div class="card search-card">
 
     <h2>🔍 Search Kitchen</h2>
 
     <input
         id="searchBox"
         type="text"
-        placeholder="Search item, category, or location..."
+        placeholder="Search item, category, location..."
         oninput="searchInventory()"
     >
 
@@ -86,9 +85,9 @@
 
 
 
-<!-- =====================================
+<!-- ================================
      STATISTICS
-===================================== -->
+================================ -->
 
 <div class="stats">
 
@@ -96,9 +95,7 @@
 
         <h3>Total Items</h3>
 
-        <p id="totalItems">
-            0
-        </p>
+        <p id="totalItems">0</p>
 
     </div>
 
@@ -107,9 +104,7 @@
 
         <h3>Low Stock</h3>
 
-        <p id="lowStock">
-            0
-        </p>
+        <p id="lowStock">0</p>
 
     </div>
 
@@ -118,9 +113,7 @@
 
         <h3>Shopping Items</h3>
 
-        <p id="shoppingCount">
-            0
-        </p>
+        <p id="shoppingCount">0</p>
 
     </div>
 
@@ -128,14 +121,11 @@
 
 
 
-<!-- =====================================
-     INVENTORY SECTION
-===================================== -->
+<!-- ================================
+     INVENTORY
+================================ -->
 
-<section
-    id="inventory"
-    class="section"
->
+<section id="inventory" class="section">
 
     <h2>📦 Kitchen Inventory</h2>
 
@@ -145,31 +135,32 @@
 
 
 
-<!-- =====================================
-     SHOPPING SECTION
-===================================== -->
+<!-- ================================
+     SHOPPING
+================================ -->
 
-<section
-    id="shopping"
-    class="section hidden"
->
+<section id="shopping" class="section hidden">
 
     <h2>🛒 Kitchen Shopping List</h2>
 
-
-    <div class="shopping-actions">
-
-        <button
-            class="main-action"
-            onclick="refillAll()"
-        >
-            🔄 Refill All
-        </button>
-
-    </div>
-
-
     <div class="card">
+
+        <div class="shopping-header">
+
+            <p>
+                Items below their shopping threshold.
+            </p>
+
+            <button
+                type="button"
+                class="refill-all"
+                onclick="refillAll()"
+            >
+                🔄 Refill All
+            </button>
+
+        </div>
+
 
         <ul id="shoppingList"></ul>
 
@@ -179,14 +170,11 @@
 
 
 
-<!-- =====================================
-     KITCHEN MAP SECTION
-===================================== -->
+<!-- ================================
+     KITCHEN MAP
+================================ -->
 
-<section
-    id="map"
-    class="section hidden"
->
+<section id="map" class="section hidden">
 
     <h2>🗺 Kitchen Map</h2>
 
@@ -198,230 +186,174 @@
     <div class="kitchen-map">
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('upper-cupboard')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('upper-cupboard')">
             Upper Cupboard
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('microwave-oven')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('microwave-oven')">
             Microwave / Oven
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('oven-storage')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('oven-storage')">
             Oven Storage
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('countertop')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('countertop')">
             Countertop
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('drawer-1')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('drawer-1')">
             Drawer 1
             <small>Utensils</small>
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('drawer-2')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('drawer-2')">
             Drawer 2
             <small>Small Containers</small>
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('drawer-3')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('drawer-3')">
             Drawer 3
             <small>Measuring Tools</small>
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('drawer-4')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('drawer-4')">
             Drawer 4
             <small>Wraps & Bags</small>
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('kitchen-island')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('kitchen-island')">
             Kitchen Island
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('stove')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('stove')">
             Stove
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('pots-pans')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('pots-pans')">
             Pots & Pans Cabinet
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('spice-rack')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('spice-rack')">
             Pull-Out Spice Rack
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('sink-cabinet')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('sink-cabinet')">
             Sink Cabinet
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('dishwasher')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('dishwasher')">
             Dishwasher
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('right-cabinet')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('right-cabinet')">
             Right Cabinet
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('island-upper-cabinets')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('island-upper-cabinets')">
             Island Upper Cabinets
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('double-cabinet')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('double-cabinet')">
             Double Cabinet
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('coffee-cabinet')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('coffee-cabinet')">
             Coffee Cabinet
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('coffee-counter')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('coffee-counter')">
             Coffee Counter
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('coffee-drawers')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('coffee-drawers')">
             Coffee Drawers
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('freezer')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('freezer')">
             Freezer
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('refrigerator')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('refrigerator')">
             Refrigerator
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('fridge-upper-cabinet')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('fridge-upper-cabinet')">
             Refrigerator Upper Cabinet
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('fridge-lower-cabinet')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('fridge-lower-cabinet')">
             Refrigerator Lower Cabinet
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('display-storage')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('display-storage')">
             Display Storage
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('marketplace-cabinet')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('marketplace-cabinet')">
             Marketplace Cabinet
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('curio-cabinet')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('curio-cabinet')">
             Curio Cabinet
         </button>
 
 
-        <button
-            class="location"
-            onclick="showLocationItems('window')"
-        >
+        <button type="button" class="location"
+            onclick="showLocationItems('window')">
             Window
             <small>Salt & Pepper</small>
         </button>
@@ -429,13 +361,9 @@
     </div>
 
 
+    <!-- LOCATION RESULTS -->
 
-    <!-- SELECTED LOCATION -->
-
-    <div
-        id="locationDetails"
-        class="card location-details"
-    >
+    <div id="locationDetails" class="card">
 
         <h2>📍 Select a Location</h2>
 
@@ -449,14 +377,11 @@
 
 
 
-<!-- =====================================
-     ADD ITEM SECTION
-===================================== -->
+<!-- ================================
+     ADD ITEM
+================================ -->
 
-<section
-    id="add-item"
-    class="section hidden"
->
+<section id="add-item" class="section hidden">
 
     <h2>➕ Add Item</h2>
 
@@ -475,7 +400,6 @@
         >
 
 
-
         <label for="itemCategory">
             Category
         </label>
@@ -485,7 +409,6 @@
             type="text"
             placeholder="Dairy, Pantry, Snacks..."
         >
-
 
 
         <label for="itemLocation">
@@ -609,7 +532,6 @@
         </select>
 
 
-
         <label for="trackingType">
             Tracking Type
         </label>
@@ -634,7 +556,6 @@
         </select>
 
 
-
         <label for="itemContainer">
             Container / Unit
         </label>
@@ -644,7 +565,6 @@
             type="text"
             placeholder="Bag, box, jar, jug..."
         >
-
 
 
         <!-- PERCENTAGE -->
@@ -679,13 +599,9 @@
         </div>
 
 
-
         <!-- QUANTITY -->
 
-        <div
-            id="quantityFields"
-            class="hidden"
-        >
+        <div id="quantityFields" class="hidden">
 
             <label>
                 Current Quantity
@@ -728,13 +644,9 @@
         </div>
 
 
-
         <!-- CUSTOM -->
 
-        <div
-            id="customFields"
-            class="hidden"
-        >
+        <div id="customFields" class="hidden">
 
             <label>
                 Current Measurement
@@ -771,8 +683,8 @@
         </div>
 
 
-
         <button
+            type="button"
             class="add-button"
             onclick="addItem()"
         >
@@ -785,9 +697,9 @@
 
 
 
-<!-- =====================================
+<!-- ================================
      FOOTER
-===================================== -->
+================================ -->
 
 <footer>
 
@@ -799,7 +711,11 @@
 
 
 
-<script src="script.js"></script>
+<!-- ================================
+     JAVASCRIPT
+================================ -->
+
+<script src="./script.js"></script>
 
 </body>
 
