@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NovaG - Garage</title>
+
+    <link rel="stylesheet" href="garage.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="top-bar">
+
+        <div>
+            <h1>🔧 NovaG</h1>
+            <p>Garage Management</p>
+        </div>
+
+        <div class="date-time">
+            <div id="clock"></div>
+            <div id="date"></div>
+        </div>
+
+    </header>
+
+
+    <!-- Navigation -->
+    <nav class="navigation">
+
+        <a href="../index.html">
+            🏠 Nova Dashboard
+        </a>
+
+        <button onclick="showSection('dashboard')">
+            📊 Dashboard
+        </button>
+
+        <button onclick="showSection('garage')">
+            🚗 Garage
+        </button>
+
+        <button onclick="showSection('tools')">
+            🔧 Tool Room
+        </button>
+
+        <button onclick="showSection('laundry')">
+            🧺 Laundry Room
+        </button>
+
+        <button onclick="showSection('projects')">
+            🛠️ Projects
+        </button>
+
+    </nav>
+
+
+    <!-- Main -->
+    <main>
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard" class="page-section active">
+
+            <div class="welcome">
+                <h2>Welcome to NovaG</h2>
+                <p>Manage your garage, tools, utility items and projects.</p>
+            </div>
+
+
+            <!-- Search -->
+
+            <div class="search-container">
+
+                <input
+                    type="text"
+                    id="searchBox"
+                    placeholder="🔎 Search NovaG..."
+                    oninput="searchNovaG()"
+                >
+
+            </div>
+
+
+            <!-- Location Cards -->
+
+            <div class="location-grid">
+
+                <button
+                    class="location-card"
+                    onclick="showSection('garage')"
+                >
+
+                    <span class="location-icon">🚗</span>
+
+                    <h2>Garage</h2>
+
+                    <p>
+                        Storage & garage items
+                    </p>
+
+                    <strong>
+                        <span id="garageCount">0</span> items
+                    </strong>
+
+                </button>
+
+
+                <button
+                    class="location-card"
+                    onclick="showSection('tools')"
+                >
+
+                    <span class="location-icon">🔧</span>
+
+                    <h2>Tool Room</h2>
+
+                    <p>
+                        Tools & equipment
+                    </p>
+
+                    <strong>
+                        <span id="toolsCount">0</span> items
+                    </strong>
+
+                </button>
+
+
+                <button
+                    class="location-card"
+                    onclick="showSection('laundry')"
+                >
+
+                    <span class="location-icon">🧺</span>
+
+                    <h2>Laundry Room</h2>
+
+                    <p>
+                        Utility & miscellaneous items
+                    </p>
+
+                    <strong>
+                        <span id="laundryCount">0</span> items
+                    </strong>
+
+                </button>
+
+
+                <button
+                    class="location-card"
+                    onclick="showSection('projects')"
+                >
+
+                    <span class="location-icon">🛠️</span>
+
+                    <h2>Projects</h2>
+
+                    <p>
+                        Current garage projects
+                    </p>
+
+                    <strong>
+                        <span id="projectCount">0</span> active
+                    </strong>
+
+                </button>
+
+            </div>
+
+
+            <!-- Search Results -->
+
+            <div id="searchResults" class="search-results hidden">
+
+                <h2>Search Results</h2>
+
+                <div id="resultsList"></div>
+
+            </div>
+
+
+            <!-- Overview -->
+
+            <div class="overview-card">
+
+                <h2>📊 Garage Overview</h2>
+
+                <div class="overview-grid">
+
+                    <div>
+                        <span>📦</span>
+                        <strong id="totalItems">0</strong>
+                        <p>Total Items</p>
+                    </div>
+
+                    <div>
+                        <span>🔧</span>
+                        <strong id="totalTools">0</strong>
+                        <p>Tools</p>
+                    </div>
+
+                    <div>
+                        <span>🛠️</span>
+                        <strong id="totalProjects">0</strong>
+                        <p>Projects</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= GARAGE ================= -->
+
+        <section id="garage" class="page-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>🚗 Garage</h2>
+                    <p>Items stored in the garage.</p>
+                </div>
+
+                <button
+                    class="primary-button"
+                    onclick="openAddItem('garage')"
+                >
+                    ➕ Add Item
+                </button>
+
+            </div>
+
+
+            <div
+                id="garageItems"
+                class="item-grid"
+            ></div>
+
+
+            <div
+                id="garageEmpty"
+                class="empty-state"
+            >
+                <span>📦</span>
+                <h3>No garage items yet</h3>
+                <p>Add your garage items when you're ready.</p>
+            </div>
+
+        </section>
+
+
+        <!-- ================= TOOLS ================= -->
+
+        <section id="tools" class="page-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>🔧 Tool Room</h2>
+                    <p>Tools and equipment.</p>
+                </div>
+
+                <button
+                    class="primary-button"
+                    onclick="openAddItem('tools')"
+                >
+                    ➕ Add Tool
+                </button>
+
+            </div>
+
+
+            <div
+                id="toolsItems"
+                class="item-grid"
+            ></div>
+
+
+            <div
+                id="toolsEmpty"
+                class="empty-state"
+            >
+                <span>🔧</span>
+                <h3>No tools yet</h3>
+                <p>Your tool inventory will appear here.</p>
+            </div>
+
+        </section>
+
+
+        <!-- ================= LAUNDRY ================= -->
+
+        <section id="laundry" class="page-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>🧺 Laundry Room</h2>
+                    <p>Utility and miscellaneous items.</p>
+                </div>
+
+                <button
+                    class="primary-button"
+                    onclick="openAddItem('laundry')"
+                >
+                    ➕ Add Item
+                </button>
+
+            </div>
+
+
+            <div
+                id="laundryItems"
+                class="item-grid"
+            ></div>
+
+
+            <div
+                id="laundryEmpty"
+                class="empty-state"
+            >
+                <span>🧺</span>
+                <h3>No laundry room items yet</h3>
+                <p>Add items when you're ready.</p>
+            </div>
+
+        </section>
+
+
+        <!-- ================= PROJECTS ================= -->
+
+        <section id="projects" class="page-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>🛠️ Projects</h2>
+                    <p>Garage projects and things you're working on.</p>
+                </div>
+
+                <button
+                    class="primary-button"
+                    onclick="openAddProject()"
+                >
+                    ➕ Add Project
+                </button>
+
+            </div>
+
+
+            <div
+                id="projectItems"
+                class="item-grid"
+            ></div>
+
+
+            <div
+                id="projectEmpty"
+                class="empty-state"
+            >
+                <span>🛠️</span>
+                <h3>No projects yet</h3>
+                <p>Your active projects will appear here.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= ADD ITEM MODAL ================= -->
+
+    <div
+        id="itemModal"
+        class="modal hidden"
+    >
+
+        <div class="modal-content">
+
+            <button
+                class="close-button"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+            <h2 id="modalTitle">Add Item</h2>
+
+
+            <label>
+                Item Name
+            </label>
+
+            <input
+                type="text"
+                id="itemName"
+                placeholder="Example: Soccer Ball"
+            >
+
+
+            <label>
+                Category
+            </label>
+
+            <input
+                type="text"
+                id="itemCategory"
+                placeholder="Example: Sports"
+            >
+
+
+            <label>
+                Storage Location
+            </label>
+
+            <input
+                type="text"
+                id="itemLocation"
+                placeholder="Example: Shelf 2"
+            >
+
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                type="number"
+                id="itemQuantity"
+                value="1"
+                min="1"
+            >
+
+
+            <label>
+                Notes
+            </label>
+
+            <textarea
+                id="itemNotes"
+                placeholder="Optional notes..."
+            ></textarea>
+
+
+            <button
+                class="primary-button full-width"
+                onclick="saveItem()"
+            >
+                💾 Save Item
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ADD PROJECT MODAL ================= -->
+
+    <div
+        id="projectModal"
+        class="modal hidden"
+    >
+
+        <div class="modal-content">
+
+            <button
+                class="close-button"
+                onclick="closeProjectModal()"
+            >
+                ×
+            </button>
+
+            <h2>🛠️ Add Project</h2>
+
+
+            <label>
+                Project Name
+            </label>
+
+            <input
+                type="text"
+                id="projectName"
+                placeholder="Example: Organize Garage"
+            >
+
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                id="projectDescription"
+                placeholder="What are you working on?"
+            ></textarea>
+
+
+            <button
+                class="primary-button full-width"
+                onclick="saveProject()"
+            >
+                💾 Save Project
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="garage.js"></script>
+
+</body>
+</html>
