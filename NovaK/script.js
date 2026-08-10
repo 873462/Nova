@@ -1,6 +1,47 @@
+```javascript
 // =====================================
 // NOVA K - KITCHEN MANAGEMENT SYSTEM
+// SHARED SUPABASE DATABASE VERSION
 // =====================================
+
+
+// =====================================
+// SUPABASE CONFIGURATION
+// =====================================
+
+const SUPABASE_URL =
+    "https://whvghfgaqjzjbytnkwtn.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_8XkDH_vzIYxSOBCjlnm1VA_T-lcXM4k";
+
+
+// =====================================
+// SUPABASE CLIENT
+// =====================================
+
+let db = null;
+
+
+// Load Supabase library
+const supabaseScript =
+    document.createElement("script");
+
+supabaseScript.src =
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+
+supabaseScript.onload = () => {
+
+    db = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+    startNovaK();
+
+};
+
+document.head.appendChild(supabaseScript);
 
 
 // =====================================
@@ -27,143 +68,438 @@ const locations = {
     "dishwasher": "Dishwasher",
     "right-cabinet": "Right Cabinet",
 
-    "island-upper-cabinets": "Island Upper Cabinets",
-    "double-cabinet": "Double Cabinet",
+    "island-upper-cabinets":
+        "Island Upper Cabinets",
 
-    "coffee-cabinet": "Coffee Cabinet",
-    "coffee-counter": "Coffee Counter",
-    "coffee-drawers": "Coffee Drawers",
+    "double-cabinet":
+        "Double Cabinet",
 
-    "freezer": "Freezer",
-    "refrigerator": "Refrigerator",
-    "fridge-upper-cabinet": "Refrigerator Upper Cabinet",
-    "fridge-lower-cabinet": "Refrigerator Lower Cabinet",
+    "coffee-cabinet":
+        "Coffee Cabinet",
 
-    "display-storage": "Display Storage",
-    "marketplace-cabinet": "Marketplace Cabinet",
-    "curio-cabinet": "Curio Cabinet",
+    "coffee-counter":
+        "Coffee Counter",
 
-    "window": "Window - Salt & Pepper"
+    "coffee-drawers":
+        "Coffee Drawers",
+
+    "freezer":
+        "Freezer",
+
+    "refrigerator":
+        "Refrigerator",
+
+    "fridge-upper-cabinet":
+        "Refrigerator Upper Cabinet",
+
+    "fridge-lower-cabinet":
+        "Refrigerator Lower Cabinet",
+
+    "display-storage":
+        "Display Storage",
+
+    "marketplace-cabinet":
+        "Marketplace Cabinet",
+
+    "curio-cabinet":
+        "Curio Cabinet",
+
+    "window":
+        "Window - Salt & Pepper"
 
 };
 
 
 // =====================================
-// INVENTORY DATABASE
+// INVENTORY
 // =====================================
 
-let inventory =
-    JSON.parse(
-        localStorage.getItem("novaKitchenInventory")
-    ) || [
-
-    {
-        id: 1,
-
-        name: "Milk",
-
-        category: "Dairy",
-
-        location: "refrigerator",
-
-        tracking: "percentage",
-
-        container: "Jug",
-
-        current: 65,
-
-        max: 100,
-
-        threshold: 25
-    },
-
-
-    {
-        id: 2,
-
-        name: "Eggs",
-
-        category: "Dairy",
-
-        location: "refrigerator",
-
-        tracking: "quantity",
-
-        container: "Eggs",
-
-        current: 8,
-
-        max: 12,
-
-        threshold: 3
-    },
-
-
-    {
-        id: 3,
-
-        name: "Instant Noodles",
-
-        category: "Pantry",
-
-        location: "upper-cupboard",
-
-        tracking: "quantity",
-
-        container: "Packets",
-
-        current: 6,
-
-        max: 12,
-
-        threshold: 3
-    },
-
-
-    {
-        id: 4,
-
-        name: "Rice",
-
-        category: "Pantry",
-
-        location: "upper-cupboard",
-
-        tracking: "percentage",
-
-        container: "Container",
-
-        current: 80,
-
-        max: 100,
-
-        threshold: 25
-    }
-
-];
+let inventory = [];
 
 
 // =====================================
-// SAVE
+// START NOVA K
 // =====================================
 
-function saveInventory() {
+async function startNovaK() {
 
-    localStorage.setItem(
-        "novaKitchenInventory",
-        JSON.stringify(inventory)
+    console.log("Nova K starting...");
+
+    await loadInventory();
+
+    setupRealtime();
+
+    updateClock();
+
+    setInterval(
+        updateClock,
+        1000
     );
+
+    updateMeasurementFields();
 
 }
 
 
 // =====================================
-// FORMAT LOCATION
+// LOAD INVENTORY FROM SUPABASE
+// =====================================
+
+async function loadInventory() {
+
+    try {
+
+        const {
+            data,
+            error
+        } = await db
+            .from("kitchen_inventory")
+            .select("*")
+            .order("created_at", {
+                ascending: true
+            });
+
+
+        if (error) {
+
+            console.error(
+                "Could not load inventory:",
+                error
+            );
+
+            alert(
+                "Nova K could not connect to the database."
+            );
+
+            return;
+
+        }
+
+
+        inventory =
+            data.map(
+                convertDatabaseItem
+            );
+
+
+        displayInventory();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+// =====================================
+// DATABASE → JAVASCRIPT
+// =====================================
+
+function convertDatabaseItem(item) {
+
+    let current =
+        item.current_value;
+
+    let max =
+        item.max_value;
+
+    let threshold =
+        item.threshold_value;
+
+
+    if (
+        item.tracking ===
+        "percentage"
+    ) {
+
+        current =
+            Number(current);
+
+        max =
+            Number(max);
+
+        threshold =
+            Number(threshold);
+
+    }
+
+
+    else if (
+        item.tracking ===
+        "quantity"
+    ) {
+
+        current =
+            Number(current);
+
+        max =
+            Number(max);
+
+        threshold =
+            Number(threshold);
+
+    }
+
+
+    return {
+
+        id: item.id,
+
+        name: item.name,
+
+        category:
+            item.category || "Other",
+
+        location:
+            item.location,
+
+        tracking:
+            item.tracking,
+
+        container:
+            item.container || "Item",
+
+        current: current,
+
+        max: max,
+
+        threshold: threshold
+
+    };
+
+}
+
+
+// =====================================
+// JAVASCRIPT → DATABASE
+// =====================================
+
+function convertToDatabaseItem(item) {
+
+    return {
+
+        id: item.id,
+
+        name: item.name,
+
+        category:
+            item.category || "Other",
+
+        location:
+            item.location,
+
+        tracking:
+            item.tracking,
+
+        container:
+            item.container || "Item",
+
+        current_value:
+            String(item.current),
+
+        max_value:
+            String(item.max),
+
+        threshold_value:
+            String(item.threshold),
+
+        updated_at:
+            new Date().toISOString()
+
+    };
+
+}
+
+
+// =====================================
+// REALTIME
+// =====================================
+
+function setupRealtime() {
+
+    db
+        .channel("nova-kitchen-inventory")
+
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "kitchen_inventory"
+            },
+
+            payload => {
+
+                console.log(
+                    "Nova K database update:",
+                    payload
+                );
+
+                loadInventory();
+
+            }
+
+        )
+
+        .subscribe();
+
+}
+
+
+// =====================================
+// SAVE NEW ITEM
+// =====================================
+
+async function saveNewItem(item) {
+
+    const databaseItem =
+        convertToDatabaseItem(item);
+
+
+    const {
+        error
+    } = await db
+        .from("kitchen_inventory")
+        .insert(
+            databaseItem
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Could not add item:",
+            error
+        );
+
+        alert(
+            "There was a problem adding the item."
+        );
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+// =====================================
+// UPDATE ITEM
+// =====================================
+
+async function updateItemInDatabase(item) {
+
+    const databaseItem =
+        convertToDatabaseItem(item);
+
+
+    const {
+        error
+    } = await db
+        .from("kitchen_inventory")
+        .update(
+            databaseItem
+        )
+        .eq(
+            "id",
+            item.id
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Could not update item:",
+            error
+        );
+
+        alert(
+            "There was a problem updating the item."
+        );
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+// =====================================
+// DELETE ITEM
+// =====================================
+
+async function deleteItem(id) {
+
+    const item =
+        inventory.find(
+            i => i.id === id
+        );
+
+
+    if (!item) return;
+
+
+    const confirmed =
+        confirm(
+            `Remove "${item.name}" from Nova K?`
+        );
+
+
+    if (!confirmed) return;
+
+
+    const {
+        error
+    } = await db
+        .from("kitchen_inventory")
+        .delete()
+        .eq(
+            "id",
+            id
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Could not delete item:",
+            error
+        );
+
+        alert(
+            "There was a problem removing the item."
+        );
+
+        return;
+
+    }
+
+
+    await loadInventory();
+
+}
+
+
+// =====================================
+// LOCATION NAME
 // =====================================
 
 function getLocationName(location) {
 
-    return locations[location] || location;
+    return (
+        locations[location] ||
+        location
+    );
 
 }
 
@@ -172,12 +508,18 @@ function getLocationName(location) {
 // DISPLAY INVENTORY
 // =====================================
 
-function displayInventory(items = inventory) {
+function displayInventory(
+    items = inventory
+) {
 
     const container =
         document.getElementById(
             "inventoryContainer"
         );
+
+
+    if (!container) return;
+
 
     container.innerHTML = "";
 
@@ -185,36 +527,46 @@ function displayInventory(items = inventory) {
     items.forEach(item => {
 
         let amount;
+
         let percent;
 
 
-        // PERCENTAGE
+        // Percentage
 
-        if (item.tracking === "percentage") {
+        if (
+            item.tracking ===
+            "percentage"
+        ) {
 
             amount =
                 `${item.current}%`;
 
             percent =
-                item.current;
+                Number(item.current);
 
         }
 
 
-        // QUANTITY
+        // Quantity
 
-        else if (item.tracking === "quantity") {
+        else if (
+            item.tracking ===
+            "quantity"
+        ) {
 
             amount =
                 `${item.current} ${item.container}`;
 
             percent =
-                (item.current / item.max) * 100;
+                (
+                    Number(item.current) /
+                    Number(item.max)
+                ) * 100;
 
         }
 
 
-        // CUSTOM
+        // Custom
 
         else {
 
@@ -229,65 +581,118 @@ function displayInventory(items = inventory) {
         }
 
 
+        percent =
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    percent
+                )
+            );
+
+
         const lowStock =
             isLowStock(item);
 
 
         container.innerHTML += `
 
-        <div class="card inventory-card">
+            <div class="card inventory-card">
 
-            <h3>
-                ${item.name}
-            </h3>
+                <h3>
+                    ${escapeHTML(item.name)}
+                </h3>
 
-            <p>
-                📍 ${getLocationName(item.location)}
-            </p>
-
-            <p>
-                📦 ${item.container}
-            </p>
-
-            <p>
-                Remaining:
-                <b>${amount}</b>
-            </p>
-
-            <div class="progress">
-
-                <div
-                    class="progress-fill"
-                    style="width:${Math.max(
-                        0,
-                        Math.min(
-                            100,
-                            percent
+                <p>
+                    📍
+                    ${escapeHTML(
+                        getLocationName(
+                            item.location
                         )
-                    )}%">
+                    )}
+                </p>
+
+                <p>
+                    📦
+                    ${escapeHTML(
+                        item.container
+                    )}
+                </p>
+
+                <p>
+                    Remaining:
+                    <b>
+                        ${escapeHTML(
+                            String(amount)
+                        )}
+                    </b>
+                </p>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-fill"
+                        style="
+                            width:${percent}%
+                        ">
+                    </div>
+
                 </div>
 
+                <p>
+                    ${
+                        lowStock
+                        ? "⚠️ Running Low"
+                        : "✅ Stocked"
+                    }
+                </p>
+
+
+                ${
+                    item.tracking !==
+                    "custom"
+
+                    ?
+
+                    `
+
+                    <button
+                        onclick="
+                            removeItem(
+                                ${item.id}
+                            )
+                        ">
+                        −
+                    </button>
+
+                    <button
+                        onclick="
+                            increaseItem(
+                                ${item.id}
+                            )
+                        ">
+                        +
+                    </button>
+
+                    `
+
+                    :
+
+                    ""
+
+                }
+
+
+                <button
+                    onclick="
+                        deleteItem(
+                            ${item.id}
+                        )
+                    ">
+                    🗑️ Remove
+                </button>
+
             </div>
-
-            ${
-                lowStock
-                ?
-                `<p>⚠️ Running Low</p>`
-                :
-                `<p>✅ Stocked</p>`
-            }
-
-            <button
-                onclick="removeItem(${item.id})">
-                −
-            </button>
-
-            <button
-                onclick="increaseItem(${item.id})">
-                +
-            </button>
-
-        </div>
 
         `;
 
@@ -300,7 +705,7 @@ function displayInventory(items = inventory) {
 
 
 // =====================================
-// CUSTOM MEASUREMENT PERCENTAGE
+// CUSTOM PERCENTAGE
 // =====================================
 
 function calculateCustomPercentage(item) {
@@ -309,6 +714,7 @@ function calculateCustomPercentage(item) {
         parseFloat(
             item.current
         );
+
 
     const max =
         parseFloat(
@@ -328,7 +734,8 @@ function calculateCustomPercentage(item) {
 
 
     return (
-        current / max
+        current /
+        max
     ) * 100;
 
 }
@@ -341,8 +748,11 @@ function calculateCustomPercentage(item) {
 function isLowStock(item) {
 
     if (
-        item.tracking === "percentage" ||
-        item.tracking === "quantity"
+        item.tracking ===
+        "percentage"
+        ||
+        item.tracking ===
+        "quantity"
     ) {
 
         return (
@@ -354,13 +764,16 @@ function isLowStock(item) {
     }
 
 
-    // CUSTOM
-
     const current =
-        parseFloat(item.current);
+        parseFloat(
+            item.current
+        );
+
 
     const threshold =
-        parseFloat(item.threshold);
+        parseFloat(
+            item.threshold
+        );
 
 
     if (
@@ -373,7 +786,9 @@ function isLowStock(item) {
     }
 
 
-    return current <= threshold;
+    return (
+        current <= threshold
+    );
 
 }
 
@@ -389,7 +804,8 @@ function searchInventory() {
             "searchBox"
         )
         .value
-        .toLowerCase();
+        .toLowerCase()
+        .trim();
 
 
     const results =
@@ -398,22 +814,22 @@ function searchInventory() {
             return (
 
                 item.name
-                .toLowerCase()
-                .includes(search)
+                    .toLowerCase()
+                    .includes(search)
 
                 ||
 
                 item.category
-                .toLowerCase()
-                .includes(search)
+                    .toLowerCase()
+                    .includes(search)
 
                 ||
 
                 getLocationName(
                     item.location
                 )
-                .toLowerCase()
-                .includes(search)
+                    .toLowerCase()
+                    .includes(search)
 
             );
 
@@ -426,10 +842,10 @@ function searchInventory() {
 
 
 // =====================================
-// INCREASE ITEM
+// INCREASE
 // =====================================
 
-function increaseItem(id) {
+async function increaseItem(id) {
 
     const item =
         inventory.find(
@@ -445,13 +861,11 @@ function increaseItem(id) {
         "percentage"
     ) {
 
-        item.current += 10;
-
-        if (item.current > 100) {
-
-            item.current = 100;
-
-        }
+        item.current =
+            Math.min(
+                100,
+                Number(item.current) + 10
+            );
 
     }
 
@@ -461,44 +875,27 @@ function increaseItem(id) {
         "quantity"
     ) {
 
-        item.current += 1;
-
-        if (
-            item.current >
-            item.max
-        ) {
-
-            item.current =
-                item.max;
-
-        }
+        item.current =
+            Math.min(
+                Number(item.max),
+                Number(item.current) + 1
+            );
 
     }
 
 
-    else {
-
-        alert(
-            "Custom measurements should be edited manually for now."
-        );
-
-        return;
-
-    }
-
-
-    saveInventory();
-
-    displayInventory();
+    await updateItemInDatabase(
+        item
+    );
 
 }
 
 
 // =====================================
-// REMOVE ITEM
+// DECREASE
 // =====================================
 
-function removeItem(id) {
+async function removeItem(id) {
 
     const item =
         inventory.find(
@@ -514,13 +911,11 @@ function removeItem(id) {
         "percentage"
     ) {
 
-        item.current -= 10;
-
-        if (item.current < 0) {
-
-            item.current = 0;
-
-        }
+        item.current =
+            Math.max(
+                0,
+                Number(item.current) - 10
+            );
 
     }
 
@@ -530,31 +925,18 @@ function removeItem(id) {
         "quantity"
     ) {
 
-        item.current -= 1;
-
-        if (item.current < 0) {
-
-            item.current = 0;
-
-        }
+        item.current =
+            Math.max(
+                0,
+                Number(item.current) - 1
+            );
 
     }
 
 
-    else {
-
-        alert(
-            "Custom measurements should be edited manually for now."
-        );
-
-        return;
-
-    }
-
-
-    saveInventory();
-
-    displayInventory();
+    await updateItemInDatabase(
+        item
+    );
 
 }
 
@@ -571,46 +953,86 @@ function generateShoppingList() {
         );
 
 
+    if (!list) return;
+
+
     list.innerHTML = "";
 
 
     const lowItems =
         inventory.filter(
-            item => isLowStock(item)
+            item =>
+                isLowStock(item)
         );
 
 
-    lowItems.forEach(item => {
+    if (
+        lowItems.length === 0
+    ) {
 
-        list.innerHTML += `
+        list.innerHTML = `
 
             <li>
-
-                🛒
-                <strong>
-                    ${item.name}
-                </strong>
-
-                <br>
-
-                <small>
-                    ${getLocationName(
-                        item.location
-                    )}
-                </small>
-
+                ✅ Nothing needs to be
+                purchased right now.
             </li>
 
         `;
 
-    });
+    }
 
 
-    document.getElementById(
-        "shoppingCount"
-    )
-    .innerText =
+    else {
+
+        lowItems.forEach(item => {
+
+            list.innerHTML += `
+
+                <li>
+
+                    🛒
+                    <strong>
+                        ${escapeHTML(
+                            item.name
+                        )}
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        📍
+                        ${escapeHTML(
+                            getLocationName(
+                                item.location
+                            )
+                        )}
+                    </small>
+
+                </li>
+
+            `;
+
+        });
+
+    }
+
+
+    const count =
         lowItems.length;
+
+
+    const countElement =
+        document.getElementById(
+            "shoppingCount"
+        );
+
+
+    if (countElement) {
+
+        countElement.innerText =
+            count;
+
+    }
 
 }
 
@@ -621,24 +1043,39 @@ function generateShoppingList() {
 
 function updateStats() {
 
-    document.getElementById(
-        "totalItems"
-    )
-    .innerText =
-        inventory.length;
+    const total =
+        document.getElementById(
+            "totalItems"
+        );
+
+
+    if (total) {
+
+        total.innerText =
+            inventory.length;
+
+    }
 
 
     const low =
         inventory.filter(
-            item => isLowStock(item)
+            item =>
+                isLowStock(item)
         );
 
 
-    document.getElementById(
-        "lowStock"
-    )
-    .innerText =
-        low.length;
+    const lowElement =
+        document.getElementById(
+            "lowStock"
+        );
+
+
+    if (lowElement) {
+
+        lowElement.innerText =
+            low.length;
+
+    }
 
 
     generateShoppingList();
@@ -647,24 +1084,28 @@ function updateStats() {
 
 
 // =====================================
-// SHOW SECTION
+// SECTION SWITCHING
 // =====================================
 
 function showSection(id) {
 
     document
         .querySelectorAll(".section")
-        .forEach(section => {
+        .forEach(
+            section => {
 
-            section.classList.add(
-                "hidden"
-            );
+                section.classList.add(
+                    "hidden"
+                );
 
-        });
+            }
+        );
 
 
     const selected =
-        document.getElementById(id);
+        document.getElementById(
+            id
+        );
 
 
     if (selected) {
@@ -679,7 +1120,7 @@ function showSection(id) {
 
 
 // =====================================
-// TRACKING FIELD SWITCHER
+// MEASUREMENT TYPE
 // =====================================
 
 function updateMeasurementFields() {
@@ -687,32 +1128,45 @@ function updateMeasurementFields() {
     const type =
         document.getElementById(
             "trackingType"
-        ).value;
+        );
+
+
+    if (!type) return;
+
+
+    const selected =
+        type.value;
 
 
     document
         .getElementById(
             "percentageFields"
         )
-        .classList.add("hidden");
+        .classList.add(
+            "hidden"
+        );
 
 
     document
         .getElementById(
             "quantityFields"
         )
-        .classList.add("hidden");
+        .classList.add(
+            "hidden"
+        );
 
 
     document
         .getElementById(
             "customFields"
         )
-        .classList.add("hidden");
+        .classList.add(
+            "hidden"
+        );
 
 
     if (
-        type ===
+        selected ===
         "percentage"
     ) {
 
@@ -728,7 +1182,7 @@ function updateMeasurementFields() {
 
 
     else if (
-        type ===
+        selected ===
         "quantity"
     ) {
 
@@ -744,7 +1198,7 @@ function updateMeasurementFields() {
 
 
     else if (
-        type ===
+        selected ===
         "custom"
     ) {
 
@@ -765,19 +1219,24 @@ function updateMeasurementFields() {
 // ADD ITEM
 // =====================================
 
-function addItem() {
+async function addItem() {
 
     const name =
         document.getElementById(
             "itemName"
-        ).value.trim();
+        )
+        .value
+        .trim();
 
 
     const category =
         document.getElementById(
             "itemCategory"
-        ).value.trim()
-        || "Other";
+        )
+        .value
+        .trim()
+        ||
+        "Other";
 
 
     const location =
@@ -795,8 +1254,11 @@ function addItem() {
     const container =
         document.getElementById(
             "itemContainer"
-        ).value.trim()
-        || "Item";
+        )
+        .value
+        .trim()
+        ||
+        "Item";
 
 
     if (!name) {
@@ -815,7 +1277,7 @@ function addItem() {
     let threshold;
 
 
-    // PERCENTAGE
+    // Percentage
 
     if (
         tracking ===
@@ -843,7 +1305,7 @@ function addItem() {
     }
 
 
-    // QUANTITY
+    // Quantity
 
     else if (
         tracking ===
@@ -876,26 +1338,29 @@ function addItem() {
     }
 
 
-    // CUSTOM
+    // Custom
 
     else {
 
         current =
             document.getElementById(
                 "itemCustomCurrent"
-            ).value.trim();
+            ).value
+            .trim();
 
 
         max =
             document.getElementById(
                 "itemCustomMax"
-            ).value.trim();
+            ).value
+            .trim();
 
 
         threshold =
             document.getElementById(
                 "itemCustomThreshold"
-            ).value.trim();
+            ).value
+            .trim();
 
 
         if (
@@ -917,35 +1382,46 @@ function addItem() {
 
     const newItem = {
 
-        id: Date.now(),
+        id:
+            Date.now(),
 
-        name: name,
+        name:
+            name,
 
-        category: category,
+        category:
+            category,
 
-        location: location,
+        location:
+            location,
 
-        tracking: tracking,
+        tracking:
+            tracking,
 
-        container: container,
+        container:
+            container,
 
-        current: current,
+        current:
+            current,
 
-        max: max,
+        max:
+            max,
 
-        threshold: threshold
+        threshold:
+            threshold
 
     };
 
 
-    inventory.push(
-        newItem
-    );
+    const success =
+        await saveNewItem(
+            newItem
+        );
 
 
-    saveInventory();
+    if (!success) return;
 
-    displayInventory();
+
+    await loadInventory();
 
 
     // Clear fields
@@ -976,12 +1452,17 @@ function addItem() {
 // KITCHEN MAP
 // =====================================
 
-function showLocationItems(location) {
+function showLocationItems(
+    location
+) {
 
     const details =
         document.getElementById(
             "locationDetails"
         );
+
+
+    if (!details) return;
 
 
     const items =
@@ -995,19 +1476,26 @@ function showLocationItems(location) {
     let html = `
 
         <h2>
-            📍 ${getLocationName(location)}
+            📍
+            ${escapeHTML(
+                getLocationName(
+                    location
+                )
+            )}
         </h2>
 
     `;
 
 
-    if (items.length === 0) {
+    if (
+        items.length === 0
+    ) {
 
         html += `
 
             <p>
-                Nothing is currently recorded
-                in this location.
+                Nothing is currently
+                recorded in this location.
             </p>
 
         `;
@@ -1062,37 +1550,40 @@ function showLocationItems(location) {
             }
 
 
-            const warning =
-                isLowStock(item)
-                ?
-                "⚠️ LOW STOCK"
-                :
-                "✅";
-
-
-
             html += `
 
                 <div class="card">
 
                     <h3>
-                        ${item.name}
+                        ${escapeHTML(
+                            item.name
+                        )}
                     </h3>
 
                     <p>
                         📦
-                        ${item.container}
+                        ${escapeHTML(
+                            item.container
+                        )}
                     </p>
 
                     <p>
                         Remaining:
                         <strong>
-                            ${amount}
+                            ${escapeHTML(
+                                String(amount)
+                            )}
                         </strong>
                     </p>
 
                     <p>
-                        ${warning}
+                        ${
+                            isLowStock(item)
+                            ?
+                            "⚠️ LOW STOCK"
+                            :
+                            "✅ Stocked"
+                        }
                     </p>
 
                 </div>
@@ -1120,32 +1611,63 @@ function updateClock() {
         new Date();
 
 
-    document.getElementById(
-        "clock"
-    ).innerText =
-        now.toLocaleTimeString();
+    const clock =
+        document.getElementById(
+            "clock"
+        );
 
 
-    document.getElementById(
-        "date"
-    ).innerText =
-        now.toLocaleDateString();
+    const date =
+        document.getElementById(
+            "date"
+        );
+
+
+    if (clock) {
+
+        clock.innerText =
+            now.toLocaleTimeString();
+
+    }
+
+
+    if (date) {
+
+        date.innerText =
+            now.toLocaleDateString();
+
+    }
 
 }
 
 
-setInterval(
-    updateClock,
-    1000
-);
-
-
 // =====================================
-// START
+// HTML SAFETY
 // =====================================
 
-updateClock();
+function escapeHTML(value) {
 
-updateMeasurementFields();
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
-displayInventory();
+}
+```
