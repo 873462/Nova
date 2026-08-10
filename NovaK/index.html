@@ -23,17 +23,15 @@
 
 <body>
 
-    <!-- ================================= -->
+    <!-- ============================== -->
     <!-- HEADER -->
-    <!-- ================================= -->
+    <!-- ============================== -->
 
     <header>
 
         <h1>🍳 Nova K</h1>
 
-        <p>
-            Kitchen Management System
-        </p>
+        <p>Kitchen Management System</p>
 
         <div id="clock"></div>
 
@@ -42,9 +40,9 @@
     </header>
 
 
-    <!-- ================================= -->
+    <!-- ============================== -->
     <!-- NAVIGATION -->
-    <!-- ================================= -->
+    <!-- ============================== -->
 
     <nav>
 
@@ -52,36 +50,28 @@
             🏠 Nova Dashboard
         </a>
 
-        <button
-            onclick="showSection('inventory')"
-        >
+        <button onclick="showSection('inventory')">
             📦 Inventory
         </button>
 
-        <button
-            onclick="showSection('shopping')"
-        >
+        <button onclick="showSection('shopping')">
             🛒 Shopping List
         </button>
 
-        <button
-            onclick="showSection('map')"
-        >
+        <button onclick="showSection('map')">
             🗺 Kitchen Map
         </button>
 
-        <button
-            onclick="showSection('add')"
-        >
+        <button onclick="showSection('add')">
             ➕ Add Item
         </button>
 
     </nav>
 
 
-    <!-- ================================= -->
+    <!-- ============================== -->
     <!-- SEARCH -->
-    <!-- ================================= -->
+    <!-- ============================== -->
 
     <section>
 
@@ -97,83 +87,67 @@
     </section>
 
 
-    <!-- ================================= -->
+    <!-- ============================== -->
     <!-- STATISTICS -->
-    <!-- ================================= -->
+    <!-- ============================== -->
 
     <section class="stats">
 
         <div class="card stat">
 
-            <h3>
-                Total Items
-            </h3>
+            <h3>Total Items</h3>
 
-            <p id="totalItems">
-                0
-            </p>
+            <p id="totalItems">0</p>
 
         </div>
 
 
         <div class="card stat">
 
-            <h3>
-                Low Stock
-            </h3>
+            <h3>Low Stock</h3>
 
-            <p id="lowStock">
-                0
-            </p>
+            <p id="lowStock">0</p>
 
         </div>
 
 
         <div class="card stat">
 
-            <h3>
-                Shopping Items
-            </h3>
+            <h3>Shopping Items</h3>
 
-            <p id="shoppingCount">
-                0
-            </p>
+            <p id="shoppingCount">0</p>
 
         </div>
 
     </section>
 
 
-    <!-- ================================= -->
+    <!-- ============================== -->
     <!-- INVENTORY -->
-    <!-- ================================= -->
+    <!-- ============================== -->
 
     <section
         id="inventory"
         class="section"
     >
 
-        <h2>
-            📦 Kitchen Inventory
-        </h2>
+        <h2>📦 Kitchen Inventory</h2>
 
         <div id="inventoryContainer"></div>
 
     </section>
 
 
-    <!-- ================================= -->
+    <!-- ============================== -->
     <!-- SHOPPING LIST -->
-    <!-- ================================= -->
+    <!-- ============================== -->
 
     <section
         id="shopping"
         class="section hidden"
     >
 
-        <h2>
-            🛒 Kitchen Shopping List
-        </h2>
+        <h2>🛒 Kitchen Shopping List</h2>
 
         <div class="card">
 
@@ -184,18 +158,16 @@
     </section>
 
 
-    <!-- ================================= -->
+    <!-- ============================== -->
     <!-- KITCHEN MAP -->
-    <!-- ================================= -->
+    <!-- ============================== -->
 
     <section
         id="map"
         class="section hidden"
     >
 
-        <h2>
-            🗺 Kitchen Map
-        </h2>
+        <h2>🗺 Kitchen Map</h2>
 
         <p>
             Select a location to see what
@@ -206,8 +178,6 @@
         <div class="kitchen-map">
 
 
-            <!-- UPPER CUPBOARD -->
-
             <button
                 class="location"
                 onclick="showLocationItems('upper-cupboard')"
@@ -215,8 +185,6 @@
                 Upper Cupboard
             </button>
 
-
-            <!-- MICROWAVE / OVEN -->
 
             <button
                 class="location"
@@ -226,8 +194,6 @@
             </button>
 
 
-            <!-- OVEN STORAGE -->
-
             <button
                 class="location"
                 onclick="showLocationItems('oven-storage')"
@@ -235,8 +201,6 @@
                 Oven Storage
             </button>
 
-
-            <!-- COUNTERTOP -->
 
             <button
                 class="location"
@@ -246,63 +210,41 @@
             </button>
 
 
-            <!-- DRAWER 1 -->
-
             <button
                 class="location"
                 onclick="showLocationItems('drawer-1')"
             >
-                Drawer 1
-                <br>
-                <small>
-                    Utensils
-                </small>
+                Drawer 1<br>
+                <small>Utensils</small>
             </button>
 
-
-            <!-- DRAWER 2 -->
 
             <button
                 class="location"
                 onclick="showLocationItems('drawer-2')"
             >
-                Drawer 2
-                <br>
-                <small>
-                    Small Containers
-                </small>
+                Drawer 2<br>
+                <small>Small Containers</small>
             </button>
 
-
-            <!-- DRAWER 3 -->
 
             <button
                 class="location"
                 onclick="showLocationItems('drawer-3')"
             >
-                Drawer 3
-                <br>
-                <small>
-                    Measuring Tools
-                </small>
+                Drawer 3<br>
+                <small>Measuring Tools</small>
             </button>
 
-
-            <!-- DRAWER 4 -->
 
             <button
                 class="location"
                 onclick="showLocationItems('drawer-4')"
             >
-                Drawer 4
-                <br>
-                <small>
-                    Wraps & Bags
-                </small>
+                Drawer 4<br>
+                <small>Wraps & Bags</small>
             </button>
 
-
-            <!-- KITCHEN ISLAND -->
 
             <button
                 class="location"
@@ -312,8 +254,6 @@
             </button>
 
 
-            <!-- STOVE -->
-
             <button
                 class="location"
                 onclick="showLocationItems('stove')"
@@ -321,8 +261,6 @@
                 Stove
             </button>
 
-
-            <!-- POTS & PANS -->
 
             <button
                 class="location"
@@ -332,8 +270,6 @@
             </button>
 
 
-            <!-- SPICE RACK -->
-
             <button
                 class="location"
                 onclick="showLocationItems('spice-rack')"
@@ -341,8 +277,6 @@
                 Pull-Out Spice Rack
             </button>
 
-
-            <!-- SINK -->
 
             <button
                 class="location"
@@ -352,8 +286,6 @@
             </button>
 
 
-            <!-- DISHWASHER -->
-
             <button
                 class="location"
                 onclick="showLocationItems('dishwasher')"
@@ -361,8 +293,6 @@
                 Dishwasher
             </button>
 
-
-            <!-- RIGHT CABINET -->
 
             <button
                 class="location"
@@ -372,8 +302,6 @@
             </button>
 
 
-            <!-- ISLAND UPPER CABINETS -->
-
             <button
                 class="location"
                 onclick="showLocationItems('island-upper-cabinets')"
@@ -381,8 +309,6 @@
                 Island Upper Cabinets
             </button>
 
-
-            <!-- DOUBLE CABINET -->
 
             <button
                 class="location"
@@ -392,8 +318,6 @@
             </button>
 
 
-            <!-- COFFEE CABINET -->
-
             <button
                 class="location"
                 onclick="showLocationItems('coffee-cabinet')"
@@ -401,8 +325,6 @@
                 Coffee Cabinet
             </button>
 
-
-            <!-- COFFEE COUNTER -->
 
             <button
                 class="location"
@@ -412,8 +334,6 @@
             </button>
 
 
-            <!-- COFFEE DRAWERS -->
-
             <button
                 class="location"
                 onclick="showLocationItems('coffee-drawers')"
@@ -421,8 +341,6 @@
                 Coffee Drawers
             </button>
 
-
-            <!-- FREEZER -->
 
             <button
                 class="location"
@@ -432,8 +350,6 @@
             </button>
 
 
-            <!-- REFRIGERATOR -->
-
             <button
                 class="location"
                 onclick="showLocationItems('refrigerator')"
@@ -441,8 +357,6 @@
                 Refrigerator
             </button>
 
-
-            <!-- REFRIGERATOR UPPER -->
 
             <button
                 class="location"
@@ -452,8 +366,6 @@
             </button>
 
 
-            <!-- REFRIGERATOR LOWER -->
-
             <button
                 class="location"
                 onclick="showLocationItems('fridge-lower-cabinet')"
@@ -461,8 +373,6 @@
                 Refrigerator Lower Cabinet
             </button>
 
-
-            <!-- DISPLAY STORAGE -->
 
             <button
                 class="location"
@@ -472,8 +382,6 @@
             </button>
 
 
-            <!-- MARKETPLACE -->
-
             <button
                 class="location"
                 onclick="showLocationItems('marketplace-cabinet')"
@@ -481,8 +389,6 @@
                 Marketplace Cabinet
             </button>
 
-
-            <!-- CURIO -->
 
             <button
                 class="location"
@@ -492,33 +398,23 @@
             </button>
 
 
-            <!-- WINDOW -->
-
             <button
                 class="location"
                 onclick="showLocationItems('window')"
             >
-                Window
-                <br>
-                <small>
-                    Salt & Pepper
-                </small>
+                Window<br>
+                <small>Salt & Pepper</small>
             </button>
-
 
         </div>
 
-
-        <!-- SELECTED LOCATION -->
 
         <div
             id="locationDetails"
             class="card"
         >
 
-            <h2>
-                📍 Select a Location
-            </h2>
+            <h2>📍 Select a Location</h2>
 
             <p>
                 Click a location above to see
@@ -530,21 +426,17 @@
     </section>
 
 
-    <!-- ================================= -->
+    <!-- ============================== -->
     <!-- ADD ITEM -->
-    <!-- ================================= -->
+    <!-- ============================== -->
 
     <section
         id="add"
         class="section hidden"
     >
 
-        <h2>
-            ➕ Add Item
-        </h2>
+        <h2>➕ Add Item</h2>
 
-
-        <!-- NAME -->
 
         <label for="itemName">
             Item Name
@@ -557,8 +449,6 @@
         >
 
 
-        <!-- CATEGORY -->
-
         <label for="itemCategory">
             Category
         </label>
@@ -566,7 +456,7 @@
         <input
             id="itemCategory"
             type="text"
-            placeholder="Dairy, Pantry, Drinks, etc."
+            placeholder="Dairy, Pantry, Drinks..."
         >
 
 
@@ -728,13 +618,11 @@
         <input
             id="itemContainer"
             type="text"
-            placeholder="bag, box, jar, jug, can, etc."
+            placeholder="bag, box, jar, jug, can..."
         >
 
 
-        <!-- ================================= -->
         <!-- PERCENTAGE -->
-        <!-- ================================= -->
 
         <div id="percentageFields">
 
@@ -766,9 +654,7 @@
         </div>
 
 
-        <!-- ================================= -->
         <!-- QUANTITY -->
-        <!-- ================================= -->
 
         <div
             id="quantityFields"
@@ -816,9 +702,7 @@
         </div>
 
 
-        <!-- ================================= -->
-        <!-- CUSTOM MEASUREMENT -->
-        <!-- ================================= -->
+        <!-- CUSTOM -->
 
         <div
             id="customFields"
@@ -860,20 +744,16 @@
         </div>
 
 
-        <!-- ADD -->
-
-        <button
-            onclick="addItem()"
-        >
+        <button onclick="addItem()">
             ➕ Add Item
         </button>
 
     </section>
 
 
-    <!-- ================================= -->
+    <!-- ============================== -->
     <!-- FOOTER -->
-    <!-- ================================= -->
+    <!-- ============================== -->
 
     <footer>
 
@@ -884,9 +764,9 @@
     </footer>
 
 
-    <!-- ================================= -->
+    <!-- ============================== -->
     <!-- JAVASCRIPT -->
-    <!-- ================================= -->
+    <!-- ============================== -->
 
     <script src="script.js"></script>
 
