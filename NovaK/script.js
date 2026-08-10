@@ -1,385 +1,322 @@
-<title>Nova K - Kitchen</title>
-
-<link rel="stylesheet" href="style.css">
-
-<div id="clock"></div>
-<div id="date"></div>
-
-<a href="../index.html">
-    🏠 Nova Dashboard
-</a>
-
-<button onclick="showSection('inventory')">
-    📦 Inventory
-</button>
-
-<button onclick="showSection('shopping')">
-    🛒 Shopping List
-</button>
-
-<button onclick="showSection('map')">
-    🗺 Kitchen Map
-</button>
-
-<h2>🔍 Search Kitchen</h2>
-
-<input
-    id="searchBox"
-    type="text"
-    placeholder="Search item, category, or location..."
-    oninput="searchInventory()"
->
-
-<div class="card stat">
-    <h3>Total Items</h3>
-    <p id="totalItems">0</p>
-</div>
-
-<div class="card stat">
-    <h3>Low Stock</h3>
-    <p id="lowStock">0</p>
-</div>
-
-<div class="card stat">
-    <h3>Shopping Items</h3>
-    <p id="shoppingCount">0</p>
-</div>
-
-<h2>📦 Kitchen Inventory</h2>
-
-<div id="inventoryContainer"></div>
-
-<h2>🛒 Kitchen Shopping List</h2>
-
-<div class="card">
-
-    <ul id="shoppingList"></ul>
-
-</div>
-
-<h2>🗺 Kitchen Map</h2>
-
-<p>
-    Select a location to see what is stored there.
-</p>
-
-<div class="kitchen-map">
-
-    <button class="location" onclick="showLocationItems('upper-cupboard')">
-        Upper Cupboard
-    </button>
-
-    <button class="location" onclick="showLocationItems('microwave-oven')">
-        Microwave / Oven
-    </button>
-
-    <button class="location" onclick="showLocationItems('oven-storage')">
-        Oven Storage
-    </button>
-
-    <button class="location" onclick="showLocationItems('countertop')">
-        Countertop
-    </button>
-
-    <button class="location" onclick="showLocationItems('drawer-1')">
-        Drawer 1<br>
-        <small>Utensils</small>
-    </button>
-
-    <button class="location" onclick="showLocationItems('drawer-2')">
-        Drawer 2<br>
-        <small>Small Containers</small>
-    </button>
-
-    <button class="location" onclick="showLocationItems('drawer-3')">
-        Drawer 3<br>
-        <small>Measuring Tools</small>
-    </button>
-
-    <button class="location" onclick="showLocationItems('drawer-4')">
-        Drawer 4<br>
-        <small>Wraps & Bags</small>
-    </button>
-
-    <button class="location" onclick="showLocationItems('kitchen-island')">
-        Kitchen Island
-    </button>
-
-    <button class="location" onclick="showLocationItems('stove')">
-        Stove
-    </button>
-
-    <button class="location" onclick="showLocationItems('pots-pans')">
-        Pots & Pans Cabinet
-    </button>
-
-    <button class="location" onclick="showLocationItems('spice-rack')">
-        Pull-Out Spice Rack
-    </button>
-
-    <button class="location" onclick="showLocationItems('sink-cabinet')">
-        Sink Cabinet
-    </button>
-
-    <button class="location" onclick="showLocationItems('dishwasher')">
-        Dishwasher
-    </button>
-
-    <button class="location" onclick="showLocationItems('right-cabinet')">
-        Right Cabinet
-    </button>
-
-    <button class="location" onclick="showLocationItems('island-upper-cabinets')">
-        Island Upper Cabinets
-    </button>
-
-    <button class="location" onclick="showLocationItems('double-cabinet')">
-        Double Cabinet
-    </button>
-
-    <button class="location" onclick="showLocationItems('coffee-cabinet')">
-        Coffee Cabinet
-    </button>
-
-    <button class="location" onclick="showLocationItems('coffee-counter')">
-        Coffee Counter
-    </button>
-
-    <button class="location" onclick="showLocationItems('coffee-drawers')">
-        Coffee Drawers
-    </button>
-
-    <button class="location" onclick="showLocationItems('freezer')">
-        Freezer
-    </button>
-
-    <button class="location" onclick="showLocationItems('refrigerator')">
-        Refrigerator
-    </button>
-
-    <button class="location" onclick="showLocationItems('fridge-upper-cabinet')">
-        Refrigerator Upper Cabinet
-    </button>
-
-    <button class="location" onclick="showLocationItems('fridge-lower-cabinet')">
-        Refrigerator Lower Cabinet
-    </button>
-
-    <button class="location" onclick="showLocationItems('display-storage')">
-        Display Storage
-    </button>
-
-    <button class="location" onclick="showLocationItems('marketplace-cabinet')">
-        Marketplace Cabinet
-    </button>
-
-    <button class="location" onclick="showLocationItems('curio-cabinet')">
-        Curio Cabinet
-    </button>
-
-    <button class="location" onclick="showLocationItems('window')">
-        Window<br>
-        <small>Salt & Pepper</small>
-    </button>
-
-</div>
-
-<div id="locationDetails" class="card">
-
-    <h2>📍 Select a Location</h2>
-
-    <p>
-        Click a location above to see the items stored there.
-    </p>
-
-</div>
-
-<h2>➕ Add Item</h2>
-
-<input
-    id="itemName"
-    type="text"
-    placeholder="Item name"
->
-
-<input
-    id="itemCategory"
-    type="text"
-    placeholder="Category (Dairy, Pantry, etc.)"
->
-
-<label for="itemLocation">
-    Location
-</label>
-
-<select id="itemLocation">
-
-    <option value="upper-cupboard">Upper Cupboard</option>
-    <option value="microwave-oven">Microwave / Oven</option>
-    <option value="oven-storage">Oven Storage</option>
-    <option value="countertop">Countertop</option>
-    <option value="drawer-1">Drawer 1 - Utensils</option>
-    <option value="drawer-2">Drawer 2 - Small Containers</option>
-    <option value="drawer-3">Drawer 3 - Measuring Tools</option>
-    <option value="drawer-4">Drawer 4 - Wraps & Bags</option>
-    <option value="kitchen-island">Kitchen Island</option>
-    <option value="stove">Stove</option>
-    <option value="pots-pans">Pots & Pans Cabinet</option>
-    <option value="spice-rack">Pull-Out Spice Rack</option>
-    <option value="sink-cabinet">Sink Cabinet</option>
-    <option value="dishwasher">Dishwasher</option>
-    <option value="right-cabinet">Right Cabinet</option>
-    <option value="island-upper-cabinets">Island Upper Cabinets</option>
-    <option value="double-cabinet">Double Cabinet</option>
-    <option value="coffee-cabinet">Coffee Cabinet</option>
-    <option value="coffee-counter">Coffee Counter</option>
-    <option value="coffee-drawers">Coffee Drawers</option>
-    <option value="freezer">Freezer</option>
-    <option value="refrigerator">Refrigerator</option>
-    <option value="fridge-upper-cabinet">Refrigerator Upper Cabinet</option>
-    <option value="fridge-lower-cabinet">Refrigerator Lower Cabinet</option>
-    <option value="display-storage">Display Storage</option>
-    <option value="marketplace-cabinet">Marketplace Cabinet</option>
-    <option value="curio-cabinet">Curio Cabinet</option>
-    <option value="window">Window - Salt & Pepper</option>
-
-</select>
-
-<label for="trackingType">
-    Tracking Type
-</label>
-
-<select
-    id="trackingType"
-    onchange="updateMeasurementFields()"
->
-
-    <option value="percentage">Percentage</option>
-    <option value="quantity">Quantity</option>
-    <option value="custom">Custom Measurement</option>
-
-</select>
-
-<label for="itemContainer">
-    Container / Unit
-</label>
-
-<input
-    id="itemContainer"
-    type="text"
-    placeholder="Example: bag, box, jar, jug"
->
-
-<div id="percentageFields">
-
-    <label>
-        Current Percentage
-    </label>
-
-    <input
-        id="itemCurrentPercentage"
-        type="number"
-        min="0"
-        max="100"
-        value="100"
-        placeholder="100"
-    >
-
-    <label>
-        Shopping Threshold %
-    </label>
-
-    <input
-        id="itemThresholdPercentage"
-        type="number"
-        min="0"
-        max="100"
-        value="25"
-        placeholder="25"
-    >
-
-</div>
-
-<div id="quantityFields" class="hidden">
-
-    <label>
-        Current Quantity
-    </label>
-
-    <input
-        id="itemCurrentQuantity"
-        type="number"
-        min="0"
-        step="0.5"
-        value="1"
-    >
-
-    <label>
-        Maximum Quantity
-    </label>
-
-    <input
-        id="itemMaxQuantity"
-        type="number"
-        min="0"
-        step="0.5"
-        value="10"
-    >
-
-    <label>
-        Shopping Threshold
-    </label>
-
-    <input
-        id="itemThresholdQuantity"
-        type="number"
-        min="0"
-        step="0.5"
-        value="3"
-    >
-
-</div>
-
-<div id="customFields" class="hidden">
-
-    <label>
-        Current Measurement
-    </label>
-
-    <input
-        id="itemCustomCurrent"
-        type="text"
-        placeholder="Example: 1.5 bags"
-    >
-
-    <label>
-        Maximum Measurement
-    </label>
-
-    <input
-        id="itemCustomMax"
-        type="text"
-        placeholder="Example: 3 bags"
-    >
-
-    <label>
-        Shopping Threshold
-    </label>
-
-    <input
-        id="itemCustomThreshold"
-        type="text"
-        placeholder="Example: 0.5 bags"
-    >
-
-</div>
-
-<button onclick="addItem()">
-    Add Item
-</button>
-
-<p>
-    Nova K • Part of the Nova Home System
-</p>
-
-<script src="script.js"></script>
+/* =====================================
+   NOVA K - KITCHEN MANAGEMENT SCRIPT
+===================================== */
+
+// Load existing inventory from LocalStorage or start with defaults
+let inventory = JSON.parse(localStorage.getItem("novaKitchenInventory")) || [
+    {
+        id: 1,
+        name: "Whole Milk",
+        category: "Dairy",
+        location: "refrigerator",
+        container: "gallon",
+        type: "percentage",
+        currentPct: 80,
+        thresholdPct: 25
+    },
+    {
+        id: 2,
+        name: "Ground Cinnamon",
+        category: "Spices",
+        location: "spice-rack",
+        container: "jar",
+        type: "percentage",
+        currentPct: 15,
+        thresholdPct: 20
+    },
+    {
+        id: 3,
+        name: "Eggs",
+        category: "Dairy",
+        location: "refrigerator",
+        container: "count",
+        type: "quantity",
+        currentQty: 2,
+        maxQty: 12,
+        thresholdQty: 4
+    }
+];
+
+// Initialize application on DOM content load
+document.addEventListener("DOMContentLoaded", () => {
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+    renderAll();
+});
+
+// --- CLOCK & DATE ---
+function updateDateTime() {
+    const now = new Date();
+    const clockEl = document.getElementById("clock");
+    const dateEl = document.getElementById("date");
+
+    if (clockEl) {
+        clockEl.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+    if (dateEl) {
+        dateEl.innerText = now.toLocaleDateString(undefined, { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    }
+}
+
+// --- NAVIGATION TABS ---
+function showSection(sectionId) {
+    const sections = ["inventory", "shopping", "map"];
+    sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.display = (id === sectionId) ? "block" : "none";
+        }
+    });
+}
+
+// --- FORM DYNAMICS ---
+function updateMeasurementFields() {
+    const trackingType = document.getElementById("trackingType").value;
+
+    const pctFields = document.getElementById("percentageFields");
+    const qtyFields = document.getElementById("quantityFields");
+    const customFields = document.getElementById("customFields");
+
+    if (pctFields) pctFields.classList.toggle("hidden", trackingType !== "percentage");
+    if (qtyFields) qtyFields.classList.toggle("hidden", trackingType !== "quantity");
+    if (customFields) customFields.classList.toggle("hidden", trackingType !== "custom");
+}
+
+// --- CORE DATA OPERATIONS ---
+function saveToStorage() {
+    localStorage.setItem("novaKitchenInventory", JSON.stringify(inventory));
+}
+
+function addItem() {
+    const name = document.getElementById("itemName").value.trim();
+    const category = document.getElementById("itemCategory").value.trim() || "Uncategorized";
+    const location = document.getElementById("itemLocation").value;
+    const trackingType = document.getElementById("trackingType").value;
+    const container = document.getElementById("itemContainer").value.trim() || "unit";
+
+    if (!name) {
+        alert("Please provide an item name.");
+        return;
+    }
+
+    const newItem = {
+        id: Date.now(),
+        name: name,
+        category: category,
+        location: location,
+        container: container,
+        type: trackingType
+    };
+
+    if (trackingType === "percentage") {
+        newItem.currentPct = parseFloat(document.getElementById("itemCurrentPercentage").value) || 0;
+        newItem.thresholdPct = parseFloat(document.getElementById("itemThresholdPercentage").value) || 25;
+    } else if (trackingType === "quantity") {
+        newItem.currentQty = parseFloat(document.getElementById("itemCurrentQuantity").value) || 0;
+        newItem.maxQty = parseFloat(document.getElementById("itemMaxQuantity").value) || 1;
+        newItem.thresholdQty = parseFloat(document.getElementById("itemThresholdQuantity").value) || 1;
+    } else if (trackingType === "custom") {
+        newItem.customCurrent = document.getElementById("itemCustomCurrent").value.trim() || "0";
+        newItem.customMax = document.getElementById("itemCustomMax").value.trim() || "1";
+        newItem.customThreshold = document.getElementById("itemCustomThreshold").value.trim() || "0";
+    }
+
+    inventory.push(newItem);
+    saveToStorage();
+    resetForm();
+    renderAll();
+}
+
+function deleteItem(id) {
+    inventory = inventory.filter(item => item.id !== id);
+    saveToStorage();
+    renderAll();
+}
+
+function updateStock(id, changeAmount) {
+    const item = inventory.find(i => i.id === id);
+    if (!item) return;
+
+    if (item.type === "percentage") {
+        item.currentPct = Math.max(0, Math.min(100, item.currentPct + changeAmount));
+    } else if (item.type === "quantity") {
+        item.currentQty = Math.max(0, Math.min(item.maxQty, item.currentQty + changeAmount));
+    }
+
+    saveToStorage();
+    renderAll();
+}
+
+function resetForm() {
+    document.getElementById("itemName").value = "";
+    document.getElementById("itemCategory").value = "";
+    document.getElementById("itemContainer").value = "";
+    document.getElementById("itemCurrentPercentage").value = "100";
+    document.getElementById("itemThresholdPercentage").value = "25";
+    document.getElementById("itemCurrentQuantity").value = "1";
+    document.getElementById("itemMaxQuantity").value = "10";
+    document.getElementById("itemThresholdQuantity").value = "3";
+    document.getElementById("itemCustomCurrent").value = "";
+    document.getElementById("itemCustomMax").value = "";
+    document.getElementById("itemCustomThreshold").value = "";
+}
+
+// --- CHECKS & COMPUTATIONS ---
+function isLowStock(item) {
+    if (item.type === "percentage") {
+        return item.currentPct <= item.thresholdPct;
+    }
+    if (item.type === "quantity") {
+        return item.currentQty <= item.thresholdQty;
+    }
+    return false;
+}
+
+// --- RENDERING ---
+function renderAll() {
+    renderStats();
+    renderInventory();
+    renderShoppingList();
+}
+
+function renderStats() {
+    const totalItemsEl = document.getElementById("totalItems");
+    const lowStockEl = document.getElementById("lowStock");
+    const shoppingCountEl = document.getElementById("shoppingCount");
+
+    const lowStockItems = inventory.filter(isLowStock);
+
+    if (totalItemsEl) totalItemsEl.innerText = inventory.length;
+    if (lowStockEl) lowStockEl.innerText = lowStockItems.length;
+    if (shoppingCountEl) shoppingCountEl.innerText = lowStockItems.length;
+}
+
+function renderInventory(itemsToRender = inventory) {
+    const container = document.getElementById("inventoryContainer");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    if (itemsToRender.length === 0) {
+        container.innerHTML = `<p style="color: #cbd9ff;">No items found matching your criteria.</p>`;
+        return;
+    }
+
+    itemsToRender.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card inventory-card";
+
+        let statusDisplay = "";
+        let controls = "";
+
+        if (item.type === "percentage") {
+            statusDisplay = `
+                <p>Status: ${item.currentPct}%</p>
+                <div class="progress">
+                    <div class="progress-fill" style="width: ${item.currentPct}%;"></div>
+                </div>
+            `;
+            controls = `
+                <button onclick="updateStock(${item.id}, -10)">-10%</button>
+                <button onclick="updateStock(${item.id}, 10)">+10%</button>
+            `;
+        } else if (item.type === "quantity") {
+            const fillPct = Math.min(100, (item.currentQty / item.maxQty) * 100);
+            statusDisplay = `
+                <p>Quantity: ${item.currentQty} / ${item.maxQty} ${item.container}</p>
+                <div class="progress">
+                    <div class="progress-fill" style="width: ${fillPct}%;"></div>
+                </div>
+            `;
+            controls = `
+                <button onclick="updateStock(${item.id}, -1)">-1</button>
+                <button onclick="updateStock(${item.id}, 1)">+1</button>
+            `;
+        } else {
+            statusDisplay = `
+                <p>Current: ${item.customCurrent}</p>
+                <p><small>Max: ${item.customMax} | Threshold: ${item.customThreshold}</small></p>
+            `;
+        }
+
+        card.innerHTML = `
+            <h3>${item.name}</h3>
+            <p><strong>Category:</strong> ${item.category}</p>
+            <p><strong>Location:</strong> ${formatLocationName(item.location)}</p>
+            ${statusDisplay}
+            <div style="margin-top: 10px;">
+                ${controls}
+                <button style="background: #ff4757;" onclick="deleteItem(${item.id})">Delete</button>
+            </div>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+function renderShoppingList() {
+    const list = document.getElementById("shoppingList");
+    if (!list) return;
+
+    list.innerHTML = "";
+    const lowStockItems = inventory.filter(isLowStock);
+
+    if (lowStockItems.length === 0) {
+        list.innerHTML = `<li>All items are well stocked!</li>`;
+        return;
+    }
+
+    lowStockItems.forEach(item => {
+        const li = document.createElement("li");
+        let detail = item.type === "percentage" ? `${item.currentPct}% remaining` : `${item.currentQty} remaining`;
+        li.innerHTML = `
+            <strong>${item.name}</strong> (${formatLocationName(item.location)})
+            <br><small style="color: #ff7ac8;">${detail} (Restock Threshold reached)</small>
+        `;
+        list.appendChild(li);
+    });
+}
+
+// --- SEARCH & LOCATION FILTER ---
+function searchInventory() {
+    const query = document.getElementById("searchBox").value.toLowerCase();
+    const filtered = inventory.filter(item => 
+        item.name.toLowerCase().includes(query) ||
+        item.category.toLowerCase().includes(query) ||
+        item.location.toLowerCase().includes(query)
+    );
+    renderInventory(filtered);
+}
+
+function showLocationItems(locationKey) {
+    const details = document.getElementById("locationDetails");
+    const matchedItems = inventory.filter(item => item.location === locationKey);
+    const locName = formatLocationName(locationKey);
+
+    if (!details) return;
+
+    if (matchedItems.length === 0) {
+        details.innerHTML = `
+            <h2>📍 ${locName}</h2>
+            <p>No items currently stored here.</p>
+        `;
+    } else {
+        const itemList = matchedItems.map(item => `<li>${item.name} (${item.category})</li>`).join("");
+        details.innerHTML = `
+            <h2>📍 ${locName}</h2>
+            <ul>${itemList}</ul>
+        `;
+    }
+}
+
+function formatLocationName(key) {
+    return key
+        .split("-")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+}
