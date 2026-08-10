@@ -2,7 +2,7 @@
    NOVA K - KITCHEN MANAGEMENT SCRIPT
 ===================================== */
 
-// Load existing inventory from LocalStorage or start with defaults
+// Load existing inventory from LocalStorage, or use starter defaults
 let inventory = JSON.parse(localStorage.getItem("novaKitchenInventory")) || [
     {
         id: 1,
@@ -26,22 +26,27 @@ let inventory = JSON.parse(localStorage.getItem("novaKitchenInventory")) || [
     },
     {
         id: 3,
-        name: "Eggs",
-        category: "Dairy",
-        location: "refrigerator",
-        container: "count",
+        name: "Forks & Spoons",
+        category: "Utensils",
+        location: "drawer-1",
+        container: "set",
         type: "quantity",
-        currentQty: 2,
+        currentQty: 12,
         maxQty: 12,
         thresholdQty: 4
     }
 ];
 
-// Initialize application on DOM content load
+// Initialize when the page loads
 document.addEventListener("DOMContentLoaded", () => {
     updateDateTime();
     setInterval(updateDateTime, 1000);
     renderAll();
+    
+    // Ensure correct fields are visible on first load
+    if (typeof updateMeasurementFields === "function") {
+        updateMeasurementFields();
+    }
 });
 
 // --- CLOCK & DATE ---
@@ -63,7 +68,7 @@ function updateDateTime() {
     }
 }
 
-// --- NAVIGATION TABS ---
+// --- SECTION TOGGLE ---
 function showSection(sectionId) {
     const sections = ["inventory", "shopping", "map"];
     sections.forEach(id => {
@@ -76,8 +81,10 @@ function showSection(sectionId) {
 
 // --- FORM DYNAMICS ---
 function updateMeasurementFields() {
-    const trackingType = document.getElementById("trackingType").value;
-
+    const selectEl = document.getElementById("trackingType");
+    if (!selectEl) return;
+    
+    const trackingType = selectEl.value;
     const pctFields = document.getElementById("percentageFields");
     const qtyFields = document.getElementById("quantityFields");
     const customFields = document.getElementById("customFields");
@@ -93,14 +100,25 @@ function saveToStorage() {
 }
 
 function addItem() {
-    const name = document.getElementById("itemName").value.trim();
-    const category = document.getElementById("itemCategory").value.trim() || "Uncategorized";
-    const location = document.getElementById("itemLocation").value;
-    const trackingType = document.getElementById("trackingType").value;
-    const container = document.getElementById("itemContainer").value.trim() || "unit";
+    const nameEl = document.getElementById("itemName");
+    const categoryEl = document.getElementById("itemCategory");
+    const locationEl = document.getElementById("itemLocation");
+    const trackingTypeEl = document.getElementById("trackingType");
+    const containerEl = document.getElementById("itemContainer");
+
+    if (!nameEl || !locationEl || !trackingTypeEl) {
+        console.error("Required form elements are missing from the HTML.");
+        return;
+    }
+
+    const name = nameEl.value.trim();
+    const category = (categoryEl && categoryEl.value.trim()) ? categoryEl.value.trim() : "Uncategorized";
+    const location = locationEl.value;
+    const trackingType = trackingTypeEl.value;
+    const container = (containerEl && containerEl.value.trim()) ? containerEl.value.trim() : "unit";
 
     if (!name) {
-        alert("Please provide an item name.");
+        alert("Please enter an item name.");
         return;
     }
 
@@ -114,22 +132,33 @@ function addItem() {
     };
 
     if (trackingType === "percentage") {
-        newItem.currentPct = parseFloat(document.getElementById("itemCurrentPercentage").value) || 0;
-        newItem.thresholdPct = parseFloat(document.getElementById("itemThresholdPercentage").value) || 25;
+        const pctVal = document.getElementById("itemCurrentPercentage");
+        const threshVal = document.getElementById("itemThresholdPercentage");
+        newItem.currentPct = pctVal ? parseFloat(pctVal.value) || 100 : 100;
+        newItem.thresholdPct = threshVal ? parseFloat(threshVal.value) || 25 : 25;
     } else if (trackingType === "quantity") {
-        newItem.currentQty = parseFloat(document.getElementById("itemCurrentQuantity").value) || 0;
-        newItem.maxQty = parseFloat(document.getElementById("itemMaxQuantity").value) || 1;
-        newItem.thresholdQty = parseFloat(document.getElementById("itemThresholdQuantity").value) || 1;
+        const qtyVal = document.getElementById("itemCurrentQuantity");
+        const maxVal = document.getElementById("itemMaxQuantity");
+        const threshVal = document.getElementById("itemThresholdQuantity");
+        newItem.currentQty = qtyVal ? parseFloat(qtyVal.value) || 1 : 1;
+        newItem.maxQty = maxVal ? parseFloat(maxVal.value) || 10 : 10;
+        newItem.thresholdQty = threshVal ? parseFloat(threshVal.value) || 3 : 3;
     } else if (trackingType === "custom") {
-        newItem.customCurrent = document.getElementById("itemCustomCurrent").value.trim() || "0";
-        newItem.customMax = document.getElementById("itemCustomMax").value.trim() || "1";
-        newItem.customThreshold = document.getElementById("itemCustomThreshold").value.trim() || "0";
+        const curCustom = document.getElementById("itemCustomCurrent");
+        const maxCustom = document.getElementById("itemCustomMax");
+        const threshCustom = document.getElementById("itemCustomThreshold");
+        newItem.customCurrent = curCustom ? curCustom.value.trim() : "1";
+        newItem.customMax = maxCustom ? maxCustom.value.trim() : "1";
+        newItem.customThreshold = threshCustom ? threshCustom.value.trim() : "0";
     }
 
     inventory.push(newItem);
     saveToStorage();
     resetForm();
     renderAll();
+
+    // Give visual confirmation
+    alert(`Added "${newItem.name}" to ${formatLocationName(newItem.location)}!`);
 }
 
 function deleteItem(id) {
@@ -153,17 +182,26 @@ function updateStock(id, changeAmount) {
 }
 
 function resetForm() {
-    document.getElementById("itemName").value = "";
-    document.getElementById("itemCategory").value = "";
-    document.getElementById("itemContainer").value = "";
-    document.getElementById("itemCurrentPercentage").value = "100";
-    document.getElementById("itemThresholdPercentage").value = "25";
-    document.getElementById("itemCurrentQuantity").value = "1";
-    document.getElementById("itemMaxQuantity").value = "10";
-    document.getElementById("itemThresholdQuantity").value = "3";
-    document.getElementById("itemCustomCurrent").value = "";
-    document.getElementById("itemCustomMax").value = "";
-    document.getElementById("itemCustomThreshold").value = "";
+    const fields = [
+        "itemName", "itemCategory", "itemContainer",
+        "itemCustomCurrent", "itemCustomMax", "itemCustomThreshold"
+    ];
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+
+    const pct = document.getElementById("itemCurrentPercentage");
+    if (pct) pct.value = "100";
+    const threshPct = document.getElementById("itemThresholdPercentage");
+    if (threshPct) threshPct.value = "25";
+
+    const qty = document.getElementById("itemCurrentQuantity");
+    if (qty) qty.value = "1";
+    const maxQty = document.getElementById("itemMaxQuantity");
+    if (maxQty) maxQty.value = "10";
+    const threshQty = document.getElementById("itemThresholdQuantity");
+    if (threshQty) threshQty.value = "3";
 }
 
 // --- CHECKS & COMPUTATIONS ---
@@ -203,7 +241,7 @@ function renderInventory(itemsToRender = inventory) {
     container.innerHTML = "";
 
     if (itemsToRender.length === 0) {
-        container.innerHTML = `<p style="color: #cbd9ff;">No items found matching your criteria.</p>`;
+        container.innerHTML = `<p style="color: #cbd9ff;">No items found.</p>`;
         return;
     }
 
@@ -222,8 +260,8 @@ function renderInventory(itemsToRender = inventory) {
                 </div>
             `;
             controls = `
-                <button onclick="updateStock(${item.id}, -10)">-10%</button>
-                <button onclick="updateStock(${item.id}, 10)">+10%</button>
+                <button type="button" onclick="updateStock(${item.id}, -10)">-10%</button>
+                <button type="button" onclick="updateStock(${item.id}, 10)">+10%</button>
             `;
         } else if (item.type === "quantity") {
             const fillPct = Math.min(100, (item.currentQty / item.maxQty) * 100);
@@ -234,8 +272,8 @@ function renderInventory(itemsToRender = inventory) {
                 </div>
             `;
             controls = `
-                <button onclick="updateStock(${item.id}, -1)">-1</button>
-                <button onclick="updateStock(${item.id}, 1)">+1</button>
+                <button type="button" onclick="updateStock(${item.id}, -1)">-1</button>
+                <button type="button" onclick="updateStock(${item.id}, 1)">+1</button>
             `;
         } else {
             statusDisplay = `
@@ -251,7 +289,7 @@ function renderInventory(itemsToRender = inventory) {
             ${statusDisplay}
             <div style="margin-top: 10px;">
                 ${controls}
-                <button style="background: #ff4757;" onclick="deleteItem(${item.id})">Delete</button>
+                <button type="button" style="background: #ff4757;" onclick="deleteItem(${item.id})">Delete</button>
             </div>
         `;
 
@@ -276,7 +314,7 @@ function renderShoppingList() {
         let detail = item.type === "percentage" ? `${item.currentPct}% remaining` : `${item.currentQty} remaining`;
         li.innerHTML = `
             <strong>${item.name}</strong> (${formatLocationName(item.location)})
-            <br><small style="color: #ff7ac8;">${detail} (Restock Threshold reached)</small>
+            <br><small style="color: #ff7ac8;">${detail} (Low stock)</small>
         `;
         list.appendChild(li);
     });
@@ -284,7 +322,10 @@ function renderShoppingList() {
 
 // --- SEARCH & LOCATION FILTER ---
 function searchInventory() {
-    const query = document.getElementById("searchBox").value.toLowerCase();
+    const searchBox = document.getElementById("searchBox");
+    if (!searchBox) return;
+
+    const query = searchBox.value.toLowerCase();
     const filtered = inventory.filter(item => 
         item.name.toLowerCase().includes(query) ||
         item.category.toLowerCase().includes(query) ||
@@ -293,28 +334,43 @@ function searchInventory() {
     renderInventory(filtered);
 }
 
+// --- KITCHEN MAP INTERACTION ---
 function showLocationItems(locationKey) {
     const details = document.getElementById("locationDetails");
+    if (!details) return;
+
     const matchedItems = inventory.filter(item => item.location === locationKey);
     const locName = formatLocationName(locationKey);
-
-    if (!details) return;
 
     if (matchedItems.length === 0) {
         details.innerHTML = `
             <h2>📍 ${locName}</h2>
-            <p>No items currently stored here.</p>
+            <p style="color: #cbd9ff;">No items are currently stored here.</p>
         `;
     } else {
-        const itemList = matchedItems.map(item => `<li>${item.name} (${item.category})</li>`).join("");
+        const itemList = matchedItems.map(item => {
+            let amount = "";
+            if (item.type === "percentage") amount = `— ${item.currentPct}% left`;
+            else if (item.type === "quantity") amount = `— ${item.currentQty} ${item.container}`;
+            else amount = `— ${item.customCurrent}`;
+            
+            return `<li><strong>${item.name}</strong> <small>(${item.category})</small> ${amount}</li>`;
+        }).join("");
+
         details.innerHTML = `
             <h2>📍 ${locName}</h2>
-            <ul>${itemList}</ul>
+            <ul style="list-style: square; padding-left: 20px; color: #d7e7ff; line-height: 1.8;">
+                ${itemList}
+            </ul>
         `;
     }
+
+    // Smooth scroll down to the location details card so you see the result
+    details.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function formatLocationName(key) {
+    if (!key) return "Unknown";
     return key
         .split("-")
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
