@@ -1,5 +1,5 @@
 /* =====================================
-   NOVA K - KITCHEN MANAGEMENT SCRIPT
+   NOVA K - KITCHEN MANAGEMENT SYSTEM
 ===================================== */
 
 // Load existing inventory from LocalStorage, or use starter defaults
@@ -37,16 +37,12 @@ let inventory = JSON.parse(localStorage.getItem("novaKitchenInventory")) || [
     }
 ];
 
-// Initialize when the page loads
+// Initialize when the DOM finishes loading
 document.addEventListener("DOMContentLoaded", () => {
     updateDateTime();
     setInterval(updateDateTime, 1000);
+    updateMeasurementFields();
     renderAll();
-    
-    // Ensure correct fields are visible on first load
-    if (typeof updateMeasurementFields === "function") {
-        updateMeasurementFields();
-    }
 });
 
 // --- CLOCK & DATE ---
@@ -68,7 +64,7 @@ function updateDateTime() {
     }
 }
 
-// --- SECTION TOGGLE ---
+// --- NAVIGATION / VIEW TOGGLE ---
 function showSection(sectionId) {
     const sections = ["inventory", "shopping", "map"];
     sections.forEach(id => {
@@ -94,7 +90,7 @@ function updateMeasurementFields() {
     if (customFields) customFields.classList.toggle("hidden", trackingType !== "custom");
 }
 
-// --- CORE DATA OPERATIONS ---
+// --- STORAGE & ITEM MANAGEMENT ---
 function saveToStorage() {
     localStorage.setItem("novaKitchenInventory", JSON.stringify(inventory));
 }
@@ -106,19 +102,16 @@ function addItem() {
     const trackingTypeEl = document.getElementById("trackingType");
     const containerEl = document.getElementById("itemContainer");
 
-    if (!nameEl || !locationEl || !trackingTypeEl) {
-        console.error("Required form elements are missing from the HTML.");
-        return;
-    }
+    if (!nameEl || !locationEl || !trackingTypeEl) return;
 
     const name = nameEl.value.trim();
-    const category = (categoryEl && categoryEl.value.trim()) ? categoryEl.value.trim() : "Uncategorized";
+    const category = categoryEl && categoryEl.value.trim() ? categoryEl.value.trim() : "Pantry";
     const location = locationEl.value;
     const trackingType = trackingTypeEl.value;
-    const container = (containerEl && containerEl.value.trim()) ? containerEl.value.trim() : "unit";
+    const container = containerEl && containerEl.value.trim() ? containerEl.value.trim() : "unit";
 
     if (!name) {
-        alert("Please enter an item name.");
+        alert("Please provide an item name.");
         return;
     }
 
@@ -132,17 +125,17 @@ function addItem() {
     };
 
     if (trackingType === "percentage") {
-        const pctVal = document.getElementById("itemCurrentPercentage");
-        const threshVal = document.getElementById("itemThresholdPercentage");
-        newItem.currentPct = pctVal ? parseFloat(pctVal.value) || 100 : 100;
-        newItem.thresholdPct = threshVal ? parseFloat(threshVal.value) || 25 : 25;
+        const curPct = document.getElementById("itemCurrentPercentage");
+        const threshPct = document.getElementById("itemThresholdPercentage");
+        newItem.currentPct = curPct ? Math.max(0, Math.min(100, parseFloat(curPct.value) || 100)) : 100;
+        newItem.thresholdPct = threshPct ? Math.max(0, Math.min(100, parseFloat(threshPct.value) || 25)) : 25;
     } else if (trackingType === "quantity") {
-        const qtyVal = document.getElementById("itemCurrentQuantity");
-        const maxVal = document.getElementById("itemMaxQuantity");
-        const threshVal = document.getElementById("itemThresholdQuantity");
-        newItem.currentQty = qtyVal ? parseFloat(qtyVal.value) || 1 : 1;
-        newItem.maxQty = maxVal ? parseFloat(maxVal.value) || 10 : 10;
-        newItem.thresholdQty = threshVal ? parseFloat(threshVal.value) || 3 : 3;
+        const curQty = document.getElementById("itemCurrentQuantity");
+        const maxQty = document.getElementById("itemMaxQuantity");
+        const threshQty = document.getElementById("itemThresholdQuantity");
+        newItem.currentQty = curQty ? parseFloat(curQty.value) || 1 : 1;
+        newItem.maxQty = maxQty ? parseFloat(maxQty.value) || 10 : 10;
+        newItem.thresholdQty = threshQty ? parseFloat(threshQty.value) || 3 : 3;
     } else if (trackingType === "custom") {
         const curCustom = document.getElementById("itemCustomCurrent");
         const maxCustom = document.getElementById("itemCustomMax");
@@ -156,9 +149,8 @@ function addItem() {
     saveToStorage();
     resetForm();
     renderAll();
-
-    // Give visual confirmation
-    alert(`Added "${newItem.name}" to ${formatLocationName(newItem.location)}!`);
+    
+    showLocationItems(newItem.location);
 }
 
 function deleteItem(id) {
@@ -175,6 +167,23 @@ function updateStock(id, changeAmount) {
         item.currentPct = Math.max(0, Math.min(100, item.currentPct + changeAmount));
     } else if (item.type === "quantity") {
         item.currentQty = Math.max(0, Math.min(item.maxQty, item.currentQty + changeAmount));
+    }
+
+    saveToStorage();
+    renderAll();
+}
+
+// Refill / Restock item instantly to max capacity
+function refillItem(id) {
+    const item = inventory.find(i => i.id === id);
+    if (!item) return;
+
+    if (item.type === "percentage") {
+        item.currentPct = 100;
+    } else if (item.type === "quantity") {
+        item.currentQty = item.maxQty;
+    } else if (item.type === "custom") {
+        item.customCurrent = item.customMax;
     }
 
     saveToStorage();
@@ -204,7 +213,7 @@ function resetForm() {
     if (threshQty) threshQty.value = "3";
 }
 
-// --- CHECKS & COMPUTATIONS ---
+// --- THRESHOLD CHECK ---
 function isLowStock(item) {
     if (item.type === "percentage") {
         return item.currentPct <= item.thresholdPct;
@@ -241,7 +250,7 @@ function renderInventory(itemsToRender = inventory) {
     container.innerHTML = "";
 
     if (itemsToRender.length === 0) {
-        container.innerHTML = `<p style="color: #cbd9ff;">No items found.</p>`;
+        container.innerHTML = `<p style="color: #cbd9ff;">No items found matching criteria.</p>`;
         return;
     }
 
@@ -262,6 +271,7 @@ function renderInventory(itemsToRender = inventory) {
             controls = `
                 <button type="button" onclick="updateStock(${item.id}, -10)">-10%</button>
                 <button type="button" onclick="updateStock(${item.id}, 10)">+10%</button>
+                <button type="button" style="background: #2ed573; color: white;" onclick="refillItem(${item.id})">Refill 100%</button>
             `;
         } else if (item.type === "quantity") {
             const fillPct = Math.min(100, (item.currentQty / item.maxQty) * 100);
@@ -274,11 +284,15 @@ function renderInventory(itemsToRender = inventory) {
             controls = `
                 <button type="button" onclick="updateStock(${item.id}, -1)">-1</button>
                 <button type="button" onclick="updateStock(${item.id}, 1)">+1</button>
+                <button type="button" style="background: #2ed573; color: white;" onclick="refillItem(${item.id})">Restock Full</button>
             `;
         } else {
             statusDisplay = `
                 <p>Current: ${item.customCurrent}</p>
                 <p><small>Max: ${item.customMax} | Threshold: ${item.customThreshold}</small></p>
+            `;
+            controls = `
+                <button type="button" style="background: #2ed573; color: white;" onclick="refillItem(${item.id})">Restock</button>
             `;
         }
 
@@ -287,7 +301,7 @@ function renderInventory(itemsToRender = inventory) {
             <p><strong>Category:</strong> ${item.category}</p>
             <p><strong>Location:</strong> ${formatLocationName(item.location)}</p>
             ${statusDisplay}
-            <div style="margin-top: 10px;">
+            <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
                 ${controls}
                 <button type="button" style="background: #ff4757;" onclick="deleteItem(${item.id})">Delete</button>
             </div>
@@ -305,22 +319,36 @@ function renderShoppingList() {
     const lowStockItems = inventory.filter(isLowStock);
 
     if (lowStockItems.length === 0) {
-        list.innerHTML = `<li>All items are well stocked!</li>`;
+        list.innerHTML = `<li>All items are well stocked! 🎉</li>`;
         return;
     }
 
     lowStockItems.forEach(item => {
         const li = document.createElement("li");
+        li.style.display = "flex";
+        li.style.justifyContent = "space-between";
+        li.style.alignItems = "center";
+        li.style.marginBottom = "10px";
+        li.style.padding = "8px";
+        li.style.background = "rgba(255, 255, 255, 0.05)";
+        li.style.borderRadius = "8px";
+
         let detail = item.type === "percentage" ? `${item.currentPct}% remaining` : `${item.currentQty} remaining`;
+
         li.innerHTML = `
-            <strong>${item.name}</strong> (${formatLocationName(item.location)})
-            <br><small style="color: #ff7ac8;">${detail} (Low stock)</small>
+            <div>
+                <strong>${item.name}</strong> (${formatLocationName(item.location)})
+                <br><small style="color: #ff7ac8;">${detail} (Low stock)</small>
+            </div>
+            <button type="button" style="background: #2ed573; color: #fff; padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer;" onclick="refillItem(${item.id})">
+                ✅ Restocked
+            </button>
         `;
         list.appendChild(li);
     });
 }
 
-// --- SEARCH & LOCATION FILTER ---
+// --- SEARCH & MAP FILTER ---
 function searchInventory() {
     const searchBox = document.getElementById("searchBox");
     if (!searchBox) return;
@@ -334,7 +362,6 @@ function searchInventory() {
     renderInventory(filtered);
 }
 
-// --- KITCHEN MAP INTERACTION ---
 function showLocationItems(locationKey) {
     const details = document.getElementById("locationDetails");
     if (!details) return;
@@ -365,7 +392,6 @@ function showLocationItems(locationKey) {
         `;
     }
 
-    // Smooth scroll down to the location details card so you see the result
     details.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
