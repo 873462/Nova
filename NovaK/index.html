@@ -1,582 +1,896 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Nova K - Kitchen</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
-<header>
-    <h1>🍳 Nova K</h1>
-    <p>Kitchen Management System</p>
+    <!-- ================================= -->
+    <!-- HEADER -->
+    <!-- ================================= -->
 
-    <div id="clock"></div>
-    <div id="date"></div>
-</header>
+    <header>
 
-
-<nav>
-
-    <a href="../index.html">
-        🏠 Nova Dashboard
-    </a>
-
-    <button onclick="showSection('inventory')">
-        📦 Inventory
-    </button>
-
-    <button onclick="showSection('shopping')">
-        🛒 Shopping List
-    </button>
-
-    <button onclick="showSection('map')">
-        🗺 Kitchen Map
-    </button>
-
-</nav>
-
-
-<!-- SEARCH -->
-
-<section class="card search">
-
-    <h2>🔍 Search Kitchen</h2>
-
-    <input
-        id="searchBox"
-        type="text"
-        placeholder="Search item, category, or location..."
-        oninput="searchInventory()"
-    >
-
-</section>
-
-
-<!-- STATISTICS -->
-
-<section class="stats">
-
-    <div class="card stat">
-        <h3>Total Items</h3>
-        <p id="totalItems">0</p>
-    </div>
-
-    <div class="card stat">
-        <h3>Low Stock</h3>
-        <p id="lowStock">0</p>
-    </div>
-
-    <div class="card stat">
-        <h3>Shopping Items</h3>
-        <p id="shoppingCount">0</p>
-    </div>
-
-</section>
-
-
-<!-- INVENTORY -->
-
-<section id="inventory" class="section">
-
-    <h2>📦 Kitchen Inventory</h2>
-
-    <div id="inventoryContainer"></div>
-
-</section>
-
-
-<!-- SHOPPING LIST -->
-
-<section id="shopping" class="section hidden">
-
-    <h2>🛒 Kitchen Shopping List</h2>
-
-    <div class="card">
-
-        <ul id="shoppingList"></ul>
-
-    </div>
-
-</section>
-
-
-<!-- KITCHEN MAP -->
-
-<section id="map" class="section hidden">
-
-    <h2>🗺 Kitchen Map</h2>
-
-    <p>
-        Select a location to see what is stored there.
-    </p>
-
-    <div class="kitchen-map">
-
-        <button class="location" onclick="showLocationItems('upper-cupboard')">
-            Upper Cupboard
-        </button>
-
-        <button class="location" onclick="showLocationItems('microwave-oven')">
-            Microwave / Oven
-        </button>
-
-        <button class="location" onclick="showLocationItems('oven-storage')">
-            Oven Storage
-        </button>
-
-        <button class="location" onclick="showLocationItems('countertop')">
-            Countertop
-        </button>
-
-        <button class="location" onclick="showLocationItems('drawer-1')">
-            Drawer 1<br>
-            <small>Utensils</small>
-        </button>
-
-        <button class="location" onclick="showLocationItems('drawer-2')">
-            Drawer 2<br>
-            <small>Small Containers</small>
-        </button>
-
-        <button class="location" onclick="showLocationItems('drawer-3')">
-            Drawer 3<br>
-            <small>Measuring Tools</small>
-        </button>
-
-        <button class="location" onclick="showLocationItems('drawer-4')">
-            Drawer 4<br>
-            <small>Wraps & Bags</small>
-        </button>
-
-        <button class="location" onclick="showLocationItems('kitchen-island')">
-            Kitchen Island
-        </button>
-
-        <button class="location" onclick="showLocationItems('stove')">
-            Stove
-        </button>
-
-        <button class="location" onclick="showLocationItems('pots-pans')">
-            Pots & Pans Cabinet
-        </button>
-
-        <button class="location" onclick="showLocationItems('spice-rack')">
-            Pull-Out Spice Rack
-        </button>
-
-        <button class="location" onclick="showLocationItems('sink-cabinet')">
-            Sink Cabinet
-        </button>
-
-        <button class="location" onclick="showLocationItems('dishwasher')">
-            Dishwasher
-        </button>
-
-        <button class="location" onclick="showLocationItems('right-cabinet')">
-            Right Cabinet
-        </button>
-
-        <button class="location" onclick="showLocationItems('island-upper-cabinets')">
-            Island Upper Cabinets
-        </button>
-
-        <button class="location" onclick="showLocationItems('double-cabinet')">
-            Double Cabinet
-        </button>
-
-        <button class="location" onclick="showLocationItems('coffee-cabinet')">
-            Coffee Cabinet
-        </button>
-
-        <button class="location" onclick="showLocationItems('coffee-counter')">
-            Coffee Counter
-        </button>
-
-        <button class="location" onclick="showLocationItems('coffee-drawers')">
-            Coffee Drawers
-        </button>
-
-        <button class="location" onclick="showLocationItems('freezer')">
-            Freezer
-        </button>
-
-        <button class="location" onclick="showLocationItems('refrigerator')">
-            Refrigerator
-        </button>
-
-        <button class="location" onclick="showLocationItems('fridge-upper-cabinet')">
-            Refrigerator Upper Cabinet
-        </button>
-
-        <button class="location" onclick="showLocationItems('fridge-lower-cabinet')">
-            Refrigerator Lower Cabinet
-        </button>
-
-        <button class="location" onclick="showLocationItems('display-storage')">
-            Display Storage
-        </button>
-
-        <button class="location" onclick="showLocationItems('marketplace-cabinet')">
-            Marketplace Cabinet
-        </button>
-
-        <button class="location" onclick="showLocationItems('curio-cabinet')">
-            Curio Cabinet
-        </button>
-
-        <button class="location" onclick="showLocationItems('window')">
-            Window<br>
-            <small>Salt & Pepper</small>
-        </button>
-
-    </div>
-
-
-    <!-- SELECTED LOCATION -->
-
-    <div id="locationDetails" class="card">
-
-        <h2>📍 Select a Location</h2>
+        <h1>🍳 Nova K</h1>
 
         <p>
-            Click a location above to see the items stored there.
+            Kitchen Management System
         </p>
 
-    </div>
+        <div id="clock"></div>
 
-</section>
+        <div id="date"></div>
 
-
-<!-- ADD ITEM -->
-
-<section class="card add-item">
-
-    <h2>➕ Add Item</h2>
-
-    <input
-        id="itemName"
-        type="text"
-        placeholder="Item name"
-    >
+    </header>
 
 
-    <input
-        id="itemCategory"
-        type="text"
-        placeholder="Category (Dairy, Pantry, etc.)"
-    >
+    <!-- ================================= -->
+    <!-- NAVIGATION -->
+    <!-- ================================= -->
 
+    <nav>
 
-    <!-- LOCATION DROPDOWN -->
+        <a href="../index.html">
+            🏠 Nova Dashboard
+        </a>
 
-    <label for="itemLocation">
-        Location
-    </label>
-
-    <select id="itemLocation">
-
-        <option value="upper-cupboard">
-            Upper Cupboard
-        </option>
-
-        <option value="microwave-oven">
-            Microwave / Oven
-        </option>
-
-        <option value="oven-storage">
-            Oven Storage
-        </option>
-
-        <option value="countertop">
-            Countertop
-        </option>
-
-        <option value="drawer-1">
-            Drawer 1 - Utensils
-        </option>
-
-        <option value="drawer-2">
-            Drawer 2 - Small Containers
-        </option>
-
-        <option value="drawer-3">
-            Drawer 3 - Measuring Tools
-        </option>
-
-        <option value="drawer-4">
-            Drawer 4 - Wraps & Bags
-        </option>
-
-        <option value="kitchen-island">
-            Kitchen Island
-        </option>
-
-        <option value="stove">
-            Stove
-        </option>
-
-        <option value="pots-pans">
-            Pots & Pans Cabinet
-        </option>
-
-        <option value="spice-rack">
-            Pull-Out Spice Rack
-        </option>
-
-        <option value="sink-cabinet">
-            Sink Cabinet
-        </option>
-
-        <option value="dishwasher">
-            Dishwasher
-        </option>
-
-        <option value="right-cabinet">
-            Right Cabinet
-        </option>
-
-        <option value="island-upper-cabinets">
-            Island Upper Cabinets
-        </option>
-
-        <option value="double-cabinet">
-            Double Cabinet
-        </option>
-
-        <option value="coffee-cabinet">
-            Coffee Cabinet
-        </option>
-
-        <option value="coffee-counter">
-            Coffee Counter
-        </option>
-
-        <option value="coffee-drawers">
-            Coffee Drawers
-        </option>
-
-        <option value="freezer">
-            Freezer
-        </option>
-
-        <option value="refrigerator">
-            Refrigerator
-        </option>
-
-        <option value="fridge-upper-cabinet">
-            Refrigerator Upper Cabinet
-        </option>
-
-        <option value="fridge-lower-cabinet">
-            Refrigerator Lower Cabinet
-        </option>
-
-        <option value="display-storage">
-            Display Storage
-        </option>
-
-        <option value="marketplace-cabinet">
-            Marketplace Cabinet
-        </option>
-
-        <option value="curio-cabinet">
-            Curio Cabinet
-        </option>
-
-        <option value="window">
-            Window - Salt & Pepper
-        </option>
-
-    </select>
-
-
-    <!-- TRACKING -->
-
-    <label for="trackingType">
-        Tracking Type
-    </label>
-
-    <select
-        id="trackingType"
-        onchange="updateMeasurementFields()"
-    >
-
-        <option value="percentage">
-            Percentage
-        </option>
-
-        <option value="quantity">
-            Quantity
-        </option>
-
-        <option value="custom">
-            Custom Measurement
-        </option>
-
-    </select>
-
-
-    <!-- CONTAINER -->
-
-    <label for="itemContainer">
-        Container / Unit
-    </label>
-
-    <input
-        id="itemContainer"
-        type="text"
-        placeholder="Example: bag, box, jar, jug"
-    >
-
-
-    <!-- PERCENTAGE -->
-
-    <div id="percentageFields">
-
-        <label>
-            Current Percentage
-        </label>
-
-        <input
-            id="itemCurrentPercentage"
-            type="number"
-            min="0"
-            max="100"
-            value="100"
-            placeholder="100"
+        <button
+            onclick="showSection('inventory')"
         >
+            📦 Inventory
+        </button>
 
-
-        <label>
-            Shopping Threshold %
-        </label>
-
-        <input
-            id="itemThresholdPercentage"
-            type="number"
-            min="0"
-            max="100"
-            value="25"
-            placeholder="25"
+        <button
+            onclick="showSection('shopping')"
         >
+            🛒 Shopping List
+        </button>
 
-    </div>
-
-
-    <!-- QUANTITY -->
-
-    <div
-        id="quantityFields"
-        class="hidden"
-    >
-
-        <label>
-            Current Quantity
-        </label>
-
-        <input
-            id="itemCurrentQuantity"
-            type="number"
-            min="0"
-            step="0.5"
-            value="1"
+        <button
+            onclick="showSection('map')"
         >
+            🗺 Kitchen Map
+        </button>
 
-
-        <label>
-            Maximum Quantity
-        </label>
-
-        <input
-            id="itemMaxQuantity"
-            type="number"
-            min="0"
-            step="0.5"
-            value="10"
+        <button
+            onclick="showSection('add')"
         >
+            ➕ Add Item
+        </button>
+
+    </nav>
 
 
-        <label>
-            Shopping Threshold
-        </label>
+    <!-- ================================= -->
+    <!-- SEARCH -->
+    <!-- ================================= -->
 
-        <input
-            id="itemThresholdQuantity"
-            type="number"
-            min="0"
-            step="0.5"
-            value="3"
-        >
+    <section>
 
-    </div>
-
-
-    <!-- CUSTOM -->
-
-    <div
-        id="customFields"
-        class="hidden"
-    >
-
-        <label>
-            Current Measurement
-        </label>
+        <h2>🔍 Search Kitchen</h2>
 
         <input
-            id="itemCustomCurrent"
+            id="searchBox"
             type="text"
-            placeholder="Example: 1.5 bags"
+            placeholder="Search item, category, or location..."
+            oninput="searchInventory()"
         >
 
+    </section>
 
-        <label>
-            Maximum Measurement
+
+    <!-- ================================= -->
+    <!-- STATISTICS -->
+    <!-- ================================= -->
+
+    <section class="stats">
+
+        <div class="card stat">
+
+            <h3>
+                Total Items
+            </h3>
+
+            <p id="totalItems">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <h3>
+                Low Stock
+            </h3>
+
+            <p id="lowStock">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <h3>
+                Shopping Items
+            </h3>
+
+            <p id="shoppingCount">
+                0
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================= -->
+    <!-- INVENTORY -->
+    <!-- ================================= -->
+
+    <section
+        id="inventory"
+        class="section"
+    >
+
+        <h2>
+            📦 Kitchen Inventory
+        </h2>
+
+        <div id="inventoryContainer"></div>
+
+    </section>
+
+
+    <!-- ================================= -->
+    <!-- SHOPPING LIST -->
+    <!-- ================================= -->
+
+    <section
+        id="shopping"
+        class="section hidden"
+    >
+
+        <h2>
+            🛒 Kitchen Shopping List
+        </h2>
+
+        <div class="card">
+
+            <ul id="shoppingList"></ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================= -->
+    <!-- KITCHEN MAP -->
+    <!-- ================================= -->
+
+    <section
+        id="map"
+        class="section hidden"
+    >
+
+        <h2>
+            🗺 Kitchen Map
+        </h2>
+
+        <p>
+            Select a location to see what
+            is stored there.
+        </p>
+
+
+        <div class="kitchen-map">
+
+
+            <!-- UPPER CUPBOARD -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('upper-cupboard')"
+            >
+                Upper Cupboard
+            </button>
+
+
+            <!-- MICROWAVE / OVEN -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('microwave-oven')"
+            >
+                Microwave / Oven
+            </button>
+
+
+            <!-- OVEN STORAGE -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('oven-storage')"
+            >
+                Oven Storage
+            </button>
+
+
+            <!-- COUNTERTOP -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('countertop')"
+            >
+                Countertop
+            </button>
+
+
+            <!-- DRAWER 1 -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('drawer-1')"
+            >
+                Drawer 1
+                <br>
+                <small>
+                    Utensils
+                </small>
+            </button>
+
+
+            <!-- DRAWER 2 -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('drawer-2')"
+            >
+                Drawer 2
+                <br>
+                <small>
+                    Small Containers
+                </small>
+            </button>
+
+
+            <!-- DRAWER 3 -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('drawer-3')"
+            >
+                Drawer 3
+                <br>
+                <small>
+                    Measuring Tools
+                </small>
+            </button>
+
+
+            <!-- DRAWER 4 -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('drawer-4')"
+            >
+                Drawer 4
+                <br>
+                <small>
+                    Wraps & Bags
+                </small>
+            </button>
+
+
+            <!-- KITCHEN ISLAND -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('kitchen-island')"
+            >
+                Kitchen Island
+            </button>
+
+
+            <!-- STOVE -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('stove')"
+            >
+                Stove
+            </button>
+
+
+            <!-- POTS & PANS -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('pots-pans')"
+            >
+                Pots & Pans Cabinet
+            </button>
+
+
+            <!-- SPICE RACK -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('spice-rack')"
+            >
+                Pull-Out Spice Rack
+            </button>
+
+
+            <!-- SINK -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('sink-cabinet')"
+            >
+                Sink Cabinet
+            </button>
+
+
+            <!-- DISHWASHER -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('dishwasher')"
+            >
+                Dishwasher
+            </button>
+
+
+            <!-- RIGHT CABINET -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('right-cabinet')"
+            >
+                Right Cabinet
+            </button>
+
+
+            <!-- ISLAND UPPER CABINETS -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('island-upper-cabinets')"
+            >
+                Island Upper Cabinets
+            </button>
+
+
+            <!-- DOUBLE CABINET -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('double-cabinet')"
+            >
+                Double Cabinet
+            </button>
+
+
+            <!-- COFFEE CABINET -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('coffee-cabinet')"
+            >
+                Coffee Cabinet
+            </button>
+
+
+            <!-- COFFEE COUNTER -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('coffee-counter')"
+            >
+                Coffee Counter
+            </button>
+
+
+            <!-- COFFEE DRAWERS -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('coffee-drawers')"
+            >
+                Coffee Drawers
+            </button>
+
+
+            <!-- FREEZER -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('freezer')"
+            >
+                Freezer
+            </button>
+
+
+            <!-- REFRIGERATOR -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('refrigerator')"
+            >
+                Refrigerator
+            </button>
+
+
+            <!-- REFRIGERATOR UPPER -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('fridge-upper-cabinet')"
+            >
+                Refrigerator Upper Cabinet
+            </button>
+
+
+            <!-- REFRIGERATOR LOWER -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('fridge-lower-cabinet')"
+            >
+                Refrigerator Lower Cabinet
+            </button>
+
+
+            <!-- DISPLAY STORAGE -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('display-storage')"
+            >
+                Display Storage
+            </button>
+
+
+            <!-- MARKETPLACE -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('marketplace-cabinet')"
+            >
+                Marketplace Cabinet
+            </button>
+
+
+            <!-- CURIO -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('curio-cabinet')"
+            >
+                Curio Cabinet
+            </button>
+
+
+            <!-- WINDOW -->
+
+            <button
+                class="location"
+                onclick="showLocationItems('window')"
+            >
+                Window
+                <br>
+                <small>
+                    Salt & Pepper
+                </small>
+            </button>
+
+
+        </div>
+
+
+        <!-- SELECTED LOCATION -->
+
+        <div
+            id="locationDetails"
+            class="card"
+        >
+
+            <h2>
+                📍 Select a Location
+            </h2>
+
+            <p>
+                Click a location above to see
+                the items stored there.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================= -->
+    <!-- ADD ITEM -->
+    <!-- ================================= -->
+
+    <section
+        id="add"
+        class="section hidden"
+    >
+
+        <h2>
+            ➕ Add Item
+        </h2>
+
+
+        <!-- NAME -->
+
+        <label for="itemName">
+            Item Name
         </label>
 
         <input
-            id="itemCustomMax"
+            id="itemName"
             type="text"
-            placeholder="Example: 3 bags"
+            placeholder="Example: Milk"
         >
 
 
-        <label>
-            Shopping Threshold
+        <!-- CATEGORY -->
+
+        <label for="itemCategory">
+            Category
         </label>
 
         <input
-            id="itemCustomThreshold"
+            id="itemCategory"
             type="text"
-            placeholder="Example: 0.5 bags"
+            placeholder="Dairy, Pantry, Drinks, etc."
         >
 
-    </div>
+
+        <!-- LOCATION -->
+
+        <label for="itemLocation">
+            Location
+        </label>
+
+        <select id="itemLocation">
+
+            <option value="upper-cupboard">
+                Upper Cupboard
+            </option>
+
+            <option value="microwave-oven">
+                Microwave / Oven
+            </option>
+
+            <option value="oven-storage">
+                Oven Storage
+            </option>
+
+            <option value="countertop">
+                Countertop
+            </option>
+
+            <option value="drawer-1">
+                Drawer 1 - Utensils
+            </option>
+
+            <option value="drawer-2">
+                Drawer 2 - Small Containers
+            </option>
+
+            <option value="drawer-3">
+                Drawer 3 - Measuring Tools
+            </option>
+
+            <option value="drawer-4">
+                Drawer 4 - Wraps & Bags
+            </option>
+
+            <option value="kitchen-island">
+                Kitchen Island
+            </option>
+
+            <option value="stove">
+                Stove
+            </option>
+
+            <option value="pots-pans">
+                Pots & Pans Cabinet
+            </option>
+
+            <option value="spice-rack">
+                Pull-Out Spice Rack
+            </option>
+
+            <option value="sink-cabinet">
+                Sink Cabinet
+            </option>
+
+            <option value="dishwasher">
+                Dishwasher
+            </option>
+
+            <option value="right-cabinet">
+                Right Cabinet
+            </option>
+
+            <option value="island-upper-cabinets">
+                Island Upper Cabinets
+            </option>
+
+            <option value="double-cabinet">
+                Double Cabinet
+            </option>
+
+            <option value="coffee-cabinet">
+                Coffee Cabinet
+            </option>
+
+            <option value="coffee-counter">
+                Coffee Counter
+            </option>
+
+            <option value="coffee-drawers">
+                Coffee Drawers
+            </option>
+
+            <option value="freezer">
+                Freezer
+            </option>
+
+            <option value="refrigerator">
+                Refrigerator
+            </option>
+
+            <option value="fridge-upper-cabinet">
+                Refrigerator Upper Cabinet
+            </option>
+
+            <option value="fridge-lower-cabinet">
+                Refrigerator Lower Cabinet
+            </option>
+
+            <option value="display-storage">
+                Display Storage
+            </option>
+
+            <option value="marketplace-cabinet">
+                Marketplace Cabinet
+            </option>
+
+            <option value="curio-cabinet">
+                Curio Cabinet
+            </option>
+
+            <option value="window">
+                Window - Salt & Pepper
+            </option>
+
+        </select>
 
 
-    <button onclick="addItem()">
-        Add Item
-    </button>
+        <!-- TRACKING TYPE -->
 
-</section>
+        <label for="trackingType">
+            Tracking Type
+        </label>
+
+        <select
+            id="trackingType"
+            onchange="updateMeasurementFields()"
+        >
+
+            <option value="percentage">
+                Percentage
+            </option>
+
+            <option value="quantity">
+                Quantity
+            </option>
+
+            <option value="custom">
+                Custom Measurement
+            </option>
+
+        </select>
 
 
-<footer>
+        <!-- CONTAINER -->
 
-    <p>
-        Nova K • Part of the Nova Home System
-    </p>
+        <label for="itemContainer">
+            Container / Unit
+        </label>
 
-</footer>
+        <input
+            id="itemContainer"
+            type="text"
+            placeholder="bag, box, jar, jug, can, etc."
+        >
 
 
-<script src="script.js"></script>
+        <!-- ================================= -->
+        <!-- PERCENTAGE -->
+        <!-- ================================= -->
+
+        <div id="percentageFields">
+
+            <label>
+                Current Percentage
+            </label>
+
+            <input
+                id="itemCurrentPercentage"
+                type="number"
+                min="0"
+                max="100"
+                value="100"
+            >
+
+
+            <label>
+                Shopping Threshold %
+            </label>
+
+            <input
+                id="itemThresholdPercentage"
+                type="number"
+                min="0"
+                max="100"
+                value="25"
+            >
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- QUANTITY -->
+        <!-- ================================= -->
+
+        <div
+            id="quantityFields"
+            class="hidden"
+        >
+
+            <label>
+                Current Quantity
+            </label>
+
+            <input
+                id="itemCurrentQuantity"
+                type="number"
+                min="0"
+                step="0.5"
+                value="1"
+            >
+
+
+            <label>
+                Maximum Quantity
+            </label>
+
+            <input
+                id="itemMaxQuantity"
+                type="number"
+                min="0"
+                step="0.5"
+                value="10"
+            >
+
+
+            <label>
+                Shopping Threshold
+            </label>
+
+            <input
+                id="itemThresholdQuantity"
+                type="number"
+                min="0"
+                step="0.5"
+                value="3"
+            >
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- CUSTOM MEASUREMENT -->
+        <!-- ================================= -->
+
+        <div
+            id="customFields"
+            class="hidden"
+        >
+
+            <label>
+                Current Measurement
+            </label>
+
+            <input
+                id="itemCustomCurrent"
+                type="text"
+                placeholder="Example: 1.5 bags"
+            >
+
+
+            <label>
+                Maximum Measurement
+            </label>
+
+            <input
+                id="itemCustomMax"
+                type="text"
+                placeholder="Example: 3 bags"
+            >
+
+
+            <label>
+                Shopping Threshold
+            </label>
+
+            <input
+                id="itemCustomThreshold"
+                type="text"
+                placeholder="Example: 0.5 bags"
+            >
+
+        </div>
+
+
+        <!-- ADD -->
+
+        <button
+            onclick="addItem()"
+        >
+            ➕ Add Item
+        </button>
+
+    </section>
+
+
+    <!-- ================================= -->
+    <!-- FOOTER -->
+    <!-- ================================= -->
+
+    <footer>
+
+        <p>
+            Nova K • Part of the Nova Home System
+        </p>
+
+    </footer>
+
+
+    <!-- ================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ================================= -->
+
+    <script src="script.js"></script>
 
 </body>
 
 </html>
+```
