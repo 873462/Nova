@@ -1,49 +1,50 @@
 /* =====================================
-   NOVA K - KITCHEN MANAGEMENT SYSTEM
+   NOVA K - CLOUD-SYNCED KITCHEN SYSTEM
 ===================================== */
 
-// Load existing inventory from LocalStorage, or use starter defaults
-let inventory = JSON.parse(localStorage.getItem("novaKitchenInventory")) || [
-    {
-        id: 1,
-        name: "Whole Milk",
-        category: "Dairy",
-        location: "refrigerator",
-        container: "gallon",
-        type: "percentage",
-        currentPct: 80,
-        thresholdPct: 25
-    },
-    {
-        id: 2,
-        name: "Ground Cinnamon",
-        category: "Spices",
-        location: "spice-rack",
-        container: "jar",
-        type: "percentage",
-        currentPct: 15,
-        thresholdPct: 20
-    },
-    {
-        id: 3,
-        name: "Forks & Spoons",
-        category: "Utensils",
-        location: "drawer-1",
-        container: "set",
-        type: "quantity",
-        currentQty: 12,
-        maxQty: 12,
-        thresholdQty: 4
-    }
-];
+// Your Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyD_oFYpFpGShexZFXGCrUnXDsuz-MAdGYs",
+  authDomain: "nova-ce013.firebaseapp.com",
+  projectId: "nova-ce013",
+  storageBucket: "nova-ce013.firebasestorage.app",
+  messagingSenderId: "851087230223",
+  appId: "1:851087230223:web:3e47058b472810dca22a7a",
+  measurementId: "G-JZBQEPZN90"
+};
+
+// Initialize Firebase & Firestore
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const inventoryRef = db.collection("kitchen_inventory");
+
+let inventory = [];
 
 // Initialize when the DOM finishes loading
 document.addEventListener("DOMContentLoaded", () => {
     updateDateTime();
     setInterval(updateDateTime, 1000);
     updateMeasurementFields();
-    renderAll();
+
+    // Listen for real-time changes across all connected devices!
+    listenToCloudDatabase();
 });
+
+// --- REAL-TIME DATABASE LISTENER ---
+function listenToCloudDatabase() {
+    inventoryRef.onSnapshot((snapshot) => {
+        inventory = [];
+        snapshot.forEach((doc) => {
+            inventory.push({
+                docId: doc.id, // Unique Firestore ID
+                ...doc.data()
+            });
+        });
+        renderAll();
+    }, (error) => {
+        console.error("Error connecting to cloud database:", error);
+    });
+}
 
 // --- CLOCK & DATE ---
 function updateDateTime() {
@@ -90,11 +91,7 @@ function updateMeasurementFields() {
     if (customFields) customFields.classList.toggle("hidden", trackingType !== "custom");
 }
 
-// --- STORAGE & ITEM MANAGEMENT ---
-function saveToStorage() {
-    localStorage.setItem("novaKitchenInventory", JSON.stringify(inventory));
-}
-
+// --- CLOUD DATA OPERATIONS ---
 function addItem() {
     const nameEl = document.getElementById("itemName");
     const categoryEl = document.getElementById("itemCategory");
@@ -116,7 +113,6 @@ function addItem() {
     }
 
     const newItem = {
-        id: Date.now(),
         name: name,
         category: category,
         location: location,
@@ -145,49 +141,47 @@ function addItem() {
         newItem.customThreshold = threshCustom ? threshCustom.value.trim() : "0";
     }
 
-    inventory.push(newItem);
-    saveToStorage();
-    resetForm();
-    renderAll();
-    
-    showLocationItems(newItem.location);
+    // Add item directly to Firebase Cloud Storage
+    inventoryRef.add(newItem).then(() => {
+        resetForm();
+        showLocationItems(newItem.location);
+    }).catch(err => console.error("Error adding item:", err));
 }
 
-function deleteItem(id) {
-    inventory = inventory.filter(item => item.id !== id);
-    saveToStorage();
-    renderAll();
+function deleteItem(docId) {
+    inventoryRef.doc(docId).delete().catch(err => console.error("Error deleting item:", err));
 }
 
-function updateStock(id, changeAmount) {
-    const item = inventory.find(i => i.id === id);
+function updateStock(docId, changeAmount) {
+    const item = inventory.find(i => i.docId === docId);
     if (!item) return;
 
+    let updateData = {};
+
     if (item.type === "percentage") {
-        item.currentPct = Math.max(0, Math.min(100, item.currentPct + changeAmount));
+        updateData.currentPct = Math.max(0, Math.min(100, item.currentPct + changeAmount));
     } else if (item.type === "quantity") {
-        item.currentQty = Math.max(0, Math.min(item.maxQty, item.currentQty + changeAmount));
+        updateData.currentQty = Math.max(0, Math.min(item.maxQty, item.currentQty + changeAmount));
     }
 
-    saveToStorage();
-    renderAll();
+    inventoryRef.doc(docId).update(updateData).catch(err => console.error("Error updating stock:", err));
 }
 
-// Refill / Restock item instantly to max capacity
-function refillItem(id) {
-    const item = inventory.find(i => i.id === id);
+function refillItem(docId) {
+    const item = inventory.find(i => i.docId === docId);
     if (!item) return;
 
+    let updateData = {};
+
     if (item.type === "percentage") {
-        item.currentPct = 100;
+        updateData.currentPct = 100;
     } else if (item.type === "quantity") {
-        item.currentQty = item.maxQty;
+        updateData.currentQty = item.maxQty;
     } else if (item.type === "custom") {
-        item.customCurrent = item.customMax;
+        updateData.customCurrent = item.customMax;
     }
 
-    saveToStorage();
-    renderAll();
+    inventoryRef.doc(docId).update(updateData).catch(err => console.error("Error refilling item:", err));
 }
 
 function resetForm() {
@@ -269,9 +263,9 @@ function renderInventory(itemsToRender = inventory) {
                 </div>
             `;
             controls = `
-                <button type="button" onclick="updateStock(${item.id}, -10)">-10%</button>
-                <button type="button" onclick="updateStock(${item.id}, 10)">+10%</button>
-                <button type="button" style="background: #2ed573; color: white;" onclick="refillItem(${item.id})">Refill 100%</button>
+                <button type="button" onclick="updateStock('${item.docId}', -10)">-10%</button>
+                <button type="button" onclick="updateStock('${item.docId}', 10)">+10%</button>
+                <button type="button" style="background: #2ed573; color: white;" onclick="refillItem('${item.docId}')">Refill 100%</button>
             `;
         } else if (item.type === "quantity") {
             const fillPct = Math.min(100, (item.currentQty / item.maxQty) * 100);
@@ -282,9 +276,9 @@ function renderInventory(itemsToRender = inventory) {
                 </div>
             `;
             controls = `
-                <button type="button" onclick="updateStock(${item.id}, -1)">-1</button>
-                <button type="button" onclick="updateStock(${item.id}, 1)">+1</button>
-                <button type="button" style="background: #2ed573; color: white;" onclick="refillItem(${item.id})">Restock Full</button>
+                <button type="button" onclick="updateStock('${item.docId}', -1)">-1</button>
+                <button type="button" onclick="updateStock('${item.docId}', 1)">+1</button>
+                <button type="button" style="background: #2ed573; color: white;" onclick="refillItem('${item.docId}')">Restock Full</button>
             `;
         } else {
             statusDisplay = `
@@ -292,7 +286,7 @@ function renderInventory(itemsToRender = inventory) {
                 <p><small>Max: ${item.customMax} | Threshold: ${item.customThreshold}</small></p>
             `;
             controls = `
-                <button type="button" style="background: #2ed573; color: white;" onclick="refillItem(${item.id})">Restock</button>
+                <button type="button" style="background: #2ed573; color: white;" onclick="refillItem('${item.docId}')">Restock</button>
             `;
         }
 
@@ -303,7 +297,7 @@ function renderInventory(itemsToRender = inventory) {
             ${statusDisplay}
             <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
                 ${controls}
-                <button type="button" style="background: #ff4757;" onclick="deleteItem(${item.id})">Delete</button>
+                <button type="button" style="background: #ff4757;" onclick="deleteItem('${item.docId}')">Delete</button>
             </div>
         `;
 
@@ -340,7 +334,7 @@ function renderShoppingList() {
                 <strong>${item.name}</strong> (${formatLocationName(item.location)})
                 <br><small style="color: #ff7ac8;">${detail} (Low stock)</small>
             </div>
-            <button type="button" style="background: #2ed573; color: #fff; padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer;" onclick="refillItem(${item.id})">
+            <button type="button" style="background: #2ed573; color: #fff; padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer;" onclick="refillItem('${item.docId}')">
                 ✅ Restocked
             </button>
         `;
