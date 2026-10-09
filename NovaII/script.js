@@ -1,10 +1,9 @@
-// ===============================
-// NOVA DASHBOARD JAVASCRIPT
-// ===============================
+// =====================================
+// NOVAII - ROOM ORGANIZATION DASHBOARD
+// WITH SUPABASE CLOUD SYNC
+// =====================================
 
-
-// ---------- DATA ----------
-
+// ---------- DEFAULT DATA ----------
 
 const morningRoutine = [
     "6:00 - Wake up",
@@ -19,7 +18,6 @@ const morningRoutine = [
     "7:15 - Eat breakfast"
 ];
 
-
 const bedRoutine = [
     "Put lunch box away",
     "Change",
@@ -33,899 +31,864 @@ const bedRoutine = [
     "Sleep"
 ];
 
-
-
-const todos = [
-
-{name:"JD Robot", priority:"Medium-High", done:false},
-
-{name:"Make list of things to do for items project", priority:"Low", done:false},
-
-{name:"Fix shed", priority:"Medium", done:false},
-
-{name:"Clean fish tank", priority:"Medium", done:false},
-
-{name:"Clean fish tank filter", priority:"Medium", done:false},
-
-{name:"Fix cupboard closet top", priority:"Medium", done:false},
-
-{name:"Cleanup tools", priority:"High", done:false},
-
-{name:"Fix Lego Lamborghini", priority:"Low", done:false},
-
-{name:"Get notebook, pencil and eraser", priority:"Low", done:false},
-
-{name:"Write prayer", priority:"Medium", done:false},
-
-{name:"Make holders for arts and crafts", priority:"High", done:false},
-
-{name:"Add inventory items", priority:"Medium", done:false},
-
-{name:"Fix guitar and store it", priority:"Medium-High", done:false},
-
-{name:"Add Nova", priority:"High", done:false},
-
-{name:"Make playlist", priority:"Medium-High", done:true},
-
-{name:"Add garbage bags/bin", priority:"High", done:false}
-
+const defaultTodos = [
+    { name: "JD Robot", priority: "Medium-High", done: false },
+    { name: "Make list of things to do for items project", priority: "Low", done: false },
+    { name: "Fix shed", priority: "Medium", done: false },
+    { name: "Clean fish tank", priority: "Medium", done: false },
+    { name: "Clean fish tank filter", priority: "Medium", done: false },
+    { name: "Fix cupboard closet top", priority: "Medium", done: false },
+    { name: "Cleanup tools", priority: "High", done: false },
+    { name: "Fix Lego Lamborghini", priority: "Low", done: false },
+    { name: "Get notebook, pencil and eraser", priority: "Low", done: false },
+    { name: "Write prayer", priority: "Medium", done: false },
+    { name: "Make holders for arts and crafts", priority: "High", done: false },
+    { name: "Add inventory items", priority: "Medium", done: false },
+    { name: "Fix guitar and store it", priority: "Medium-High", done: false },
+    { name: "Add Nova", priority: "High", done: false },
+    { name: "Make playlist", priority: "Medium-High", done: true },
+    { name: "Add garbage bags/bin", priority: "High", done: false }
 ];
 
-
-
-
-const wants = [
-
-{
-item:"Table",
-reason:"Have a place for computers",
-priority:"High",
-done:true
-},
-
-{
-item:"Pocket charger",
-reason:"Charge phone anywhere",
-priority:"High",
-done:true
-},
-
-{
-item:"Extra bed sheet",
-reason:"Need enough space to share",
-priority:"High",
-done:true
-},
-
-{
-item:"Arts and crafts holder",
-reason:"Keep things organised",
-priority:"Medium-High",
-done:false
-},
-
-{
-item:"Plug expansion",
-reason:"More outlets for devices",
-priority:"Medium-High",
-done:true
-}
-
+const defaultWants = [
+    {
+        item: "Table",
+        reason: "Have a place for computers",
+        priority: "High",
+        done: true
+    },
+    {
+        item: "Pocket charger",
+        reason: "Charge phone anywhere",
+        priority: "High",
+        done: true
+    },
+    {
+        item: "Extra bed sheet",
+        reason: "Need enough space to share",
+        priority: "High",
+        done: true
+    },
+    {
+        item: "Arts and crafts holder",
+        reason: "Keep things organised",
+        priority: "Medium-High",
+        done: false
+    },
+    {
+        item: "Plug expansion",
+        reason: "More outlets for devices",
+        priority: "Medium-High",
+        done: true
+    }
 ];
-
-
-
 
 const calendar = [
-
-"Tuesday: Dishwasher",
-
-"Wednesday 7 PM - 8 PM: Violin Class",
-
-"Friday: Dishwasher",
-
-"Friday-Sunday: Washing",
-
-"Thursday: Kumon Work",
-
-"August 12: Brother's Birthday",
-
-"August 28: Violin Scale Exam"
-
+    "Tuesday: Dishwasher",
+    "Wednesday 7 PM - 8 PM: Violin Class",
+    "Friday: Dishwasher",
+    "Friday-Sunday: Washing",
+    "Thursday: Kumon Work",
+    "August 12: Brother's Birthday",
+    "August 28: Violin Scale Exam"
 ];
 
-
-
-
-// =================================
-// INVENTORY DATABASE
-// =================================
-
+// ---------- ROOM INVENTORY ----------
 
 const inventory = {
-
-
-"Random stuff":
-"Under Bed → Box 1 → Blue Box",
-
-
-"Toys":
-"Under Bed → Box 1 → Blue Box",
-
-
-"Accessory toys":
-"Under Bed → Box 1 → Blue Box",
-
-
-"Clips":
-"Under Bed → Box 1 → Green Box",
-
-
-"Pumpkin cutters":
-"Under Bed → Box 1 → Green Box",
-
-
-"Headphones":
-"Under Bed → Box 1 → Grey Box",
-
-
-"Chargers":
-"Under Bed → Box 1 → Grey Box",
-
-
-"Raspberry Pi":
-"Under Bed → Box 2 → Electronics Box",
-
-
-"Arduino":
-"Under Bed → Box 2 → Electronics Box",
-
-
-"Arduino Uno R3":
-"Under Bed → Box 2 → Electronics Box",
-
-
-"Wires":
-"Under Bed → Box 2 → Ziploc Bags",
-
-
-"Broken fan":
-"Under Bed → Box 2 → Electronics Box",
-
-
-"Electronic components":
-"Under Bed → Box 2 → Old Shoe Box",
-
-
-"Colored pencils":
-"Under Bed → Box 3 → Aqua Box → Blue Bag",
-
-
-"Paint":
-"Under Bed → Box 3 → Aqua Box → Ziploc Bag",
-
-
-"Paint brushes":
-"Under Bed → Box 3 → Aqua Box → Ziploc Bag",
-
-
-"Pokemon box":
-"Under Bed → Box 3 → Aqua Box",
-
-
-"Pens":
-"Under Bed → Box 3 → Pokemon Box",
-
-
-"Colored pens":
-"Under Bed → Box 3 → Black Panther Case",
-
-
-"Pencils":
-"Under Bed → Box 3 → Avengers Box",
-
-
-"Crayons":
-"Under Bed → Box 3 → Avengers Box → Crayon Box",
-
-
-"Highlighters":
-"Under Bed → Box 3 → Reindeer Pencil Case",
-
-
-"Oil pastels":
-"Under Bed → Box 3 → Ziploc Bag",
-
-
-"Books":
-"Under Bed → Box 3",
-
-
-"Rulers":
-"Under Bed → Box 3",
-
-
-"Green backpack":
-"Under Bed → Green Backpack",
-
-
-"Mini bookshelf":
-"Under Bed → Empty Mini Bookshelf",
-
-
-"Board games":
-"Bunk Bed Drawer 1",
-
-
-"Battleship":
-"Bunk Bed Drawer 1 → Board Games",
-
-
-"Sequence":
-"Bunk Bed Drawer 1 → Board Games",
-
-
-"Scrabble":
-"Bunk Bed Drawer 1 → Board Games",
-
-
-"Pokemon cards":
-"Bunk Bed Drawer 1 → Cards",
-
-
-"Uno":
-"Bunk Bed Drawer 1 → Cards",
-
-
-"Spot It":
-"Bunk Bed Drawer 1 → Cards",
-
-
-"3x3 Rubik's Cube":
-"Bunk Bed Drawer 1",
-
-
-"4x4 Rubik's Cube":
-"Bunk Bed Drawer 1",
-
-
-"Circle Rubik's Cube":
-"Bunk Bed Drawer 1",
-
-
-"Pyramid Rubik's Cube":
-"Bunk Bed Drawer 1",
-
-
-"Old fan base":
-"Bunk Bed Drawer 2",
-
-
-"Bunk bed spare parts":
-"Bunk Bed Drawer 2",
-
-
-"Chess":
-"Bunk Bed Drawer 2 → Board Game Combo",
-
-
-"Checkers":
-"Bunk Bed Drawer 2 → Board Game Combo",
-
-
-"Backgammon":
-"Bunk Bed Drawer 2 → Board Game Combo",
-
-
-"Ludo":
-"Bunk Bed Drawer 2 → Board Game Combo",
-
-
-"Snakes and Ladders":
-"Bunk Bed Drawer 2 → Board Game Combo",
-
-
-"Wood puzzles":
-"Bunk Bed Drawer 3",
-
-
-"Medium balls":
-"Bunk Bed Drawer 3",
-
-
-"Bible cards":
-"Bunk Bed Drawer 3",
-
-
-"Christmas cards":
-"Bunk Bed Drawer 3",
-
-
-"Fit the Box":
-"Bunk Bed Drawer 3",
-
-
-"Dice":
-"Bunk Bed Drawer 3 → Dice Pack",
-
-
-"Empty drawer":
-"Bunk Bed Drawer 4",
-
-
-"Lego mug":
-"Desk → Lego Mug",
-
-
-"Everyday stationery":
-"Desk → Clear Bin",
-
-
-"Calculator":
-"Desk → Clear Bin",
-
-
-"Comb":
-"Nightstand → Top Drawer",
-
-
-"Watches":
-"Nightstand → Top Drawer",
-
-
-"Gum":
-"Nightstand → Drawer 2",
-
-
-"Hand sanitizer":
-"Nightstand → Drawer 2",
-
-
-"Fan remote":
-"Nightstand → Drawer 2",
-
-
-"Glasses screwdriver":
-"Nightstand → Drawer 2",
-
-
-"LEGO manuals":
-"Nightstand → Drawer 3",
-
-
-"Letters":
-"Nightstand → Drawer 3",
-
-
-"Water bottle covers":
-"Nightstand → Drawer 3",
-
-
-"Broken phone":
-"Nightstand → Drawer 3 Repair Project",
-
-
-"Broken LED wire":
-"Nightstand → Drawer 3 Repair Project"
-
-
+    "Random stuff": "Under Bed → Box 1 → Blue Box",
+    "Toys": "Under Bed → Box 1 → Blue Box",
+    "Accessory toys": "Under Bed → Box 1 → Blue Box",
+    "Clips": "Under Bed → Box 1 → Green Box",
+    "Pumpkin cutters": "Under Bed → Box 1 → Green Box",
+    "Headphones": "Under Bed → Box 1 → Grey Box",
+    "Chargers": "Under Bed → Box 1 → Grey Box",
+    "Raspberry Pi": "Under Bed → Box 2 → Electronics Box",
+    "Arduino": "Under Bed → Box 2 → Electronics Box",
+    "Arduino Uno R3": "Under Bed → Box 2 → Electronics Box",
+    "Wires": "Under Bed → Box 2 → Ziploc Bags",
+    "Broken fan": "Under Bed → Box 2 → Electronics Box",
+    "Electronic components": "Under Bed → Box 2 → Old Shoe Box",
+    "Colored pencils": "Under Bed → Box 3 → Aqua Box → Blue Bag",
+    "Paint": "Under Bed → Box 3 → Aqua Box → Ziploc Bag",
+    "Paint brushes": "Under Bed → Box 3 → Aqua Box → Ziploc Bag",
+    "Pokemon box": "Under Bed → Box 3 → Aqua Box",
+    "Pens": "Under Bed → Box 3 → Pokemon Box",
+    "Colored pens": "Under Bed → Box 3 → Black Panther Case",
+    "Pencils": "Under Bed → Box 3 → Avengers Box",
+    "Crayons": "Under Bed → Box 3 → Avengers Box → Crayon Box",
+    "Highlighters": "Under Bed → Box 3 → Reindeer Pencil Case",
+    "Oil pastels": "Under Bed → Box 3 → Ziploc Bag",
+    "Books": "Under Bed → Box 3",
+    "Rulers": "Under Bed → Box 3",
+    "Green backpack": "Under Bed → Green Backpack",
+    "Mini bookshelf": "Under Bed → Empty Mini Bookshelf",
+    "Board games": "Bunk Bed Drawer 1",
+    "Battleship": "Bunk Bed Drawer 1 → Board Games",
+    "Sequence": "Bunk Bed Drawer 1 → Board Games",
+    "Scrabble": "Bunk Bed Drawer 1 → Board Games",
+    "Pokemon cards": "Bunk Bed Drawer 1 → Cards",
+    "Uno": "Bunk Bed Drawer 1 → Cards",
+    "Spot It": "Bunk Bed Drawer 1 → Cards",
+    "3x3 Rubik's Cube": "Bunk Bed Drawer 1",
+    "4x4 Rubik's Cube": "Bunk Bed Drawer 1",
+    "Circle Rubik's Cube": "Bunk Bed Drawer 1",
+    "Pyramid Rubik's Cube": "Bunk Bed Drawer 1",
+    "Old fan base": "Bunk Bed Drawer 2",
+    "Bunk bed spare parts": "Bunk Bed Drawer 2",
+    "Chess": "Bunk Bed Drawer 2 → Board Game Combo",
+    "Checkers": "Bunk Bed Drawer 2 → Board Game Combo",
+    "Backgammon": "Bunk Bed Drawer 2 → Board Game Combo",
+    "Ludo": "Bunk Bed Drawer 2 → Board Game Combo",
+    "Snakes and Ladders": "Bunk Bed Drawer 2 → Board Game Combo",
+    "Wood puzzles": "Bunk Bed Drawer 3",
+    "Medium balls": "Bunk Bed Drawer 3",
+    "Bible cards": "Bunk Bed Drawer 3",
+    "Christmas cards": "Bunk Bed Drawer 3",
+    "Fit the Box": "Bunk Bed Drawer 3",
+    "Dice": "Bunk Bed Drawer 3 → Dice Pack",
+    "Empty drawer": "Bunk Bed Drawer 4",
+    "Lego mug": "Desk → Lego Mug",
+    "Everyday stationery": "Desk → Clear Bin",
+    "Calculator": "Desk → Clear Bin",
+    "Comb": "Nightstand → Top Drawer",
+    "Watches": "Nightstand → Top Drawer",
+    "Gum": "Nightstand → Drawer 2",
+    "Hand sanitizer": "Nightstand → Drawer 2",
+    "Fan remote": "Nightstand → Drawer 2",
+    "Glasses screwdriver": "Nightstand → Drawer 2",
+    "LEGO manuals": "Nightstand → Drawer 3",
+    "Letters": "Nightstand → Drawer 3",
+    "Water bottle covers": "Nightstand → Drawer 3",
+    "Broken phone": "Nightstand → Drawer 3 Repair Project",
+    "Broken LED wire": "Nightstand → Drawer 3 Repair Project"
 };
+
+// ---------- ACTIVE DATA ----------
+
+let todos = defaultTodos.map(task => ({ ...task, id: null }));
+let wants = defaultWants.map(item => ({ ...item }));
+
+// ---------- SUPABASE CONNECTION ----------
+
+// Uses the same Supabase project as Nova K.
+const SUPABASE_URL = "https://whvghfgaqjzjbytnkwtn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_8XkDH_vzIYxSOBCjlnm1VA_T-lcXM4k";
+const TASKS_TABLE = "nova_tasks";
+
+const supabaseClient = window.supabase?.createClient
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+
+let tasksLoadedFromSupabase = false;
+let tasksChannel = null;
+
+const VALID_PRIORITIES = [
+    "High",
+    "Medium-High",
+    "Medium",
+    "Low"
+];
+
+const PRIORITY_EMOJIS = {
+    "High": "🔴",
+    "Medium-High": "🟠",
+    "Medium": "🟡",
+    "Low": "🟢"
+};
+
+// ---------- SAFE STORAGE ----------
+
+function readStoredArray(key) {
+    try {
+        const saved = localStorage.getItem(key);
+
+        if (saved === null) {
+            return null;
+        }
+
+        const parsed = JSON.parse(saved);
+
+        return Array.isArray(parsed) ? parsed : null;
+    } catch (error) {
+        console.warn("Could not read saved data:", key, error);
+        return null;
+    }
+}
+
+// Save the wants list locally.
+// Tasks are stored in Supabase.
+function saveData() {
+    try {
+        localStorage.setItem("novaWants", JSON.stringify(wants));
+        return true;
+    } catch (error) {
+        console.error("Could not save NovaII data:", error);
+
+        showTaskMessage(
+            "Unable to save your wants list. Check your browser storage settings.",
+            true
+        );
+
+        return false;
+    }
+}
+
+// Save a local backup of the cloud tasks.
+function saveTaskCache() {
+    try {
+        localStorage.setItem(
+            "novaTodos",
+            JSON.stringify(
+                todos.map(({ id, name, priority, done }) => ({
+                    id,
+                    name,
+                    priority,
+                    done
+                }))
+            )
+        );
+    } catch (error) {
+        console.warn("Could not cache NovaII tasks locally:", error);
+    }
+}
+
+function loadData() {
+    // Load local tasks as a backup in case the cloud table is empty.
+    const savedTodos = readStoredArray("novaTodos");
+
+    if (savedTodos !== null) {
+        todos = savedTodos
+            .filter(task =>
+                task &&
+                typeof task.name === "string" &&
+                typeof task.priority === "string" &&
+                VALID_PRIORITIES.includes(task.priority)
+            )
+            .map(task => ({
+                id: Number.isFinite(Number(task.id)) && task.id !== null
+                    ? Number(task.id)
+                    : null,
+                name: task.name,
+                priority: task.priority,
+                done: task.done === true
+            }));
+    }
+
+    // Load the wants list from this browser.
+    const savedWants = readStoredArray("novaWants");
+
+    if (savedWants !== null) {
+        wants = savedWants
+            .filter(item => item && typeof item.item === "string")
+            .map(item => ({
+                item: item.item,
+                reason: typeof item.reason === "string"
+                    ? item.reason
+                    : "",
+                priority: typeof item.priority === "string"
+                    ? item.priority
+                    : "Medium",
+                done: item.done === true
+            }));
+    }
+}
 
 // ---------- TODAY'S FOCUS ----------
 
+function getMandatoryTasks() {
+    const today = new Date();
+    const day = today.getDay();
+    const tasks = [];
 
-function getMandatoryTasks(){
-
-    let today = new Date();
-
-    let day = today.getDay();
-
-    let tasks = [];
-
-
-    // PLASP until August 6
-
-    if(today <= new Date("2026-08-06")){
-
-        tasks.push(
-            "PLASP IT 8:30 AM - 3:30 PM"
-        );
-
+    // PLASP placement period.
+    if (today <= new Date("2026-08-06T23:59:59")) {
+        tasks.push("PLASP IT 8:30 AM - 3:30 PM");
     }
 
+    tasks.push("Practice violin scales (1 hour)");
 
-
-    // Violin exam practice
-
-    tasks.push(
-        "Practice violin scales (1 hour)"
-    );
-
-
-
-    // Dishwasher Tuesday and Friday only
-
-    if(day === 2 || day === 5){
-
-        tasks.push(
-            "Dishwasher"
-        );
-
+    // Dishwasher: Tuesday and Friday.
+    if (day === 2 || day === 5) {
+        tasks.push("Dishwasher");
     }
-
 
     return tasks;
-
 }
 
+// ---------- GENERAL LIST HELPER ----------
 
+function createList(id, items) {
+    const list = document.getElementById(id);
 
-// ---------- SAVE SYSTEM ----------
+    if (!list) return;
 
+    list.replaceChildren();
 
+    items.forEach(item => {
+        const li = document.createElement("li");
+        const span = document.createElement("span");
 
-function saveData(){
+        span.textContent = item;
 
-    localStorage.setItem(
-        "novaTodos",
-        JSON.stringify(todos)
-    );
-
-
-    localStorage.setItem(
-        "novaWants",
-        JSON.stringify(wants)
-    );
-
+        li.appendChild(span);
+        list.appendChild(li);
+    });
 }
 
+// ---------- TASK MESSAGE ----------
 
+function showTaskMessage(message, isError = false) {
+    const element = document.getElementById("taskMessage");
 
+    if (!element) return;
 
-function loadData(){
+    element.textContent = message;
+    element.style.color = isError ? "#ffd0d0" : "#ffffff";
+}
 
+// ---------- ADD TASK ----------
 
-    let savedTodos =
-    JSON.parse(localStorage.getItem("novaTodos"));
+async function addTask(name, priority) {
+    const cleanName = name.trim();
 
-
-    if(savedTodos){
-
-        savedTodos.forEach((item,index)=>{
-
-            todos[index]=item;
-
-        });
-
+    if (!cleanName) {
+        showTaskMessage("Please enter a task name.", true);
+        return false;
     }
 
-
-
-    let savedWants =
-    JSON.parse(localStorage.getItem("novaWants"));
-
-
-
-    if(savedWants){
-
-        savedWants.forEach((item,index)=>{
-
-            wants[index]=item;
-
-        });
-
+    if (cleanName.length > 200) {
+        showTaskMessage(
+            "Task names must be 200 characters or fewer.",
+            true
+        );
+        return false;
     }
 
+    if (!VALID_PRIORITIES.includes(priority)) {
+        showTaskMessage("Please choose a valid priority.", true);
+        return false;
+    }
 
+    if (!supabaseClient) {
+        showTaskMessage(
+            "Supabase did not load. Check the Supabase script in index.html.",
+            true
+        );
+        return false;
+    }
+
+    if (!tasksLoadedFromSupabase) {
+        showTaskMessage(
+            "Wait for cloud tasks to finish loading, then try again.",
+            true
+        );
+        return false;
+    }
+
+    const { data, error } = await supabaseClient
+        .from(TASKS_TABLE)
+        .insert({
+            name: cleanName,
+            priority: priority,
+            done: false
+        })
+        .select()
+        .single();
+
+    if (error) {
+        console.error("Could not add task to Supabase:", error);
+
+        showTaskMessage(
+            "Task wasn't saved to the cloud. Check the Supabase table and policies.",
+            true
+        );
+
+        return false;
+    }
+
+    if (!todos.some(task => task.id === data.id)) {
+        todos.push(data);
+    }
+
+    saveTaskCache();
+    renderTodos();
+    renderFocus();
+    updateStats();
+
+    showTaskMessage("Task added and synced!");
+
+    return true;
 }
 
+// ---------- UPDATE TASK ----------
 
+async function updateTask(task, changes) {
+    if (
+        !supabaseClient ||
+        !tasksLoadedFromSupabase ||
+        task.id === null ||
+        task.id === undefined
+    ) {
+        showTaskMessage(
+            "This task isn't connected to Supabase yet. Wait for cloud sync.",
+            true
+        );
+        return;
+    }
 
+    const previous = { ...task };
 
+    Object.assign(task, changes);
 
-// ---------- DISPLAY ----------
+    renderTodos();
+    renderFocus();
+    updateStats();
 
+    const { data, error } = await supabaseClient
+        .from(TASKS_TABLE)
+        .update(changes)
+        .eq("id", task.id)
+        .select()
+        .single();
 
+    if (error) {
+        console.error("Could not update task in Supabase:", error);
 
-function createList(id,array){
+        Object.assign(task, previous);
 
+        renderTodos();
+        renderFocus();
+        updateStats();
 
-    let list=document.getElementById(id);
+        showTaskMessage(
+            "Task update failed. Check the connection and try again.",
+            true
+        );
 
+        return;
+    }
 
-    list.innerHTML="";
+    Object.assign(task, data);
 
+    saveTaskCache();
+    renderTodos();
+    renderFocus();
+    updateStats();
 
+    showTaskMessage("Task synced.");
+}
 
-    array.forEach(item=>{
+// ---------- LOAD TASKS FROM SUPABASE ----------
 
+async function loadTasksFromSupabase({ seedIfEmpty = true } = {}) {
+    if (!supabaseClient) {
+        showTaskMessage(
+            "Supabase didn't load. Check index.html includes the Supabase CDN script.",
+            true
+        );
+        return;
+    }
 
-        let li=document.createElement("li");
+    const { data, error } = await supabaseClient
+        .from(TASKS_TABLE)
+        .select("*")
+        .order("created_at", { ascending: true })
+        .order("id", { ascending: true });
 
+    if (error) {
+        console.error("Could not load NovaII tasks:", error);
 
+        showTaskMessage(
+            "Couldn't load cloud tasks. Check Supabase policies and table name.",
+            true
+        );
 
-        li.innerHTML =
+        return;
+    }
 
-        `
+    // If the cloud table is empty, upload the current local/default tasks.
+    if (data.length === 0 && seedIfEmpty) {
+        const initialTasks = todos.map(task => ({
+            name: task.name,
+            priority: VALID_PRIORITIES.includes(task.priority)
+                ? task.priority
+                : "Medium",
+            done: task.done === true
+        }));
 
-        <input type="checkbox">
+        if (initialTasks.length > 0) {
+            const { data: seeded, error: seedError } = await supabaseClient
+                .from(TASKS_TABLE)
+                .insert(initialTasks)
+                .select();
 
-        <span>${item}</span>
+            if (seedError) {
+                console.error("Could not seed initial tasks:", seedError);
 
-        `;
+                showTaskMessage(
+                    "Cloud table is empty, but initial tasks couldn't be uploaded.",
+                    true
+                );
 
+                return;
+            }
 
+            todos = seeded || [];
+        } else {
+            todos = [];
+        }
+    } else {
+        // The cloud list is authoritative when it already contains tasks.
+        todos = data || [];
+    }
 
+    tasksLoadedFromSupabase = true;
+
+    saveTaskCache();
+    renderTodos();
+    renderFocus();
+    updateStats();
+
+    showTaskMessage("Tasks synced with Supabase.");
+}
+
+// ---------- REALTIME SYNC ----------
+
+function subscribeToTaskChanges() {
+    if (!supabaseClient || tasksChannel) return;
+
+    tasksChannel = supabaseClient
+        .channel("nova-ii-task-changes")
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: TASKS_TABLE
+            },
+            () => {
+                loadTasksFromSupabase({ seedIfEmpty: false });
+            }
+        )
+        .subscribe(status => {
+            if (status === "CHANNEL_ERROR") {
+                console.error("NovaII Realtime subscription failed.");
+            }
+        });
+}
+
+// ---------- DELETE TASK ----------
+
+async function deleteTask(task) {
+    if (
+        !supabaseClient ||
+        !tasksLoadedFromSupabase ||
+        task.id === null ||
+        task.id === undefined
+    ) {
+        showTaskMessage(
+            "This task isn't connected to Supabase yet.",
+            true
+        );
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from(TASKS_TABLE)
+        .delete()
+        .eq("id", task.id);
+
+    if (error) {
+        console.error("Could not delete task:", error);
+
+        showTaskMessage(
+            "Couldn't delete task. Check the connection and try again.",
+            true
+        );
+
+        return;
+    }
+
+    todos = todos.filter(item => item.id !== task.id);
+
+    saveTaskCache();
+    renderTodos();
+    renderFocus();
+    updateStats();
+
+    showTaskMessage("Task deleted from all devices.");
+}
+
+// ---------- RENDER TASKS ----------
+
+function renderTodos() {
+    const list = document.getElementById("todoList");
+
+    if (!list) return;
+
+    list.replaceChildren();
+
+    if (todos.length === 0) {
+        const empty = document.createElement("li");
+        empty.textContent = "No tasks yet. Add your first task above!";
+        list.appendChild(empty);
+    }
+
+    todos.forEach(task => {
+        const li = document.createElement("li");
+
+        if (task.done) {
+            li.classList.add("completed");
+        }
+
+        // Completion checkbox.
+        const checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox";
+        checkbox.checked = task.done;
+        checkbox.setAttribute(
+            "aria-label",
+            "Mark " + task.name + " as complete"
+        );
+        checkbox.disabled = !tasksLoadedFromSupabase;
+
+        checkbox.addEventListener("change", () => {
+            updateTask(task, { done: checkbox.checked });
+        });
+
+        // Task name and priority.
+        const details = document.createElement("div");
+        details.className = "task-details";
+
+        const name = document.createElement("span");
+        name.className = "task-name";
+        name.textContent = task.name;
+
+        const priority = document.createElement("span");
+        priority.className = "task-priority";
+        priority.textContent =
+            (PRIORITY_EMOJIS[task.priority] || "") +
+            " " +
+            task.priority;
+
+        details.append(name, priority);
+
+        // Delete button.
+        const deleteButton = document.createElement("button");
+
+        deleteButton.type = "button";
+        deleteButton.className = "delete-task";
+        deleteButton.textContent = "Delete";
+        deleteButton.setAttribute(
+            "aria-label",
+            "Delete task " + task.name
+        );
+        deleteButton.disabled = !tasksLoadedFromSupabase;
+
+        deleteButton.addEventListener("click", () => {
+            deleteTask(task);
+        });
+
+        li.append(checkbox, details, deleteButton);
         list.appendChild(li);
-
-
-
     });
 
+    const remaining = todos.filter(task => !task.done).length;
+    const count = document.getElementById("taskCount");
 
+    if (count) {
+        count.textContent =
+            `${remaining} remaining / ${todos.length} total`;
+    }
 }
 
+// ---------- RENDER WANTS ----------
 
+function renderWants() {
+    const list = document.getElementById("wantList");
 
+    if (!list) return;
 
+    list.replaceChildren();
 
-function renderTodos(){
+    wants.forEach(item => {
+        const li = document.createElement("li");
 
+        const checkbox = document.createElement("input");
 
-    let list=document.getElementById("todoList");
+        checkbox.type = "checkbox";
+        checkbox.checked = item.done;
+        checkbox.setAttribute(
+            "aria-label",
+            "Mark " + item.item + " as complete"
+        );
 
+        checkbox.addEventListener("change", () => {
+            const previous = item.done;
 
-    list.innerHTML="";
+            item.done = checkbox.checked;
 
+            if (!saveData()) {
+                item.done = previous;
+                checkbox.checked = previous;
+            }
+        });
 
+        const text = document.createElement("span");
 
-    todos.forEach(task=>{
+        text.appendChild(document.createTextNode(item.item));
+        text.appendChild(document.createElement("br"));
+        text.appendChild(
+            document.createTextNode("Reason: " + item.reason)
+        );
 
+        text.appendChild(document.createElement("br"));
+        text.appendChild(
+            document.createTextNode("Priority: " + item.priority)
+        );
 
-        let li=document.createElement("li");
-
-
-
-        li.innerHTML =
-
-
-        `
-
-        <input type="checkbox"
-
-        ${task.done?"checked":""}>
-
-
-        <span>
-
-        ${task.name}
-
-        (${task.priority})
-
-        </span>
-
-        `;
-
-
-
-
-        li.querySelector("input").onchange=e=>{
-
-
-            task.done=e.target.checked;
-
-
-            saveData();
-
-
-            updateStats();
-
-
-        };
-
-
-
+        li.append(checkbox, text);
         list.appendChild(li);
-
-
-
     });
-
-
 }
 
+// ---------- TODAY'S FOCUS DISPLAY ----------
 
+function renderFocus() {
+    const mandatory = document.getElementById("mandatoryTasks");
+    const optionsBox = document.getElementById("focusOptions");
 
+    if (!mandatory || !optionsBox) return;
 
+    mandatory.replaceChildren();
+    optionsBox.replaceChildren();
 
-function renderWants(){
+    getMandatoryTasks().forEach(item => {
+        const li = document.createElement("li");
+        const checkbox = document.createElement("input");
+        const span = document.createElement("span");
 
+        checkbox.type = "checkbox";
+        checkbox.setAttribute("aria-label", item);
 
-    let list=document.getElementById("wantList");
+        span.textContent = item;
 
-
-    list.innerHTML="";
-
-
-
-    wants.forEach(item=>{
-
-
-        let li=document.createElement("li");
-
-
-
-        li.innerHTML =
-
-
-        `
-
-        <input type="checkbox"
-
-        ${item.done?"checked":""}>
-
-
-        <span>
-
-        ${item.item}
-
-        <br>
-
-        Reason: ${item.reason}
-
-        <br>
-
-        Priority: ${item.priority}
-
-        </span>
-
-
-        `;
-
-
-
-        li.querySelector("input").onchange=e=>{
-
-
-            item.done=e.target.checked;
-
-
-            saveData();
-
-
-        };
-
-
-
-        list.appendChild(li);
-
-
-
+        li.append(checkbox, span);
+        mandatory.appendChild(li);
     });
 
+    const options = todos
+        .filter(task => !task.done)
+        .filter(task =>
+            task.priority === "High" ||
+            task.priority === "Medium-High"
+        )
+        .slice(0, 3);
 
+    if (options.length === 0) {
+        const li = document.createElement("li");
 
-}
+        li.textContent = "No outstanding high-priority tasks!";
 
+        optionsBox.appendChild(li);
+        return;
+    }
 
+    options.forEach(task => {
+        const li = document.createElement("li");
+        const checkbox = document.createElement("input");
+        const span = document.createElement("span");
 
+        checkbox.type = "checkbox";
+        checkbox.checked = task.done;
 
+        span.textContent = task.name;
 
+        checkbox.setAttribute(
+            "aria-label",
+            "Complete focus task " + task.name
+        );
 
+        checkbox.disabled = !tasksLoadedFromSupabase;
 
-function renderFocus(){
+        checkbox.addEventListener("change", () => {
+            updateTask(task, { done: checkbox.checked });
+        });
 
-
-    let m=document.getElementById("mandatoryTasks");
-
-
-    m.innerHTML="";
-
-
-
-    getMandatoryTasks().forEach(item=>{
-
-
-        m.innerHTML +=
-
-
-        `
-
-        <li>
-
-        <input type="checkbox">
-
-        <span>${item}</span>
-
-        </li>
-
-
-        `;
-
-
-
+        li.append(checkbox, span);
+        optionsBox.appendChild(li);
     });
-
-
-
-
-    let options =
-
-
-    todos
-
-    .filter(t=>!t.done)
-
-    .filter(t=>
-
-        t.priority==="High" ||
-
-        t.priority==="Medium-High"
-
-    )
-
-    .slice(0,3);
-
-
-
-
-
-    let box=document.getElementById("focusOptions");
-
-
-    box.innerHTML="";
-
-
-
-
-    options.forEach(task=>{
-
-
-        let li=document.createElement("li");
-
-
-
-        li.innerHTML =
-
-
-        `
-
-        <input type="checkbox">
-
-        <span>${task.name}</span>
-
-        `;
-
-
-
-        li.querySelector("input").onchange=()=>{
-
-
-            task.done=true;
-
-
-            saveData();
-
-
-            renderFocus();
-
-
-            renderTodos();
-
-
-        };
-
-
-
-        box.appendChild(li);
-
-
-
-    });
-
-
 }
 
+// ---------- QUICK STATS ----------
 
+function updateStats() {
+    const stats = document.getElementById("stats");
 
+    if (!stats) return;
 
+    const done = todos.filter(task => task.done).length;
+    const total = todos.length;
+    const remaining = total - done;
 
-
-
-function updateStats(){
-
-
-    let done =
-
-    todos.filter(t=>t.done).length;
-
-
-
-    document.getElementById("stats").innerHTML =
-
-
-    `${done}/${todos.length} tasks completed`;
-
-
+    stats.textContent =
+        `${done}/${total} tasks completed · ${remaining} remaining`;
 }
-
-
-
-
-
-
 
 // ---------- INVENTORY SEARCH ----------
 
+function searchItem() {
+    const input = document.getElementById("searchBox");
+    const output = document.getElementById("result");
 
+    if (!input || !output) return;
 
-function searchItem(){
+    const query = input.value.toLowerCase().trim();
 
+    if (!query) {
+        output.textContent = "Enter an item to search for.";
+        return;
+    }
 
-    let q =
-
-    document
-
-    .getElementById("searchBox")
-
-    .value
-
-    .toLowerCase()
-
-    .trim();
-
-
-
-
-    let result =
-
-    Object.keys(inventory)
-
-    .find(item =>
-
-        item.toLowerCase().includes(q)
-
+    const matches = Object.keys(inventory).filter(item =>
+        item.toLowerCase().includes(query)
     );
 
+    output.replaceChildren();
 
+    if (matches.length === 0) {
+        output.textContent = "Not found.";
+        return;
+    }
 
+    matches.forEach(item => {
+        const entry = document.createElement("p");
+        const name = document.createElement("strong");
 
-    document.getElementById("result").innerHTML =
+        name.textContent = item;
 
+        entry.appendChild(name);
+        entry.appendChild(document.createElement("br"));
+        entry.appendChild(
+            document.createTextNode(inventory[item])
+        );
 
-
-    result
-
-    ?
-
-    `<b>${result}</b><br>${inventory[result]}`
-
-    :
-
-    "Not found";
-
-
+        output.appendChild(entry);
+    });
 }
 
-
-
-
-
-
-
-// ---------- CLOCK + THEME ----------
+// ---------- CLOCK, GREETING AND THEME ----------
 
 function clock() {
-
     const now = new Date();
     const hour = now.getHours();
 
     const greeting = document.getElementById("greeting");
-    const clock = document.getElementById("clock");
+    const clockElement = document.getElementById("clock");
     const date = document.getElementById("date");
 
     if (greeting) {
-
         if (hour < 12) {
             greeting.textContent = "☀️ Good Morning";
         } else if (hour < 18) {
@@ -933,88 +896,84 @@ function clock() {
         } else {
             greeting.textContent = "🌙 Good Evening";
         }
-
     }
 
-    if (clock) {
-        clock.textContent = now.toLocaleTimeString();
+    if (clockElement) {
+        clockElement.textContent = now.toLocaleTimeString();
     }
 
     if (date) {
         date.textContent = now.toDateString();
     }
 
-    document.body.classList.toggle("night", hour >= 18 || hour < 6);
-
+    document.body.classList.toggle(
+        "night",
+        hour >= 18 || hour < 6
+    );
 }
 
+// ---------- EVENT LISTENERS ----------
 
+function setupTaskForm() {
+    const form = document.getElementById("taskForm");
+    const nameInput = document.getElementById("taskName");
+    const priorityInput = document.getElementById("taskPriority");
 
+    if (!form || !nameInput || !priorityInput) return;
 
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
 
+        const added = await addTask(
+            nameInput.value,
+            priorityInput.value
+        );
 
-// ---------- START ----------
+        if (added) {
+            nameInput.value = "";
+            priorityInput.value = "Medium";
+            nameInput.focus();
+        }
+    });
+}
 
+function setupInventorySearch() {
+    const form = document.getElementById("inventorySearchForm");
 
+    if (!form) return;
 
-loadData();
+    form.addEventListener("submit", event => {
+        event.preventDefault();
+        searchItem();
+    });
+}
 
+// ---------- START DASHBOARD ----------
 
+function initNovaII() {
+    loadData();
 
-createList(
+    createList("morningRoutine", morningRoutine);
+    createList("bedRoutine", bedRoutine);
+    createList("calendar", calendar);
 
-"morningRoutine",
+    setupTaskForm();
+    setupInventorySearch();
 
-morningRoutine
+    renderTodos();
+    renderWants();
+    renderFocus();
+    updateStats();
+    clock();
 
-);
+    // Load shared tasks, then listen for changes from other devices.
+    loadTasksFromSupabase().then(() => {
+        if (tasksLoadedFromSupabase) {
+            subscribeToTaskChanges();
+        }
+    });
 
+    setInterval(clock, 1000);
+}
 
-
-createList(
-
-"bedRoutine",
-
-bedRoutine
-
-);
-
-
-
-renderTodos();
-
-
-
-renderWants();
-
-
-
-renderFocus();
-
-
-
-createList(
-
-"calendar",
-
-calendar
-
-);
-
-
-
-updateStats();
-
-
-
-clock();
-
-
-
-setInterval(
-
-clock,
-
-1000
-
-);
+initNovaII();
